@@ -4,6 +4,7 @@ public class PlayerStat : MonoBehaviour
 {
     public float attackPower = 10f;
     public float moveSpeed = 5f;
+    public float rotationSpeed = 10f;
     public float attackSpeed = 1f;
     public int maxHp = 100;
     public int currentHp = 100;
