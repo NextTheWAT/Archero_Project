@@ -10,6 +10,18 @@ public class PlayerStat : MonoBehaviour
     public int currentHp = 100;
     public int projectileCount = 1;
 
+
+    private void Start()
+    {
+        if (SkillUIManager.Instance != null)
+        {
+            SkillUIManager.Instance.ShowSkillUI();
+        }
+        else
+        {
+            Debug.LogWarning("SkillUIManager.Instance is null. ShowSkillUI() 호출 실패");
+        }
+    }
     public void Heal(float amount)
     {
         currentHp += Mathf.RoundToInt(amount);
@@ -17,8 +29,4 @@ public class PlayerStat : MonoBehaviour
         Debug.Log($"체력 회복됨! 현재 체력: {currentHp}");
     }
 
-    private void Start()
-    {
-        SkillUIManager.Instance.ShowSkillUI();
-    }
 }

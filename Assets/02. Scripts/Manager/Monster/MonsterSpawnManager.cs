@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MonsterSpawnManager : MonoBehaviour
@@ -32,8 +33,9 @@ public class MonsterSpawnManager : MonoBehaviour
 
         for (int i = 0; i < numberOfMonsters; i++)
         {
-            int index = Random.Range(0, spawnPoints.Length);
-            Transform spawnPoint = spawnPoints[index];
+            //int index = Random.Range(0, spawnPoints.Length);
+            //Transform spawnPoint = spawnPoints[index];
+            Transform spawnPoint = spawnPoints[i];
 
             Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
         }

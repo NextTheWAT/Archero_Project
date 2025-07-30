@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: HPHeal!
   skillInfo: HPHeal!
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: fb38eb5e0149e274cb969a08c12e2bdd, type: 3}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
   type: 3
-  value: 1
+  value: 100
