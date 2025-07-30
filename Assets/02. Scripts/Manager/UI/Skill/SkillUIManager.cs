@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class SkillUIManager : MonoBehaviour
+public class SkillUIManager : Singleton<SkillUIManager>
 {
-    public static SkillUIManager Instance;
-
     public GameObject skillPanel;
     public UIAnimationHandler animationHandler;
 
@@ -17,14 +15,6 @@ public class SkillUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         if (animationHandler == null)
             animationHandler = skillPanel.GetComponent<UIAnimationHandler>();
     }
