@@ -70,7 +70,10 @@ public class BossMovementController : MonoBehaviour
     public Rigidbody rigid;
 
     public float normalAttackDelayTime; // 일반 공격 딜레이 시간 (내가 정하는 값)
+    public bool isNormalAttack; // 일반 공격인지? 
     public float specialAttackDelayTime; // 특수 공격 딜레이 시간 (내가 정하는 값)
+    public bool isSpecialAttack; // 특수 공격인지? 
+    public float time;
 
     private void Awake()
     {
@@ -79,13 +82,11 @@ public class BossMovementController : MonoBehaviour
 
     private void Update()
     {
-        //-보스가 플레이어 좌표를 계속 체크한다. 
-        //-플레이어 보스가 따라갈 수 있는 거리(distance)로 들어오면 보스가 플레이어 위치에서 살짝 떨어진 거리까지 이동한다(서로 붙는 정도)
-        
         // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
         distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
         directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
 
+        // (이동처리, 공격처리)
         // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
         if (distanceToPlayer <= followDistance)
         {
@@ -93,7 +94,6 @@ public class BossMovementController : MonoBehaviour
             {
                 // Move 상태로 전환 
                 ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
-                // 보스가 플레이어 위치에서 살짝 떨어진 거리까지 이동한다. (서로 붙는 정도) 
 
                 // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
                 if(distanceToPlayer <= attackRange)
@@ -108,24 +108,31 @@ public class BossMovementController : MonoBehaviour
             ChangeState(ActionState.Idle);
         }
 
+        // (공격처리)
         if (currentState == ActionState.Attack)
         {
             if (health > 50)
             {
-                Debug.Log("일반공격"); // 일반공격
-                //TakeDamage(); // 데미지 입히는 메서드 호출 
-                // 딜레이 시간 부여 
-                // 애니메이션 적용
+                if (!isNormalAttack)
+                {
+                    Debug.Log("일반공격"); // 일반공격
+                    //TakeDamage(); // 데미지 입히는 메서드 호출 
+                    isNormalAttack = true; // 딜레이 시간 부여 
+                    // 애니메이션 적용
+                }
             }
             else
             {
-                Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
-                //TakeDamage(); // 데미지 입히는 메서드 호출 
-                // 딜레이 시간 부여 
-                // 애니메이션 적용
+                if (!isSpecialAttack)
+                {
+                    Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
+                    //TakeDamage(); // 데미지 입히는 메서드 호출 
+                    isSpecialAttack = true; // 딜레이 시간 부여 
+                    // 애니메이션 적용
+                }
             }
 
-            Debug.Log("플레이어 HP가 줄어듦");
+            //Debug.Log("플레이어 HP가 줄어듦");
             // 플레이어 피가 0이 될때까지 계속 떼리기 
 
             // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
@@ -133,6 +140,30 @@ public class BossMovementController : MonoBehaviour
             {
                 // Idle상태로 전환 
                 ChangeState(ActionState.Idle);
+            }
+        }
+
+        // 일반 공격 딜레이 
+        if (isNormalAttack)
+        {
+            time += Time.deltaTime;
+            if(time >= normalAttackDelayTime) 
+            {
+                Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
+                time = 0f;
+                isNormalAttack = false;
+            }
+        }
+
+        // 특수 공격 딜레이
+        if (isSpecialAttack)
+        {
+            time += Time.deltaTime;
+            if(time >= specialAttackDelayTime)
+            {
+                Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
+                time = 0f;
+                isSpecialAttack = false;
             }
         }
     }

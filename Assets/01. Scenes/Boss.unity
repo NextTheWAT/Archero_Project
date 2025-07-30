@@ -559,12 +559,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1312096680}
   moveSpeed: 3
+  health: 100
   followDistance: 10
+  attackRange: 3
   directionToTarget: {x: 0, y: 0, z: 0}
   distanceToPlayer: 0
   currentState: 0
   rigid: {fileID: 0}
-  health: 100
+  normalAttackDelayTime: 1
+  specialAttackDelayTime: 3
 --- !u!1001 &499121877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1801,7 +1804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPower: 10
-  moveSpeed: 5
+  moveSpeed: 15
   rotationSpeed: 10
   attackSpeed: 1
   maxHp: 100
@@ -1929,8 +1932,8 @@ Transform:
   m_GameObject: {fileID: 1686589074}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.3, y: 0.3, z: 0.13}
-  m_LocalScale: {x: 0.58823526, y: 8.59, z: 12.18}
+  m_LocalPosition: {x: -6.82, y: 0.3, z: 0.13}
+  m_LocalScale: {x: 3.42, y: 8.59, z: 12.18}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 730736284}
