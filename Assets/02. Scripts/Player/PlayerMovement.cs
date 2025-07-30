@@ -7,12 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private PlayerStat playerStat; // PlayerStat 참조
+    private BoxCollider col;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         playerStat = GetComponent<PlayerStat>(); // PlayerStat 할당
+        col  = GetComponent<BoxCollider>();
     }
 
     void FixedUpdate()
