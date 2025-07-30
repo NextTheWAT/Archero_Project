@@ -116,6 +116,13 @@ public class BossController : MonoBehaviour
 
     private void Awake()
     {
+        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
+        if (player == null)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+                player = obj.GetComponent<Transform>();
+        }
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
