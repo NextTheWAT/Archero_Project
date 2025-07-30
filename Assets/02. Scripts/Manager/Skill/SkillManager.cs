@@ -1,15 +1,20 @@
 using UnityEngine;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : Singleton<SkillManager>
 {
-    public static SkillManager Instance;
-
     private PlayerStat playerStat;
+
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (playerStat == null)
+        {
+            playerStat = FindObjectOfType<PlayerStat>();
+            if (playerStat == null)
+            {
+                Debug.LogError("PlayerStat 스크립트를 가진 오브젝트를 찾을 수 없습니다!");
+            }
+        }
     }
 
     private void Start()
