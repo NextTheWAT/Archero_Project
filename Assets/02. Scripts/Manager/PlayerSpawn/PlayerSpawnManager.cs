@@ -30,7 +30,7 @@ public class PlayerSpawnManager : Singleton<PlayerSpawnManager>
         switch (stageType)
         {
             case StageType.MainStage:
-                targetSpawn = mainSpawnPoint;
+                targetSpawn = stage1SpawnPoint;
                 break;
             case StageType.Stage1:
                 targetSpawn = stage1SpawnPoint;

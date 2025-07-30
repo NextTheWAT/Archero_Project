@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
         if (newStage == CurrentStage) return;
 
         CurrentStage = newStage;
-        ApplyStage(newStage);
+        //ApplyStage(newStage);
 
         // 스테이지에 따라 상태 전환
         switch (newStage)
@@ -56,73 +56,76 @@ public class GameManager : Singleton<GameManager>
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
 
         UIManager.Instance.UpdateUI(currentState);
-    }
-    private void ApplyStage(StageType stage)
-    {
-        // 모든 스테이지 비활성화
-        stage1.SetActive(false);
-        stage2.SetActive(false);
-        stage3.SetActive(false);
-        stage4.SetActive(false);
-        bossStage.SetActive(false);
 
-        // 각 스테이지 전용 처리
-        switch (stage)
-        {
-            case StageType.MainStage:
-                OnMainStage();
-                break;
-            case StageType.Stage1:
-                OnStage1Start();
-                break;
-            case StageType.Stage2:
-                OnStage2Start();
-                break;
-            case StageType.Stage3:
-                OnStage3Start();
-                break;
-            case StageType.Stage4:
-                OnStage4Start();
-                break;
-            case StageType.Boss:
-                OnBossStageStart();
-                break;
-        }
+        // 카메라 X 고정값 갱신 요청
+        CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
+    }
+    //private void ApplyStage(StageType stage)
+    //{
+    //    // 모든 스테이지 비활성화
+    //    stage1.SetActive(false);
+    //    stage2.SetActive(false);
+    //    stage3.SetActive(false);
+    //    stage4.SetActive(false);
+    //    bossStage.SetActive(false);
 
-        Debug.Log($"[GameManager] 현재 스테이지: {stage}");
-    }
-    private void OnMainStage()
-    {
-        Debug.Log("[GameManager] 메인 스테이지 활성화");
-        mainStage.SetActive(true);
-    }
-    private void OnStage1Start()
-    {
-        Debug.Log("[GameManager] 스테이지 1 활성화");
-        stage1.SetActive(true);
-    }
+    //    // 각 스테이지 전용 처리
+    //    switch (stage)
+    //    {
+    //        case StageType.MainStage:
+    //            OnMainStage();
+    //            break;
+    //        case StageType.Stage1:
+    //            OnStage1Start();
+    //            break;
+    //        case StageType.Stage2:
+    //            OnStage2Start();
+    //            break;
+    //        case StageType.Stage3:
+    //            OnStage3Start();
+    //            break;
+    //        case StageType.Stage4:
+    //            OnStage4Start();
+    //            break;
+    //        case StageType.Boss:
+    //            OnBossStageStart();
+    //            break;
+    //    }
 
-    private void OnStage2Start()
-    {
-        Debug.Log("[GameManager] 스테이지 2 활성화");
-        stage2.SetActive(true);
-    }
+    //    Debug.Log($"[GameManager] 현재 스테이지: {stage}");
+    //}
+    //private void OnMainStage()
+    //{
+    //    Debug.Log("[GameManager] 메인 스테이지 활성화");
+    //    mainStage.SetActive(true);
+    //}
+    //private void OnStage1Start()
+    //{
+    //    Debug.Log("[GameManager] 스테이지 1 활성화");
+    //    stage1.SetActive(true);
+    //}
 
-    private void OnStage3Start()
-    {
-        Debug.Log("[GameManager] 스테이지 3 활성화");
-        stage3.SetActive(true);
-    }
+    //private void OnStage2Start()
+    //{
+    //    Debug.Log("[GameManager] 스테이지 2 활성화");
+    //    stage2.SetActive(true);
+    //}
 
-    private void OnStage4Start()
-    {
-        Debug.Log("[GameManager] 스테이지 4 활성화");
-        stage4.SetActive(true);
-    }
+    //private void OnStage3Start()
+    //{
+    //    Debug.Log("[GameManager] 스테이지 3 활성화");
+    //    stage3.SetActive(true);
+    //}
 
-    private void OnBossStageStart()
-    {
-        Debug.Log("[GameManager] 보스 스테이지 활성화");
-        bossStage.SetActive(true);
-    }
+    //private void OnStage4Start()
+    //{
+    //    Debug.Log("[GameManager] 스테이지 4 활성화");
+    //    stage4.SetActive(true);
+    //}
+
+    //private void OnBossStageStart()
+    //{
+    //    Debug.Log("[GameManager] 보스 스테이지 활성화");
+    //    bossStage.SetActive(true);
+    //}
 }
