@@ -475,6 +475,7 @@ MonoBehaviour:
   iconImage: {fileID: 3032171159236162525}
   nameText: {fileID: 2834778159615087779}
   infoText: {fileID: 7333701001280569002}
+  particle: {fileID: 5108012773439136002}
 --- !u!114 &3496066804687503421
 MonoBehaviour:
   m_ObjectHideFlags: 0
