@@ -144,7 +144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &253628719
 Transform:
   m_ObjectHideFlags: 0
@@ -194,8 +194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6edc250797e3d4eab492246f9b8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rotationSpeed: 10
 --- !u!54 &253628722
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -410,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.68006
+      value: 4.6800594
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -426,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -434,7 +432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -452,6 +450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Barbarian
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -464,40 +466,16 @@ PrefabInstance:
       addedObject: {fileID: 443054073}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 443054072}
+      addedObject: {fileID: 443054076}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 443054076}
+      addedObject: {fileID: 443054078}
   m_SourcePrefab: {fileID: 100100000, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
 --- !u!1 &443054071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
   m_PrefabInstance: {fileID: 443054070}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &443054072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 443054071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdf6f111a99bf0e4da01d587ef104508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 253628719}
-  followRange: 5
-  attackRange: 1
-  isAttacking: 0
-  movementDirection: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  attackPower: 20
-  moveSpeed: 5
-  attackSpeed: 1
-  maxHp: 200
-  currentHp: 200
-  projectileCount: 1
 --- !u!54 &443054073
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -567,6 +545,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &443054078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443054071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fbe4b6d69cd684c9ffcf26e74cf7ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1312096680}
+  moveSpeed: 3
+  followDistance: 10
+  directionToTarget: {x: 0, y: 0, z: 0}
+  distanceToPlayer: 0
+  currentState: 0
+  rigid: {fileID: 0}
+  health: 100
 --- !u!1001 &499121877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1643,7 +1641,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 253628719}
-  - {fileID: 1312096680}
   - {fileID: 1462043271}
   - {fileID: 1686589075}
   - {fileID: 1949747657}
@@ -1684,14 +1681,16 @@ GameObject:
   - component: {fileID: 1312096682}
   - component: {fileID: 1312096681}
   - component: {fileID: 1312096684}
+  - component: {fileID: 1312096685}
+  - component: {fileID: 1312096686}
   - component: {fileID: 1312096683}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1312096680
 Transform:
   m_ObjectHideFlags: 0
@@ -1700,13 +1699,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312096679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1.7, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 499121878}
-  m_Father: {fileID: 730736284}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1312096681
 Rigidbody:
@@ -1789,8 +1788,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6edc250797e3d4eab492246f9b8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1312096685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312096679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd70f939307698479df2e2a13ef02d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 10
   moveSpeed: 5
   rotationSpeed: 10
+  attackSpeed: 1
+  maxHp: 100
+  currentHp: 100
+  projectileCount: 1
+--- !u!114 &1312096686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312096679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3d5c3a7369ba54390726473d6c3e51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1462043270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,3 +2070,4 @@ SceneRoots:
   - {fileID: 303659874}
   - {fileID: 730736284}
   - {fileID: 443054070}
+  - {fileID: 1312096680}

@@ -61,6 +61,7 @@ public class BossController : MonoBehaviour
         // 플레이어와의 거리가 사정거리(followRange) 안으로 들어왔으면 
         if(distanceToTarget <= followRange)
         {
+            //Debug.Log("사정거리 안으로 들어옴");
             // 플레이어와의 거리가 공격범위(attackRange) 안으로 들어왔으면 
             if(distanceToTarget < attackRange)
             {
