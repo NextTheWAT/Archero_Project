@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 564557603572386547}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   attackPower: 10
   moveSpeed: 5
   rotationSpeed: 10
-  attackSpeed: 1
+  attackSpeed: 1.5
   maxHp: 100
   currentHp: 100
   projectileCount: 1
@@ -161,7 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6902204807031355191, guid: 09aa2f5a6f9abab429d985dd00c411f9, type: 3}
-  fireCooldown: 0.1
   firePoint: {fileID: 3375190059383351362}
 --- !u!1001 &3280750560367076360
 PrefabInstance:
