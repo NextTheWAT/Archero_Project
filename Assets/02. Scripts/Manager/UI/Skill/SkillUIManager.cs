@@ -5,7 +5,7 @@ public class SkillUIManager : MonoBehaviour
     public static SkillUIManager Instance;
 
     public GameObject skillPanel;
-    public UIAnimationHandler animationHandler; // ✅ 애니메이션 핸들러 연결
+    public UIAnimationHandler animationHandler;
 
     public Transform slotParent;
     public GameObject skillSlotPrefab;
