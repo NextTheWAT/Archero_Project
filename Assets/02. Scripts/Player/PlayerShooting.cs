@@ -39,12 +39,14 @@ public class PlayerShooting : MonoBehaviour
             Vector3 dirToEnemy = (nearestEnemy.transform.position - transform.position).normalized;
             dirToEnemy.y = 0f;
 
+            // -y가 앞인 화살 프리팹 보정: x축 +90도 회전 추가
+            Quaternion bulletRot = Quaternion.LookRotation(dirToEnemy, Vector3.up);
+
             GameObject bullet = Instantiate(
                 bulletPrefab,
                 firePoint != null ? firePoint.position : transform.position,
-                Quaternion.identity
+                bulletRot
             );
-            bullet.transform.forward = dirToEnemy;
 
             fireTimer = 0f;
         }
