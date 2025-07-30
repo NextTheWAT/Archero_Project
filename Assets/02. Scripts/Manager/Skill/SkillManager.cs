@@ -1,15 +1,19 @@
 using UnityEngine;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : Singleton<SkillManager>
 {
-    public static SkillManager Instance;
-
     private PlayerStat playerStat;
+
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
+        if (playerStat == null)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+                playerStat = obj.GetComponent<PlayerStat>();
+        }
     }
 
     private void Start()

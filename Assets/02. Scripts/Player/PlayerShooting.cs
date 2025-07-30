@@ -28,10 +28,10 @@ public class PlayerShooting : MonoBehaviour
 
         bool isMoving = animator.GetBool("isMoving");
 
-        // 쿨타임 계산: 1 / attackSpeed (attackSpeed가 0이면 발사 안 함)
+        // 쿨타임 계산
         float fireCooldown = (playerStat != null && playerStat.attackSpeed > 0f) ? 1f / playerStat.attackSpeed : float.MaxValue;
 
-        // 멈췄을 때(Idle)만 쿨타임마다 반복 발사 + Shooting 애니메이션 트리거
+        // 멈췄을 때 쿨타임마다 반복 발사 + Shooting 애니메이션 트리거
         if (!isMoving && canSee && fireTimer >= fireCooldown)
         {
             animator.SetTrigger("isAimingFinished");
@@ -39,12 +39,20 @@ public class PlayerShooting : MonoBehaviour
             Vector3 dirToEnemy = (nearestEnemy.transform.position - transform.position).normalized;
             dirToEnemy.y = 0f;
 
+            Quaternion bulletRot = Quaternion.LookRotation(dirToEnemy, Vector3.up);
+
             GameObject bullet = Instantiate(
                 bulletPrefab,
                 firePoint != null ? firePoint.position : transform.position,
-                Quaternion.identity
+                bulletRot
             );
-            bullet.transform.forward = dirToEnemy;
+
+            // PlayerStat의 공격력(attackPower)을 Bullet의 damage에 할당
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            if (bulletScript != null && playerStat != null)
+            {
+                bulletScript.damage = playerStat.attackPower;
+            }
 
             fireTimer = 0f;
         }

@@ -15,7 +15,7 @@ public class PlayerStat : MonoBehaviour
     {
         if (SkillUIManager.Instance != null)
         {
-            SkillUIManager.Instance.ShowSkillUI();
+            //SkillUIManager.Instance.ShowSkillUI();
         }
         else
         {
@@ -27,6 +27,13 @@ public class PlayerStat : MonoBehaviour
         currentHp += Mathf.RoundToInt(amount);
         if (currentHp > maxHp) currentHp = maxHp;
         Debug.Log($"체력 회복됨! 현재 체력: {currentHp}");
+    }
+
+    public void Damage(float amount)
+    {
+        currentHp -= Mathf.RoundToInt(amount);
+        if (currentHp < 0) currentHp = 0;
+        Debug.Log($"피해를 입음! 현재 체력: {currentHp}");
     }
 
 }
