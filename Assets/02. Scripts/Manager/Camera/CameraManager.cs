@@ -1,33 +1,32 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : Singleton<CameraManager>
 {
-    [Header("Á¦¾îÇÒ Ä«¸Ş¶ó")]
-    public Camera cameraToControl; // Main Camera µî·Ï
+    [Header("ì œì–´í•  ì¹´ë©”ë¼")]
+    public Camera cameraToControl;
 
-    [Header("ÇÃ·¹ÀÌ¾î ´ë»ó")]
-    public Transform playerTransform; // ÇÃ·¹ÀÌ¾î Transform
+    [Header("í”Œë ˆì´ì–´ ëŒ€ìƒ")]
+    public Transform playerTransform;
 
-    [Header("Å¸ÀÌÆ² »óÅÂÀÏ ¶§ Ä«¸Ş¶ó À§Ä¡")]
+    [Header("íƒ€ì´í‹€ ìƒíƒœì¼ ë•Œ ì¹´ë©”ë¼ ìœ„ì¹˜")]
     public Transform titleCameraPosition;
 
-    [Header("Ä«¸Ş¶ó µû¶ó°¡´Â ¼Óµµ")]
+    [Header("ì¹´ë©”ë¼ ë”°ë¼ê°€ëŠ” ì†ë„")]
     public float followSpeed = 5f;
 
-    [Header("ÇÃ·¹ÀÌ¾î ±âÁØ ¿ÀÇÁ¼Â")]
-    public Vector3 followOffset = new Vector3(0f, 8f, 0f); // Y ¿ÀÇÁ¼Â ±âº»°ª
+    [Header("í”Œë ˆì´ì–´ ê¸°ì¤€ ì˜¤í”„ì…‹")]
+    public Vector3 followOffset = new Vector3(0f, 8f, 0f);
 
-    private float fixedY; // Y °íÁ¤°ª ÀúÀå
+    private float fixedX;
+    private float fixedY;
+
+    private UIManager.GameState lastState;
 
     private void Start()
     {
-        // Ä«¸Ş¶ó ÀÚµ¿ µî·Ï
         if (cameraToControl == null)
-        {
             cameraToControl = Camera.main;
-        }
 
-        // ÇÃ·¹ÀÌ¾î ÀÚµ¿ °Ë»ö
         if (playerTransform == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -35,20 +34,27 @@ public class CameraManager : MonoBehaviour
                 playerTransform = playerObj.transform;
         }
 
-        // Y°ª °íÁ¤
         fixedY = cameraToControl.transform.position.y;
+        lastState = UIManager.GameState.Main; // ì´ˆê¸° ìƒíƒœ
     }
 
     private void LateUpdate()
     {
-        if (UIManager.Instance == null || cameraToControl == null)
+        if (UIManager.Instance == null || cameraToControl == null || playerTransform == null)
             return;
 
         var currentState = UIManager.Instance.GetCurrentState();
 
+        // ìƒíƒœê°€ Main â†’ Playingìœ¼ë¡œ ì „í™˜ë  ë•Œ Xê°’ ê³ ì •
+        if (currentState == UIManager.GameState.Playing && lastState != UIManager.GameState.Playing)
+        {
+            fixedX = playerTransform.position.x;
+        }
+
+        lastState = currentState; // í˜„ì¬ ìƒíƒœ ì €ì¥
+
         if (currentState == UIManager.GameState.Main)
         {
-            // Å¸ÀÌÆ² »óÅÂ: °íÁ¤ À§Ä¡·Î ÀÌµ¿
             cameraToControl.transform.position = Vector3.Lerp(
                 cameraToControl.transform.position,
                 titleCameraPosition.position,
@@ -56,11 +62,8 @@ public class CameraManager : MonoBehaviour
         }
         else if (currentState == UIManager.GameState.Playing)
         {
-            if (playerTransform == null) return;
-
-            // ÇÃ·¹ÀÌ¾î ±âÁØÀ¸·Î X, Z´Â µû¶ó°¡°í Y´Â °íÁ¤ + ¿ÀÇÁ¼Â
             Vector3 targetPos = new Vector3(
-                playerTransform.position.x + followOffset.x,
+                fixedX,
                 fixedY + followOffset.y,
                 playerTransform.position.z + followOffset.z);
 
@@ -69,5 +72,10 @@ public class CameraManager : MonoBehaviour
                 targetPos,
                 Time.deltaTime * followSpeed);
         }
+    }
+
+    public void ResetFixedX(float x)
+    {
+        fixedX = x;
     }
 }
