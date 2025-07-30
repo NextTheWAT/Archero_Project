@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.XR;
+using static MonsterFSM;
 
 public class MonsterFSM : MonoBehaviour
 {
@@ -15,16 +17,17 @@ public class MonsterFSM : MonoBehaviour
     }
 
     private MonsterState currentState; //현재 상태 저장하는 변수
-    public float moveSpeed = 2f; //이동속도
     private Animator anim; //Animator 저장 변수
     public Transform player; //플레이어 위치 저장 변수
-    public float chaseRange = 10f; //플레이어를 따라가는 거리
-    public float attackRange = 2f; //공격 시도 거리
+    private bool isAttacking = false; //공격 중인지 확인
+
+    private MonsterStat stats; //MonsterStat.cs 불러옴
 
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
         anim = GetComponentInChildren<Animator>();
+        stats = GetComponent<MonsterStat>();
         ChangeState(MonsterState.Idle); //처음 상태는 Idle
 
         //Player 태그 오브젝트 찾아서 위치(transform) 저장
@@ -72,21 +75,20 @@ public class MonsterFSM : MonoBehaviour
         //플레이어와 거리 측정
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance >= chaseRange)
+        if (distance >= stats.detectionRange)
         {
             if (currentState != MonsterState.Idle)
                 ChangeState(MonsterState.Idle);
         }
-        else if (distance > attackRange && distance < chaseRange)
+        else if (distance > stats.attackRange && distance < stats.detectionRange)
         {
             if (currentState != MonsterState.Move)
                 ChangeState(MonsterState.Move);
         }
-        else if (distance <= attackRange)
+        else if (distance <= stats.attackRange)
         {
-            if (currentState != MonsterState.Attack)
+            if (!isAttacking) // 공격 중이 아닐 때만 코루틴 실행
             {
-                Debug.Log("▶ 공격 조건 충족, 코루틴 실행 시도"); // 확인용
                 StartCoroutine(AttackRoutine());
             }
         }
@@ -121,7 +123,7 @@ public class MonsterFSM : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
 
             //앞쪽 이동
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * stats.moveSpeed * Time.deltaTime);
         }
 
     }
@@ -139,18 +141,24 @@ public class MonsterFSM : MonoBehaviour
     }
     private IEnumerator AttackRoutine()
     {
+        isAttacking = true;
+
         ChangeState(MonsterState.Attack);
-        yield return new WaitForSeconds(0.8f); // 공격 애니메이션 길이만큼 유지
+        yield return new WaitForSeconds(stats.attackDelay); // 공격 애니메이션 길이만큼 유지
+        
         ChangeState(MonsterState.Idle);
+        yield return new WaitForSeconds(0.5f); //다음 공격까지 딜레이
+
+        isAttacking = false;
     }
     private void OnDrawGizmosSelected()
     {
         // 추적 범위: 노란색
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, chaseRange);
+        Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
 
         // 공격 범위: 빨간색
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
     }
 }
