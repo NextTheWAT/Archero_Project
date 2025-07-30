@@ -39,7 +39,6 @@ public class PlayerShooting : MonoBehaviour
             Vector3 dirToEnemy = (nearestEnemy.transform.position - transform.position).normalized;
             dirToEnemy.y = 0f;
 
-            // 화살보정
             Quaternion bulletRot = Quaternion.LookRotation(dirToEnemy, Vector3.up);
 
             GameObject bullet = Instantiate(
@@ -47,6 +46,13 @@ public class PlayerShooting : MonoBehaviour
                 firePoint != null ? firePoint.position : transform.position,
                 bulletRot
             );
+
+            // PlayerStat의 공격력(attackPower)을 Bullet의 damage에 할당
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            if (bulletScript != null && playerStat != null)
+            {
+                bulletScript.damage = playerStat.attackPower;
+            }
 
             fireTimer = 0f;
         }
