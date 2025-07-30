@@ -206,28 +206,28 @@ public class BossController : MonoBehaviour
         }
 
         // 일반 공격 딜레이 
-        if (isNormalAttack)
-        {
-            time += Time.deltaTime;
-            if(time >= normalAttackDelayTime) 
-            {
-                Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
-                time = 0f;
-                isNormalAttack = false;
-            }
-        }
+        //if (isNormalAttack)
+        //{
+        //    time += Time.deltaTime;
+        //    if(time >= normalAttackDelayTime) 
+        //    {
+        //        Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
+        //        time = 0f;
+        //        isNormalAttack = false;
+        //    }
+        //}
 
         // 특수 공격 딜레이
-        if (isSpecialAttack)
-        {
-            time += Time.deltaTime;
-            if(time >= specialAttackDelayTime)
-            {
-                Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
-                time = 0f;
-                isSpecialAttack = false;
-            }
-        }
+        //if (isSpecialAttack)
+        //{
+        //    time += Time.deltaTime;
+        //    if(time >= specialAttackDelayTime)
+        //    {
+        //        Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
+        //        time = 0f;
+        //        isSpecialAttack = false;
+        //    }
+        //}
     }
 
     private void FixedUpdate()

@@ -1552,10 +1552,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPower: 0
+  specialAttackPower: 0
   playerManager: {fileID: 0}
   playerStat: {fileID: 0}
   animator: {fileID: 0}
   bossManager: {fileID: 0}
+  bossController: {fileID: 0}
+  isSpecialDamage: 0
+  isNormalDamage: 0
 --- !u!1 &688633566
 GameObject:
   m_ObjectHideFlags: 0
