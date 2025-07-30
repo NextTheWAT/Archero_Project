@@ -195,7 +195,9 @@ PrefabInstance:
       value: Rogue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1168437713928847705, guid: 163c8b0e50fab7143afcd03dac04c081, type: 3}
+    - {fileID: -3606650129264159978, guid: 163c8b0e50fab7143afcd03dac04c081, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 163c8b0e50fab7143afcd03dac04c081, type: 3}
