@@ -71,30 +71,36 @@ public class GameManager : Singleton<GameManager>
     }
     private void OnMainStage()
     {
+        Debug.Log("[GameManager] 메인 스테이지 활성화");
         mainStage.SetActive(true);
     }
     private void OnStage1Start()
     {
+        Debug.Log("[GameManager] 스테이지 1 활성화");
         stage1.SetActive(true);
     }
 
     private void OnStage2Start()
     {
+        Debug.Log("[GameManager] 스테이지 2 활성화");
         stage2.SetActive(true);
     }
 
     private void OnStage3Start()
     {
+        Debug.Log("[GameManager] 스테이지 3 활성화");
         stage3.SetActive(true);
     }
 
     private void OnStage4Start()
     {
+        Debug.Log("[GameManager] 스테이지 4 활성화");
         stage4.SetActive(true);
     }
 
     private void OnBossStageStart()
     {
+        Debug.Log("[GameManager] 보스 스테이지 활성화");
         bossStage.SetActive(true);
     }
 }
