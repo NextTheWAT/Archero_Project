@@ -19,6 +19,14 @@ public class PlayerStat : MonoBehaviour
 
     private void Start()
     {
-        SkillUIManager.Instance.ShowSkillUI();
+        if (SkillUIManager.Instance != null)
+        {
+            SkillUIManager.Instance.ShowSkillUI();
+        }
+        else
+        {
+            Debug.LogWarning("SkillUIManager.Instance is null. ShowSkillUI() 호출 실패");
+        }
     }
+
 }
