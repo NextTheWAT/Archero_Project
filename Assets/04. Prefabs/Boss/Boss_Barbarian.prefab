@@ -69,7 +69,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -3443577493287228248, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+    - {fileID: -6057219835555335545, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+    - {fileID: -1831242830755310587, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
@@ -132,6 +135,8 @@ MonoBehaviour:
   attackPower: 10
   playerManager: {fileID: 0}
   playerStat: {fileID: 0}
+  animator: {fileID: 0}
+  bossManager: {fileID: 0}
 --- !u!1 &9212000528847276967 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
@@ -233,3 +238,4 @@ MonoBehaviour:
   isSpecialAttack: 0
   time: 0
   animator: {fileID: 0}
+  axe: {fileID: 0}

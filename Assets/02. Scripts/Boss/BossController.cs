@@ -249,6 +249,18 @@ public class BossController : MonoBehaviour
         this.currentState = state;
     }
 
+    private void StartDamage()
+    {
+        isNormalAttack = false;
+        isSpecialAttack = false;
+    }
+    private void EndDamage()
+    {
+        // 공격 딜레이 시간 끝나면 isNormalAttack, isSpecialAttack을 false로 바꿔준다. 
+        isNormalAttack = true;
+        isSpecialAttack = true;
+    }
+
     //private void TakeDamage(Player player)
     //{
 

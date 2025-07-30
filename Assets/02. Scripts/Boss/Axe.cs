@@ -15,7 +15,10 @@ public class Axe : MonoBehaviour
 
     public BossManager bossManager;
 
-    private bool isDamaged = false; // 플레이어가 데미지를 입었는지 여부
+    public BossController bossController;
+
+    private bool isDamagedDelay = false; // 플레이어가 데미지를 입었는지 여부
+
 
     private void Start()
     {
@@ -23,6 +26,8 @@ public class Axe : MonoBehaviour
         playerStat = playerManager.playerStat;
 
         animator = bossManager.bossObj.GetComponent<Animator>();
+
+        bossController = bossManager.bossMovementController;
     }
 
     public void Attack()
@@ -52,9 +57,9 @@ public class Axe : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) // 도끼가 플레이어와 닿으면 
         {
-            if (!isDamaged)
+            if (!isDamagedDelay && bossController.isNormalAttack == false)
             {
-                isDamaged = true; // 플레이어가 데미지를 입었다고 설정
+                isDamagedDelay = true; // 플레이어가 데미지를 입었다고 설정
                 Debug.Log("데미지 처리");
                 playerStat.Damage(attackPower);
                 StartCoroutine(DelayisDamage()); // 1.5초 후에 다시 데미지를 입힐 수 있도록 설정
@@ -68,6 +73,6 @@ public class Axe : MonoBehaviour
     IEnumerator DelayisDamage()
     {
         yield return new WaitForSeconds(1.5f);
-        isDamaged = false; // 1.5초 후에 다시 데미지를 입힐 수 있도록 설정
+        isDamagedDelay = false; // 1.5초 후에 다시 데미지를 입힐 수 있도록 설정
     }
 }
