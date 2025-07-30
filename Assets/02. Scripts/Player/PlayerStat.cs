@@ -15,7 +15,7 @@ public class PlayerStat : MonoBehaviour
     {
         if (SkillUIManager.Instance != null)
         {
-            SkillUIManager.Instance.ShowSkillUI();
+            //SkillUIManager.Instance.ShowSkillUI();
         }
         else
         {

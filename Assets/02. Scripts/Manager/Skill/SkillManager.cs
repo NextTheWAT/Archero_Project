@@ -7,13 +7,12 @@ public class SkillManager : Singleton<SkillManager>
 
     private void Awake()
     {
+        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
         if (playerStat == null)
         {
-            playerStat = FindObjectOfType<PlayerStat>();
-            if (playerStat == null)
-            {
-                Debug.LogError("PlayerStat 스크립트를 가진 오브젝트를 찾을 수 없습니다!");
-            }
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+                playerStat = obj.GetComponent<PlayerStat>();
         }
     }
 
