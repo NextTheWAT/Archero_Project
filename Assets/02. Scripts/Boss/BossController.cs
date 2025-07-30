@@ -1,102 +1,268 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActionState
+{
+    Idle = 0,
+    Move = 1,
+    Attack = 2,
+    SpecialAttack = 3
+}
+
+// 보스 움직임 제어 클래스 
 public class BossController : MonoBehaviour
 {
     /*
-    
-    보스 조작 클래스.
-    필요한 것들 : 
-    - 플레이어가 일정거리로 오면 따라간다 
-    - 플레이어를 공격한다 (일반 공격, 특수공격) 
-    - 공격에는 일반공격과 특수공격이 있다. (멀리 있으면 도끼던지기? 가까이 있으면 일반공격) <공격패턴>
-    - 일반 몬스터보다 체력을 높게 설정한다, 
+     
+    구현 기능1 : 보스가 플레이어 따라가기 
 
-    해야할 일 
-    1. 플레이어 위치 가져오기
-    2. 보스가 플레이어 따라가게 하기
+    필요한 것들 
+    - 플레이어 따라가기 (O)
+        - 보스가 플레이어 좌표를 계속 체크한다. 
+        - 플레이어 보스가 따라갈 수 있는 거리(distance)로 들어오면 보스가 플레이어 위치에서 살짝 떨어진 거리까지 이동한다 (서로 붙는 정도)
+    - 플레이어 좌표 (O)
+    - 보스 이동속도 (O)
+    - 보스 이동 애니메이션 적용 (중요X)
+    - 문제 : 캐릭터와 붙었을 때는 멈추고 공격해야하는데 계속 이동만 함. 
+     -> 캐릭터와 붙었을 때 공격상태로 바꾸고 공격로그를 찍어보자. 
+
+    구현 방법
+    - 플레이어 좌표를 받아온다
+    - 보스가 플레이어를 인식해서 따라갈 거리를 정해둔다.
+    - 보스와 플레이어의 거리를 계산한다. 
+    - 보스가 플레이어를 바라보는 방향을 계산한다. 
+    - 계산한 거리와 보스의 거리를 비교해서 거리 내로 들어오면 보스를 이동시킨다. 
+
+
+    구현 기능2 : 공격 딜레이 시간 
+    지금 구조는 ActionState.Attack 상태일 때 일반공격이나 특수공격을 계속 함. 
+    공격이 계속 들어가면 플레이어 hp가 연속으로 깎이니까 게임 밸런스가 안 맞고 이상함
+    공격에 딜레이 시간을 넣어서 공격이 계속 들어가지 못하게 만들자. 
+
+    필요한 것들 
+    - 공격 딜레이 시간 변수 
+        - 일반 공격 딜레이 시간(normalAttackDelayTime)
+        - 특수 공격 딜레이 시간(specialAttackDelayTime)
+    - 공격이 시작되면 공격 타입(일반 공격, 특수 공격)에 맞게 딜레이 시간을 부여해서
+      딜레이 시간 동안에는 공격할 수 없게 만들기 
+
+    구현 방법
+    - 공격 딜레이 시간 변수를 만든다. 
+    - 공격 시점에 딜레이 로직을 추가해준다. 
+
+
+    구현 기능3 : 보스 애니메이션 구현 
+    가만히 있을 때, 움직일 때, 공격할 때 애니메이션을 구현
+
+    필요한 것들
+    - 애니메이터
+    - 애니메이션 설정 (애니메이션 추가, 파라미터 추가, 트랜지션 연결)
+    - 애니메이션 로직 작성 
+
+    구현 방법
+    - 애니메이터 붙이기
+    - 컨트롤러 설정 (애니메이션 추가, 파라미터 추가, 트랜지션 연결)
+    - 애니메이션 동작 시점 찾아서 애니메이션 코드 추가 
+
+    문제점 
+    - 방향이 6시방향으로만 고정됨. -> 보스가 따라가야 할때 Quaternion.Slerp으로 y축 회전할 수 있도록 수정 
+     
+
+    구현 기능4 : 특정 방에서 보스 등장 로직 구성
+    씬이 로드되었을 때, 보스가 생성되도록 만들기 
+
+    필요한 것들
+    - Instantiate로 씬이 로드되면 자동으로 생성되게 하기 
+
+    구현 방법 
+    - 씬에 매니저 오브젝트를 만들고 매니저 스크립트를 붙이기
+    - 씬에서 보스, 플레이어를 따로 두지 않고 매니저 오브젝트에서 자동으로 생성하도록 스크립트 짜기 
+
+
+    구현 기능5 : 플레이어 데미지 입히기 
+
+    필요한 것들 
+
 
      */
 
+    // 플레이어 정보 
     public Transform player; // 플레이어 위치 
-    public float followRange = 5; // 사정거리 
-    public float attackRange = 1; // 공격범위 
-    public bool isAttacking = false;
-    public Vector3 movementDirection; // 보스가 움직이는 방향 
 
-    private Rigidbody _rigid;
-    private Animator _animator;
+    // 보스 정보 
+    public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
+    public float health = 100;
 
-    public bool isMoving;
+    public float followDistance; // 보스가 플레이어를 따라갈 수 있는 거리 (내가 정하는 값)
+    public float attackRange; // 보스가 플레이어를 공격할 수 있는 범위 (개가 정하는 값) 
+    public Vector3 directionToTarget; // 보스가 플레이어를 바라보는 방향
+    public float distanceToPlayer; // 보스와 플레이어 사이 거리 (계속 체크하는 값)
 
-    // 보스 특성
-    public float attackPower = 20f;
-    public float moveSpeed = 5f;
-    public float attackSpeed = 1f;
-    public int maxHp = 200;
-    public int currentHp = 200;
-    public int projectileCount = 1;
+    public ActionState currentState; // 현재 상태 (Idle, Move, ...)
+
+    public Rigidbody rigid;
+
+    public float normalAttackDelayTime; // 일반 공격 딜레이 시간 (내가 정하는 값)
+    public bool isNormalAttack; // 일반 공격인지? 
+    public float specialAttackDelayTime; // 특수 공격 딜레이 시간 (내가 정하는 값)
+    public bool isSpecialAttack; // 특수 공격인지? 
+    public float time;
+
+    public Animator animator;
+
+    public Axe axe;
 
     private void Awake()
     {
-        _rigid = GetComponent<Rigidbody>();
-        _animator = GetComponentInChildren<Animator>();
+        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
+        if (player == null)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+                player = obj.GetComponent<Transform>();
+        }
+        rigid = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        axe = GetComponentInChildren<Axe>();
     }
 
     private void Update()
     {
-        // 보스와 플레이어 거리가 3이내이면 보스가 플레이어를 따라가게 한다. 
-        // 이걸 어떻게 코드로 표현하지? 
-        // TopDown RPG 강의에서 들어본 것 같음. 코드를 참고해보자. 
-        // 보스가 플레이어를 감지하고 따라가게 하는 로직 찾기 
-        // 왜 이걸해? 공격 패턴에 포함되니까. 보스가 따라가서 공격을 해야하니까. 
+        // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
+        distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
+        directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
 
-        // 타겟과의 거리, 방향 가져오기 
-        float distanceToTarget = Vector3.Distance(transform.position, player.position); // 플레이어와의 거리
-        Vector3 directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
-
-        isAttacking = false; // 나중에 적용 
-
-        // 플레이어와의 거리가 사정거리(followRange) 안으로 들어왔으면 
-        if(distanceToTarget <= followRange)
+        // (이동처리, 공격처리)
+        // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
+        if (distanceToPlayer <= followDistance)
         {
-            //Debug.Log("사정거리 안으로 들어옴");
-            // 플레이어와의 거리가 공격범위(attackRange) 안으로 들어왔으면 
-            if(distanceToTarget < attackRange)
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            if (currentState != ActionState.Attack)
             {
-                // 플레이어의 레이어마스크를 가져와서 
-                //int layerMaskTarget = 
-                // -> 이미 플레이어
+                // Move 상태로 전환 
+                ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
+                animator.SetInteger("State", (int)ActionState.Move);
 
-                // 보스가 공격할 수 있는 오브젝트라면? 
-                // 공격 
-                // 나중에 구현 
-                Debug.Log("멈추고");
-                Debug.Log("공격하자");
-                isMoving = false;
-                isAttacking = true;
+                // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
+                if(distanceToPlayer <= attackRange)
+                {
+                    // 공격모드로 전환 
+                    ChangeState(ActionState.Attack);
+                }
+            }
+        }
+        else
+        {
+            ChangeState(ActionState.Idle);
+            animator.SetInteger("State", (int)ActionState.Idle);
+        }
+
+        // (공격처리)
+        if (currentState == ActionState.Attack)
+        {
+            if (health > 50)
+            {
+                if (!isNormalAttack)
+                {
+                    // 도끼에게 애니메이션 요청 
+                    // 도끼가 플레이어와 닿으면 데미지 처리
+                    axe.Attack();
+                    
+                    //animator.SetInteger("State", (int)ActionState.Attack);
+                    //Debug.Log("일반공격"); // 일반공격
+                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
+                    //// 도끼가 닿으면 데미지 처리 
+                    //isNormalAttack = true; // 딜레이 시간 부여 
+                    //// 애니메이션 적용
+                }
+            }
+            else
+            {
+                if (!isSpecialAttack)
+                {
+                    axe.SpecialAttack();
+                    //animator.SetInteger("State", (int)ActionState.SpecialAttack);
+                    //Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
+                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
+                    //// 도끼가 닿으면 데미지 처리 
+                    //isSpecialAttack = true; // 딜레이 시간 부여 
+                    //// 애니메이션 적용
+                }
             }
 
-            // 이동시키기. 
-            // 어떻게 이동시켜? 이동방향을 설정해줘서 FixedUpdate에서 물리이동 처리 
-            isMoving = true;
-            movementDirection = directionToTarget;
+            //Debug.Log("플레이어 HP가 줄어듦");
+            // 플레이어 피가 0이 될때까지 계속 떼리기 
+
+            // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
+            if (distanceToPlayer > attackRange) // 플레이어와의 거리가 공격 범위보다 크다는 건 공격범위에서 멀어졌다는 것. 
+            {
+                // Idle상태로 전환 
+                ChangeState(ActionState.Idle);
+                animator.SetInteger("State", (int)ActionState.Idle);
+            }
         }
+
+        // 일반 공격 딜레이 
+        //if (isNormalAttack)
+        //{
+        //    time += Time.deltaTime;
+        //    if(time >= normalAttackDelayTime) 
+        //    {
+        //        Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
+        //        time = 0f;
+        //        isNormalAttack = false;
+        //    }
+        //}
+
+        // 특수 공격 딜레이
+        //if (isSpecialAttack)
+        //{
+        //    time += Time.deltaTime;
+        //    if(time >= specialAttackDelayTime)
+        //    {
+        //        Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
+        //        time = 0f;
+        //        isSpecialAttack = false;
+        //    }
+        //}
     }
 
     private void FixedUpdate()
     {
-        if(isMoving)
-            Movement(movementDirection);
+        switch (currentState)
+        {
+            case ActionState.Move:
+                rigid.velocity = directionToTarget * moveSpeed;
+                // 애니메이션 적용 
+                break;
+        }
     }
-    
-    private void Movement(Vector3 direction)
-    {
-        direction = direction * moveSpeed; // 이동방향, 속도 적용
 
-        // 이동
-        _rigid.velocity = direction; // 이동 적용 
-        _animator.SetInteger("State", 1); // 애니메이션 적용 
+    private void ChangeState(ActionState state)
+    {
+        // 같은 state이면 종료 
+        if (currentState == state) return;
+
+        this.currentState = state;
     }
+
+    private void StartDamage()
+    {
+        isNormalAttack = false;
+        isSpecialAttack = false;
+    }
+    private void EndDamage()
+    {
+        // 공격 딜레이 시간 끝나면 isNormalAttack, isSpecialAttack을 false로 바꿔준다. 
+        isNormalAttack = true;
+        isSpecialAttack = true;
+    }
+
+    //private void TakeDamage(Player player)
+    //{
+
+    //}
 }
