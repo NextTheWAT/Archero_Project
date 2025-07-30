@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: MoveSpeedUP!
   skillInfo: MoveSpeedUP!
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 8b799810231625b4c90d74cb282834a0, type: 3}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-  type: 1
+  type: 0
   value: 1

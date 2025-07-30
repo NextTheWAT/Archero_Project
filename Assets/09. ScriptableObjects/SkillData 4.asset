@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: ProjectileUP!
   skillInfo: ProjectileUP!
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: eacb52c5959be1743915f76407e7f74d, type: 3}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
   type: 4
   value: 1
