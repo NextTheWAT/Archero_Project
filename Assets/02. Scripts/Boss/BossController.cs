@@ -169,31 +169,17 @@ public class BossController : MonoBehaviour
                 {
                     // 도끼에게 애니메이션 요청 
                     // 도끼가 플레이어와 닿으면 데미지 처리
-                    axe.Attack();
-                    
-                    //animator.SetInteger("State", (int)ActionState.Attack);
-                    //Debug.Log("일반공격"); // 일반공격
-                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
-                    //// 도끼가 닿으면 데미지 처리 
-                    //isNormalAttack = true; // 딜레이 시간 부여 
-                    //// 애니메이션 적용
+                    axe.Attack(); // 데미지 처리, 애니메이션 적용 
                 }
             }
             else
             {
                 if (!isSpecialAttack)
                 {
-                    axe.SpecialAttack();
-                    //animator.SetInteger("State", (int)ActionState.SpecialAttack);
-                    //Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
-                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
-                    //// 도끼가 닿으면 데미지 처리 
-                    //isSpecialAttack = true; // 딜레이 시간 부여 
-                    //// 애니메이션 적용
+                    axe.SpecialAttack(); // 데미지 처리, 애니메이션 적용 
                 }
             }
 
-            //Debug.Log("플레이어 HP가 줄어듦");
             // 플레이어 피가 0이 될때까지 계속 떼리기 
 
             // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
@@ -204,30 +190,6 @@ public class BossController : MonoBehaviour
                 animator.SetInteger("State", (int)ActionState.Idle);
             }
         }
-
-        // 일반 공격 딜레이 
-        //if (isNormalAttack)
-        //{
-        //    time += Time.deltaTime;
-        //    if(time >= normalAttackDelayTime) 
-        //    {
-        //        Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
-        //        time = 0f;
-        //        isNormalAttack = false;
-        //    }
-        //}
-
-        // 특수 공격 딜레이
-        //if (isSpecialAttack)
-        //{
-        //    time += Time.deltaTime;
-        //    if(time >= specialAttackDelayTime)
-        //    {
-        //        Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
-        //        time = 0f;
-        //        isSpecialAttack = false;
-        //    }
-        //}
     }
 
     private void FixedUpdate()
@@ -260,9 +222,4 @@ public class BossController : MonoBehaviour
         isNormalAttack = true;
         isSpecialAttack = true;
     }
-
-    //private void TakeDamage(Player player)
-    //{
-
-    //}
 }
