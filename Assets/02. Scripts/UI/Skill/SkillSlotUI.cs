@@ -9,6 +9,7 @@ public class SkillSlotUI : MonoBehaviour
     public TextMeshProUGUI infoText;
     //public Image background;
     private SkillData_ScriptableObject skillData;
+    //public GameObject particle;
 
     public void SetSkill(SkillData_ScriptableObject data)
     {
