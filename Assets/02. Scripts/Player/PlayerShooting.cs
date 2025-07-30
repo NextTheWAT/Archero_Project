@@ -5,76 +5,48 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public float fireCooldown = 1f;
     public Transform firePoint;
 
     private float fireTimer = 0f;
     private Animator animator;
-    private bool isShooting = false;
-    private GameObject currentTarget;
+    private PlayerStat playerStat; // PlayerStat 참조
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        playerStat = GetComponent<PlayerStat>(); // PlayerStat 할당
     }
 
     void Update()
     {
-        bool isMoving = animator.GetBool("isMoving");
-
-        if (isMoving)
-        {
-            // 이동 중이면 공격 중단
-            if (isShooting)
-            {
-                isShooting = false;
-                currentTarget = null;
-                animator.SetBool("canSeeEnemy", false);
-            }
-            return;
-        }
-
         fireTimer += Time.deltaTime;
 
         // 가장 가까운 적 찾기
         GameObject nearestEnemy = EnemyUtil.FindNearestEnemy(transform.position);
         bool canSee = nearestEnemy != null;
-
         animator.SetBool("canSeeEnemy", canSee);
 
-        // Idle 상태에서만 Shooting 트리거 발동
-        if (canSee && !isShooting && fireTimer >= fireCooldown)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle2")) // Idle 상태 이름에 맞게 수정
-            {
-                isShooting = true;
-                currentTarget = nearestEnemy;
-                animator.SetTrigger("isAimingFinished");
-            }
-        }
+        bool isMoving = animator.GetBool("isMoving");
 
-        // 적이 사라지면 상태 초기화
-        if (!canSee && isShooting)
-        {
-            isShooting = false;
-            currentTarget = null;
-        }
-    }
+        // 쿨타임 계산: 1 / attackSpeed (attackSpeed가 0이면 발사 안 함)
+        float fireCooldown = (playerStat != null && playerStat.attackSpeed > 0f) ? 1f / playerStat.attackSpeed : float.MaxValue;
 
-    // Shooting 애니메이션 끝날 때 Animation Event로 호출
-    public void OnShootingFinished()
-    {
-        if (isShooting && currentTarget != null)
+        // 멈췄을 때(Idle)만 쿨타임마다 반복 발사 + Shooting 애니메이션 트리거
+        if (!isMoving && canSee && fireTimer >= fireCooldown)
         {
-            Vector3 dirToEnemy = (currentTarget.transform.position - transform.position).normalized;
+            animator.SetTrigger("isAimingFinished");
+
+            Vector3 dirToEnemy = (nearestEnemy.transform.position - transform.position).normalized;
             dirToEnemy.y = 0f;
 
-            GameObject bullet = Instantiate(bulletPrefab, firePoint != null ? firePoint.position : transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                firePoint != null ? firePoint.position : transform.position,
+                Quaternion.identity
+            );
             bullet.transform.forward = dirToEnemy;
 
             fireTimer = 0f;
         }
-        isShooting = false;
-        animator.ResetTrigger("isAimingFinished");
     }
 }
