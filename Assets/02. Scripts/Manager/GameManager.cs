@@ -1,5 +1,7 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using static UIManager;
 
 public enum StageType
 {
@@ -14,6 +16,7 @@ public enum StageType
 public class GameManager : Singleton<GameManager>
 {
     public StageType CurrentStage { get; private set; } = StageType.MainStage;
+    public GameState currentState = GameState.Main;
 
     [Header("스테이지 오브젝트")]
     public GameObject mainStage;
@@ -34,6 +37,25 @@ public class GameManager : Singleton<GameManager>
 
         CurrentStage = newStage;
         ApplyStage(newStage);
+
+        // 스테이지에 따라 상태 전환
+        switch (newStage)
+        {
+            case StageType.MainStage:
+                currentState = GameState.Main;
+                break;
+            case StageType.Stage1:
+            case StageType.Stage2:
+            case StageType.Stage3:
+            case StageType.Stage4:
+            case StageType.Boss:
+                currentState = GameState.Playing;
+                break;
+        }
+        // 위치 이동 추가
+        PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
+
+        UIManager.Instance.UpdateUI(currentState);
     }
     private void ApplyStage(StageType stage)
     {
