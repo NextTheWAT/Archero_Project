@@ -13,7 +13,7 @@ public enum StageType
 
 public class GameManager : Singleton<GameManager>
 {
-    public StageType CurrentStage { get; private set; } = StageType.Stage1;
+    public StageType CurrentStage { get; private set; } = StageType.MainStage;
 
     [Header("스테이지 오브젝트")]
     public GameObject mainStage;
@@ -47,6 +47,9 @@ public class GameManager : Singleton<GameManager>
         // 각 스테이지 전용 처리
         switch (stage)
         {
+            case StageType.MainStage:
+                OnMainStage();
+                break;
             case StageType.Stage1:
                 OnStage1Start();
                 break;
@@ -66,16 +69,18 @@ public class GameManager : Singleton<GameManager>
 
         Debug.Log($"[GameManager] 현재 스테이지: {stage}");
     }
+    private void OnMainStage()
+    {
+        mainStage.SetActive(true);
+    }
     private void OnStage1Start()
     {
         stage1.SetActive(true);
-        // TODO: 배경음악 변경, UI 초기화 등
     }
 
     private void OnStage2Start()
     {
         stage2.SetActive(true);
-        // TODO: 다른 스폰 방식, 난이도 조정 등
     }
 
     private void OnStage3Start()
@@ -91,6 +96,5 @@ public class GameManager : Singleton<GameManager>
     private void OnBossStageStart()
     {
         bossStage.SetActive(true);
-        // TODO: 보스 연출 시작, 카메라 줌, 음악 변경 등
     }
 }

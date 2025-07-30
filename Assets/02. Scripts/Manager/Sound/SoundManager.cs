@@ -8,6 +8,7 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField][Range(0f, 1f)] private float musicVolume = 1f;
 
     [Header("BGM Clips")]
+    [SerializeField] private AudioClip mainbackGroundMusic;
     [SerializeField] private AudioClip stage1Music;
     [SerializeField] private AudioClip stage2Music;
     [SerializeField] private AudioClip stage3Music;
@@ -34,6 +35,7 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Update()
     {
+        //자동 스테이지 감지 -> 음악변경
         StageType current = GameManager.Instance.CurrentStage;
         if (current != lastStage)
         {
@@ -57,6 +59,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         switch (stage)
         {
+            case StageType.MainStage: return mainbackGroundMusic;
             case StageType.Stage1: return stage1Music;
             case StageType.Stage2: return stage2Music;
             case StageType.Stage3: return stage3Music;
