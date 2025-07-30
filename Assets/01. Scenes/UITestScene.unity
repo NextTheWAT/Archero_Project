@@ -2185,7 +2185,12 @@ MonoBehaviour:
   soundEffectVolume: 0.2
   soundEffectPitchVariance: 0.2
   musicVolume: 0.5
-  musicClip: {fileID: 8300000, guid: f26f4b8101f58714ab759dded77b6f89, type: 3}
+  backGroundMusic: {fileID: 0}
+  stage1Mudic: {fileID: 0}
+  stage2Mudic: {fileID: 0}
+  stage3Mudic: {fileID: 0}
+  stage4Mudic: {fileID: 0}
+  bossMudic: {fileID: 0}
   soundSourcePrefab: {fileID: -6185500422785631534, guid: 3da274bdbe428a84189102591e9e3b9e, type: 3}
 --- !u!82 &979820839
 AudioSource:
