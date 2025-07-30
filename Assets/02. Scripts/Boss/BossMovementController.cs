@@ -5,9 +5,10 @@ using UnityEngine;
 
 public enum ActionState
 {
-    Idle,
-    Move,
-    Attack
+    Idle = 0,
+    Move = 1,
+    Attack = 2,
+    SpecialAttack = 3
 }
 
 // 보스 움직임 제어 클래스 
@@ -50,6 +51,23 @@ public class BossMovementController : MonoBehaviour
     구현 방법
     - 공격 딜레이 시간 변수를 만든다. 
     - 공격 시점에 딜레이 로직을 추가해준다. 
+
+
+    구현 기능3 : 보스 애니메이션 구현 
+    가만히 있을 때, 움직일 때, 공격할 때 애니메이션을 구현
+
+    필요한 것들
+    - 애니메이터
+    - 애니메이션 설정 (애니메이션 추가, 파라미터 추가, 트랜지션 연결)
+    - 애니메이션 로직 작성 
+
+    구현 방법
+    - 애니메이터 붙이기
+    - 컨트롤러 설정 (애니메이션 추가, 파라미터 추가, 트랜지션 연결)
+    - 애니메이션 동작 시점 찾아서 애니메이션 코드 추가 
+
+    문제점 
+    - 방향이 6시방향으로만 고정됨. 
      
      */
 
@@ -75,9 +93,12 @@ public class BossMovementController : MonoBehaviour
     public bool isSpecialAttack; // 특수 공격인지? 
     public float time;
 
+    public Animator animator;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -90,10 +111,13 @@ public class BossMovementController : MonoBehaviour
         // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
         if (distanceToPlayer <= followDistance)
         {
-            if(currentState != ActionState.Attack)
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            if (currentState != ActionState.Attack)
             {
                 // Move 상태로 전환 
                 ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
+                animator.SetInteger("State", (int)ActionState.Move);
 
                 // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
                 if(distanceToPlayer <= attackRange)
@@ -106,6 +130,7 @@ public class BossMovementController : MonoBehaviour
         else
         {
             ChangeState(ActionState.Idle);
+            animator.SetInteger("State", (int)ActionState.Idle);
         }
 
         // (공격처리)
@@ -115,6 +140,7 @@ public class BossMovementController : MonoBehaviour
             {
                 if (!isNormalAttack)
                 {
+                    animator.SetInteger("State", (int)ActionState.Attack);
                     Debug.Log("일반공격"); // 일반공격
                     //TakeDamage(); // 데미지 입히는 메서드 호출 
                     isNormalAttack = true; // 딜레이 시간 부여 
@@ -125,6 +151,7 @@ public class BossMovementController : MonoBehaviour
             {
                 if (!isSpecialAttack)
                 {
+                    animator.SetInteger("State", (int)ActionState.SpecialAttack);
                     Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
                     //TakeDamage(); // 데미지 입히는 메서드 호출 
                     isSpecialAttack = true; // 딜레이 시간 부여 
@@ -140,6 +167,7 @@ public class BossMovementController : MonoBehaviour
             {
                 // Idle상태로 전환 
                 ChangeState(ActionState.Idle);
+                animator.SetInteger("State", (int)ActionState.Idle);
             }
         }
 
