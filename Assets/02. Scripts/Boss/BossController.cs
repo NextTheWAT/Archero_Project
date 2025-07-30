@@ -12,7 +12,7 @@ public enum ActionState
 }
 
 // 보스 움직임 제어 클래스 
-public class BossMovementController : MonoBehaviour
+public class BossController : MonoBehaviour
 {
     /*
      
@@ -112,10 +112,13 @@ public class BossMovementController : MonoBehaviour
 
     public Animator animator;
 
+    public Axe axe;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        axe = GetComponentInChildren<Axe>();
     }
 
     private void Update()
@@ -157,22 +160,29 @@ public class BossMovementController : MonoBehaviour
             {
                 if (!isNormalAttack)
                 {
-                    animator.SetInteger("State", (int)ActionState.Attack);
-                    Debug.Log("일반공격"); // 일반공격
-                    //TakeDamage(); // 데미지 입히는 메서드 호출 
-                    isNormalAttack = true; // 딜레이 시간 부여 
-                    // 애니메이션 적용
+                    // 도끼에게 애니메이션 요청 
+                    // 도끼가 플레이어와 닿으면 데미지 처리
+                    axe.Attack();
+                    
+                    //animator.SetInteger("State", (int)ActionState.Attack);
+                    //Debug.Log("일반공격"); // 일반공격
+                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
+                    //// 도끼가 닿으면 데미지 처리 
+                    //isNormalAttack = true; // 딜레이 시간 부여 
+                    //// 애니메이션 적용
                 }
             }
             else
             {
                 if (!isSpecialAttack)
                 {
-                    animator.SetInteger("State", (int)ActionState.SpecialAttack);
-                    Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
-                    //TakeDamage(); // 데미지 입히는 메서드 호출 
-                    isSpecialAttack = true; // 딜레이 시간 부여 
-                    // 애니메이션 적용
+                    axe.SpecialAttack();
+                    //animator.SetInteger("State", (int)ActionState.SpecialAttack);
+                    //Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
+                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
+                    //// 도끼가 닿으면 데미지 처리 
+                    //isSpecialAttack = true; // 딜레이 시간 부여 
+                    //// 애니메이션 적용
                 }
             }
 

@@ -17,7 +17,7 @@ public class BossManager : MonoBehaviour
     public GameObject bossPrefab;
     public GameObject bossObj;
 
-    public BossMovementController bossMovementController;
+    public BossController bossMovementController;
 
     public PlayerManager playerManager;
 
@@ -49,7 +49,7 @@ public class BossManager : MonoBehaviour
     {
         // 보스가 플레이어를 알 수 있게 설정 
         playerManager = PlayerManager.Instance;
-        bossMovementController = bossObj.GetComponent<BossMovementController>();
+        bossMovementController = bossObj.GetComponent<BossController>();
         bossMovementController.player = playerManager.player.transform;
     }
 }

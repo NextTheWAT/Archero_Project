@@ -84,7 +84,54 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5431564926086140913}
+    - targetCorrespondingSourceObject: {fileID: -2765639428920411087, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2492873947485485812}
+    - targetCorrespondingSourceObject: {fileID: -2765639428920411087, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1158960748850420651}
   m_SourcePrefab: {fileID: 100100000, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+--- !u!1 &3064851185527179975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2765639428920411087, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
+  m_PrefabInstance: {fileID: 8293080186139326198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2492873947485485812
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3064851185527179975}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2395483, y: 0.96, z: 0.2618009}
+  m_Center: {x: 0.00000019000959, y: 0.83, z: -0.0000012986986}
+--- !u!114 &1158960748850420651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3064851185527179975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070f652c17634854cb0fb01719197abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 10
+  playerManager: {fileID: 0}
+  playerStat: {fileID: 0}
 --- !u!1 &9212000528847276967 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}

@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 5147226459225528032}
   - component: {fileID: 9169578542341462140}
   - component: {fileID: 4605521966181129944}
+  - component: {fileID: 7351986481566525854}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -767,7 +768,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3282017344675676132}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1.7, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
@@ -794,7 +795,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.66, y: 2.37, z: 0.13}
+  m_Size: {x: 1.56, y: 2.37, z: 0.13}
   m_Center: {x: 0, y: 1.23, z: -0.13}
 --- !u!54 &9141299316278520253
 Rigidbody:
@@ -887,6 +888,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7351986481566525854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282017344675676132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd70f939307698479df2e2a13ef02d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 10
+  moveSpeed: 5
+  rotationSpeed: 10
+  attackSpeed: 1
+  maxHp: 100
+  currentHp: 100
+  projectileCount: 1
 --- !u!1 &3348856904396874502
 GameObject:
   m_ObjectHideFlags: 0

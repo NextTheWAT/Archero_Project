@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject playerPrefab;
     public PlayerMovement player;
+    public PlayerStat playerStat;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameObject playerObj = Instantiate(playerPrefab, transform);
         player = playerObj.GetComponent<PlayerMovement>();
+        playerStat = playerObj.GetComponent<PlayerStat>();
 
         // À§Ä¡
         playerObj.transform.position = new Vector3(0, 0, -10);
