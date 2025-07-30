@@ -17,5 +17,12 @@ public class Bullet : MonoBehaviour
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    // 추후 OnTriggerEnter로 적과 충돌 체크 가능
+    // Enemy에 닿으면 화살(총알) 파괴
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
