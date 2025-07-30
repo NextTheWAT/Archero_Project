@@ -1,34 +1,43 @@
-// SkillUIManager.cs ����
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkillUIManager : MonoBehaviour
 {
     public static SkillUIManager Instance;
 
     public GameObject skillPanel;
+    public UIAnimationHandler animationHandler; // ✅ 애니메이션 핸들러 연결
+
     public Transform slotParent;
     public GameObject skillSlotPrefab;
 
     public SkillData_ScriptableObject[] allSkills;
     public int numberOfChoices = 3;
 
+    public bool canSelect = false;
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
+        {
             Destroy(gameObject);
-    }
+            return;
+        }
 
+        if (animationHandler == null)
+            animationHandler = skillPanel.GetComponent<UIAnimationHandler>();
+    }
 
     public void ShowSkillUI()
     {
-        skillPanel.SetActive(true);
+        if (animationHandler != null)
+            animationHandler.Show();
+        else
+            skillPanel.SetActive(true);
 
         foreach (Transform child in slotParent)
-        {
             Destroy(child.gameObject);
-        }
 
         SkillData_ScriptableObject[] selected = GetRandomSkills(numberOfChoices);
 
@@ -37,11 +46,22 @@ public class SkillUIManager : MonoBehaviour
             GameObject slot = Instantiate(skillSlotPrefab, slotParent);
             slot.GetComponent<SkillSlotUI>().SetSkill(skill);
         }
+
+        canSelect = false;
+        Invoke(nameof(EnableSelection), 0.4f);
+    }
+
+    void EnableSelection()
+    {
+        canSelect = true;
     }
 
     public void HideSkillUI()
     {
-        skillPanel.SetActive(false);
+        if (animationHandler != null)
+            animationHandler.Hide();
+        else
+            skillPanel.SetActive(false);
     }
 
     SkillData_ScriptableObject[] GetRandomSkills(int count)
