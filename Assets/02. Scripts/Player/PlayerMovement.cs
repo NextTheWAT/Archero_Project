@@ -7,12 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private PlayerStat playerStat; // PlayerStat 참조
+    private BoxCollider col;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         playerStat = GetComponent<PlayerStat>(); // PlayerStat 할당
+        col  = GetComponent<BoxCollider>();
     }
 
     void FixedUpdate()
@@ -41,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
 
-            GameObject nearestEnemy = FindNearestEnemy();
+            GameObject nearestEnemy = EnemyUtil.FindNearestEnemy(transform.position);
             if (nearestEnemy != null)
             {
                 Vector3 dirToEnemy = (nearestEnemy.transform.position - transform.position);
@@ -54,25 +56,5 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-    }
-
-    // 가장 가까운 적을 찾는 함수 (Enemy 태그 사용)
-    GameObject FindNearestEnemy()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject nearest = null;
-        float minDist = float.MaxValue;
-        Vector3 currentPos = transform.position;
-
-        foreach (GameObject enemy in enemies)
-        {
-            float dist = (enemy.transform.position - currentPos).sqrMagnitude;
-            if (dist < minDist)
-            {
-                minDist = dist;
-                nearest = enemy;
-            }
-        }
-        return nearest;
     }
 }

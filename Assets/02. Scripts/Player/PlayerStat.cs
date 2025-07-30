@@ -29,4 +29,11 @@ public class PlayerStat : MonoBehaviour
         Debug.Log($"체력 회복됨! 현재 체력: {currentHp}");
     }
 
+    public void Damage(float amount)
+    {
+        currentHp -= Mathf.RoundToInt(amount);
+        if (currentHp < 0) currentHp = 0;
+        Debug.Log($"피해를 입음! 현재 체력: {currentHp}");
+    }
+
 }
