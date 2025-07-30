@@ -567,7 +567,11 @@ MonoBehaviour:
   currentState: 0
   rigid: {fileID: 0}
   normalAttackDelayTime: 1
+  isNormalAttack: 0
   specialAttackDelayTime: 3
+  isSpecialAttack: 0
+  time: 0
+  animator: {fileID: 0}
 --- !u!1001 &499121877
 PrefabInstance:
   m_ObjectHideFlags: 0
