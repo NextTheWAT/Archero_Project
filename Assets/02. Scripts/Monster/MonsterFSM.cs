@@ -143,4 +143,14 @@ public class MonsterFSM : MonoBehaviour
         yield return new WaitForSeconds(0.8f); // 공격 애니메이션 길이만큼 유지
         ChangeState(MonsterState.Idle);
     }
+    private void OnDrawGizmosSelected()
+    {
+        // 추적 범위: 노란색
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        // 공격 범위: 빨간색
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
 }
