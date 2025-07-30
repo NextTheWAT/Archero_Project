@@ -111,7 +111,9 @@ public class BossMovementController : MonoBehaviour
         // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
         if (distanceToPlayer <= followDistance)
         {
-            if(currentState != ActionState.Attack)
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            if (currentState != ActionState.Attack)
             {
                 // Move 상태로 전환 
                 ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
