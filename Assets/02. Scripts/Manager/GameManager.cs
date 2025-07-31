@@ -107,6 +107,11 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("[GameManager] 튜토리얼 스테이지 활성화");
         tutorialStage.SetActive(true); // 미리 할당해놓은 튜토리얼용 오브젝트
+
+        // 먼저 GameObject를 활성화해야 함
+        if (!SkillTutorialUIManager.Instance.gameObject.activeSelf)
+            SkillTutorialUIManager.Instance.gameObject.SetActive(true);
+
         SkillTutorialUIManager.Instance.StartTutorial(); // 실제 튜토리얼 로직 실행
     }
 
