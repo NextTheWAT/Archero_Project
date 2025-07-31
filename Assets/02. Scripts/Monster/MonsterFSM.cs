@@ -23,6 +23,9 @@ public class MonsterFSM : MonoBehaviour
 
     private MonsterStat stats; //MonsterStat.cs 불러옴
 
+    public GameObject projectilePrefab; //투사체 프리팹
+    public Transform firePoint; //투사체 나갈 위치
+
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
@@ -32,7 +35,7 @@ public class MonsterFSM : MonoBehaviour
 
         //Player 태그 오브젝트 찾아서 위치(transform) 저장
         GameObject playerObj = GameObject.FindWithTag("Player");
-        if(playerObj != null)
+        if (playerObj != null)
         {
             player = playerObj.transform;
         }
@@ -144,6 +147,7 @@ public class MonsterFSM : MonoBehaviour
         isAttacking = true;
 
         ChangeState(MonsterState.Attack);
+        FireProjectile();
         yield return new WaitForSeconds(stats.attackDelay); // 공격 애니메이션 길이만큼 유지
         
         ChangeState(MonsterState.Idle);
@@ -151,14 +155,29 @@ public class MonsterFSM : MonoBehaviour
 
         isAttacking = false;
     }
+
     private void OnDrawGizmosSelected()
     {
-        // 추적 범위: 노란색
+        if (stats == null) return;
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
 
-        // 공격 범위: 빨간색
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
+        Gizmos.DrawWireSphere(transform.position, stats.attackRange);
+    }
+
+    void FireProjectile()
+    {
+        if (projectilePrefab != null && firePoint != null && player != null)
+        {
+            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+            MonsterProjectile projectile = proj.GetComponent<MonsterProjectile>();
+            if (projectile != null)
+            {
+                projectile.SetTarget(player);
+            }
+        }
     }
 }
