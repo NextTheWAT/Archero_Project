@@ -8,6 +8,9 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField][Range(0f, 1f)] private float musicVolume = 1f;
     [SerializeField][Range(0f, 1f)] private float SFX_Volum = 1f;
 
+
+
+
     [Header("BGM Clips")]
     [SerializeField] private AudioClip mainbackGroundMusic;
     [SerializeField] private AudioClip stage1Music;
@@ -22,11 +25,13 @@ public class SoundManager : Singleton<SoundManager>
     [Header("UISelected_AudioSource")]
     [SerializeField] private AudioSource UISelecetedSFX;
 
+
     [Header("Player")]
     [Header("Player_Step")]
     [SerializeField] private AudioSource Player_Step;
     [Header("Player_Attack")]
     [SerializeField] private AudioSource Player_Shoot;
+
 
     public SoundSource soundSourcePrefab;
 

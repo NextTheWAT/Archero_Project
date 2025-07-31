@@ -10,7 +10,8 @@ public enum StageType
     Stage2,
     Stage3,
     Stage4,
-    Boss
+    Boss,
+    Tutorial
 }
 
 public class GameManager : Singleton<GameManager>
@@ -19,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     public GameState currentState = GameState.Main;
 
     [Header("스테이지 오브젝트")]
+    public GameObject tutorialStage;
     public GameObject mainStage;
     public GameObject stage1;
     public GameObject stage2;
@@ -49,14 +51,16 @@ public class GameManager : Singleton<GameManager>
             case StageType.Stage3:
             case StageType.Stage4:
             case StageType.Boss:
+            case StageType.Tutorial:
                 currentState = GameState.Playing;
                 break;
+                //currentState = GameState.Tutorial;
+                //break;
         }
         // 위치 이동 추가
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
 
         UIManager.Instance.UpdateUI(currentState);
-
         // 카메라 X 고정값 갱신 요청
         CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
     }
@@ -68,6 +72,7 @@ public class GameManager : Singleton<GameManager>
         stage3.SetActive(false);
         stage4.SetActive(false);
         bossStage.SetActive(false);
+        tutorialStage.SetActive(false);
 
         // 각 스테이지 전용 처리
         switch (stage)
@@ -90,10 +95,24 @@ public class GameManager : Singleton<GameManager>
             case StageType.Boss:
                 OnBossStageStart();
                 break;
+            case StageType.Tutorial:
+                OnTutorialStageStart();
+                break;
         }
 
 
         Debug.Log($"[GameManager] 현재 스테이지: {stage}");
+    }
+    private void OnTutorialStageStart()
+    {
+        Debug.Log("[GameManager] 튜토리얼 스테이지 활성화");
+        tutorialStage.SetActive(true); // 미리 할당해놓은 튜토리얼용 오브젝트
+
+        // 먼저 GameObject를 활성화해야 함
+        if (!SkillTutorialUIManager.Instance.gameObject.activeSelf)
+            SkillTutorialUIManager.Instance.gameObject.SetActive(true);
+
+        SkillTutorialUIManager.Instance.StartTutorial(); // 실제 튜토리얼 로직 실행
     }
 
     private void OnMainStage()
