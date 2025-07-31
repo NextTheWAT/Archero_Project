@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7147030546962447883, guid: f776f0d78138aed4dab087ddbbd97081, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7238900328529378214, guid: f776f0d78138aed4dab087ddbbd97081, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1504,6 +1508,7 @@ MonoBehaviour:
   player: {fileID: 0}
   moveSpeed: 5
   health: 100
+  isDead: 0
   followDistance: 0
   attackRange: 1
   directionToTarget: {x: 0, y: 0, z: 0}

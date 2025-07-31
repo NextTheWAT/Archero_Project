@@ -8,7 +8,8 @@ public enum ActionState
     Idle = 0,
     Move = 1,
     Attack = 2,
-    SpecialAttack = 3
+    SpecialAttack = 3,
+    Die = 4
 }
 
 // 보스 움직임 제어 클래스 
@@ -94,6 +95,7 @@ public class BossController : MonoBehaviour
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
     public float health = 100;
+    public bool isDead;
 
     public float followDistance; // 보스가 플레이어를 따라갈 수 있는 거리 (내가 정하는 값)
     public float attackRange; // 보스가 플레이어를 공격할 수 있는 범위 (개가 정하는 값) 
@@ -130,104 +132,28 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
-        distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
-        directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
+        IsHealthZero();
 
-        // (이동처리, 공격처리)
-        // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
-        if (distanceToPlayer <= followDistance)
+        if (!isDead)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-            if (currentState != ActionState.Attack)
+            // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
+            distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
+            directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
+
+            // (이동처리, 공격처리)
+            // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
+            if (distanceToPlayer <= followDistance)
             {
-                // Move 상태로 전환 
-                ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
-                animator.SetInteger("State", (int)ActionState.Move);
-
-                // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
-                if(distanceToPlayer <= attackRange)
-                {
-                    // 공격모드로 전환 
-                    ChangeState(ActionState.Attack);
-                }
-            }
-        }
-        else
-        {
-            ChangeState(ActionState.Idle);
-            animator.SetInteger("State", (int)ActionState.Idle);
-        }
-
-        // (공격처리)
-        if (currentState == ActionState.Attack)
-        {
-            if (health > 50)
-            {
-                if (!isNormalAttack)
-                {
-                    // 도끼에게 애니메이션 요청 
-                    // 도끼가 플레이어와 닿으면 데미지 처리
-                    axe.Attack();
-                    
-                    //animator.SetInteger("State", (int)ActionState.Attack);
-                    //Debug.Log("일반공격"); // 일반공격
-                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
-                    //// 도끼가 닿으면 데미지 처리 
-                    //isNormalAttack = true; // 딜레이 시간 부여 
-                    //// 애니메이션 적용
-                }
+                LookAtTargetAndUpdateState();
             }
             else
             {
-                if (!isSpecialAttack)
-                {
-                    axe.SpecialAttack();
-                    //animator.SetInteger("State", (int)ActionState.SpecialAttack);
-                    //Debug.Log("특수공격"); // 강공격, 멀리 있으면 도끼 던지기? 
-                    ////TakeDamage(); // 데미지 입히는 메서드 호출 
-                    //// 도끼가 닿으면 데미지 처리 
-                    //isSpecialAttack = true; // 딜레이 시간 부여 
-                    //// 애니메이션 적용
-                }
+                SetIdleState();
             }
 
-            //Debug.Log("플레이어 HP가 줄어듦");
-            // 플레이어 피가 0이 될때까지 계속 떼리기 
-
-            // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
-            if (distanceToPlayer > attackRange) // 플레이어와의 거리가 공격 범위보다 크다는 건 공격범위에서 멀어졌다는 것. 
-            {
-                // Idle상태로 전환 
-                ChangeState(ActionState.Idle);
-                animator.SetInteger("State", (int)ActionState.Idle);
-            }
+            // (공격처리)
+            HandleAttack();
         }
-
-        // 일반 공격 딜레이 
-        //if (isNormalAttack)
-        //{
-        //    time += Time.deltaTime;
-        //    if(time >= normalAttackDelayTime) 
-        //    {
-        //        Debug.Log($"일반 공격 딜레이 끝. \n시간 = {time}");
-        //        time = 0f;
-        //        isNormalAttack = false;
-        //    }
-        //}
-
-        // 특수 공격 딜레이
-        //if (isSpecialAttack)
-        //{
-        //    time += Time.deltaTime;
-        //    if(time >= specialAttackDelayTime)
-        //    {
-        //        Debug.Log($"특수 공격 딜레이 끝. \n시간 = {time}");
-        //        time = 0f;
-        //        isSpecialAttack = false;
-        //    }
-        //}
     }
 
     private void FixedUpdate()
@@ -239,6 +165,86 @@ public class BossController : MonoBehaviour
                 // 애니메이션 적용 
                 break;
         }
+    }
+
+    private void LookAtTargetAndUpdateState()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
+        // Change
+        if (currentState != ActionState.Attack)
+        {
+            // Move 상태로 전환 
+            ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
+            animator.SetInteger("State", (int)ActionState.Move);
+
+            // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
+            if (distanceToPlayer <= attackRange)
+            {
+                // 공격모드로 전환 
+                ChangeState(ActionState.Attack);
+            }
+        }
+    }
+
+    private void SetIdleState()
+    {
+        ChangeState(ActionState.Idle);
+        animator.SetInteger("State", (int)ActionState.Idle);
+    }
+
+    private void HandleAttack()
+    {
+        if (currentState == ActionState.Attack)
+        {
+            if (health > 50)
+            {
+                if (!isNormalAttack)
+                {
+                    // 도끼에게 애니메이션 요청 
+                    // 도끼가 플레이어와 닿으면 데미지 처리
+                    axe.Attack(); // 데미지 처리, 애니메이션 적용 
+                }
+            }
+            else
+            {
+                if (!isSpecialAttack)
+                {
+                    axe.SpecialAttack(); // 데미지 처리, 애니메이션 적용 
+                }
+            }
+
+            // 플레이어 피가 0이 될때까지 계속 떼리기 
+
+            // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
+            if (distanceToPlayer > attackRange) // 플레이어와의 거리가 공격 범위보다 크다는 건 공격범위에서 멀어졌다는 것. 
+            {
+                // Idle상태로 전환 
+                ChangeState(ActionState.Idle);
+                animator.SetInteger("State", (int)ActionState.Idle);
+            }
+        }
+    }
+
+    private void IsHealthZero()
+    {
+        if(health <= 0.0f)
+        {
+            // 죽음 애니메이션
+            animator.SetInteger("State", (int)ActionState.Die);
+            // 움직일 수 없게 하기 
+            isDead = true;
+            // n초 후에 보스 게임오브젝트 삭제 
+            StartCoroutine(HandleDeath());
+            StopCoroutine(HandleDeath());
+        }
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Destroy(this.gameObject);
     }
 
     private void ChangeState(ActionState state)
@@ -260,9 +266,4 @@ public class BossController : MonoBehaviour
         isNormalAttack = true;
         isSpecialAttack = true;
     }
-
-    //private void TakeDamage(Player player)
-    //{
-
-    //}
 }
