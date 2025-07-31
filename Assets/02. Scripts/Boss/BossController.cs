@@ -116,6 +116,8 @@ public class BossController : MonoBehaviour
 
     public Axe axe;
 
+    public bool isAttacking;
+
     private void Awake()
     {
         // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
@@ -220,9 +222,14 @@ public class BossController : MonoBehaviour
             // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
             if (distanceToPlayer > attackRange) // 플레이어와의 거리가 공격 범위보다 크다는 건 공격범위에서 멀어졌다는 것. 
             {
-                // Idle상태로 전환 
-                ChangeState(ActionState.Idle);
-                animator.SetInteger("State", (int)ActionState.Idle);
+                // 만약 애니메이션이 끝날 때까지 기다려. 
+                if (!isAttacking) // 애니메이션에 isAttacking이 시작될때 true, 끝날 때 false로 두기 
+                {
+                    // Idle상태로 전환 
+                    ChangeState(ActionState.Idle);
+                    animator.SetInteger("State", (int)ActionState.Idle);
+                }
+
             }
         }
     }
@@ -234,6 +241,7 @@ public class BossController : MonoBehaviour
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
             // 움직일 수 없게 하기 
+            ChangeState(ActionState.Die);
             isDead = true;
             // n초 후에 보스 게임오브젝트 삭제 
             StartCoroutine(HandleDeath());
@@ -259,11 +267,13 @@ public class BossController : MonoBehaviour
     {
         isNormalAttack = false;
         isSpecialAttack = false;
+        isAttacking = true;
     }
     private void EndDamage()
     {
         // 공격 딜레이 시간 끝나면 isNormalAttack, isSpecialAttack을 false로 바꿔준다. 
         isNormalAttack = true;
         isSpecialAttack = true;
+        isAttacking = false;
     }
 }

@@ -1522,6 +1522,7 @@ MonoBehaviour:
   time: 0
   animator: {fileID: 0}
   axe: {fileID: 0}
+  isAttacking: 0
 --- !u!64 &644085431
 MeshCollider:
   m_ObjectHideFlags: 0
