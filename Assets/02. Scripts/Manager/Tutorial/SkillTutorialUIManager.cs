@@ -23,6 +23,8 @@ public class SkillTutorialUIManager : Singleton<SkillTutorialUIManager>
 
     public void StartTutorial()
     {
+        currentIndex = 0;
+
         if (tutorialCoroutine != null)
             StopCoroutine(tutorialCoroutine);
 

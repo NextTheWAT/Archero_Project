@@ -8,7 +8,7 @@ public class UIManager : Singleton<UIManager>
         Main,
         Playing,
         GameOver,
-        //Tutorial
+        Tutorial
     }
 
     [Header("Main UI")]
@@ -35,7 +35,7 @@ public class UIManager : Singleton<UIManager>
             { GameState.Main, new[] { titleCanvas } },
             { GameState.Playing, new[] { playerUI, skillUIManager, tutorialCanvas } },
             { GameState.GameOver, new[] { gameOverCanvas } },
-            //{ GameState.Tutorial, new[] { tutorialCanvas } }
+            { GameState.Tutorial, new[] { tutorialCanvas } }
         };
     }
     private void Start()
