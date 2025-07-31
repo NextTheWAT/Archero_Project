@@ -14,12 +14,11 @@ public class UIManager : Singleton<UIManager>
     public GameObject titleCanvas;
 
     [Header("Playing UI")]
-    public GameObject playerStatCanvas;
-    public GameObject playerHpBarCanvas;
+    public GameObject playerUI;
     public GameObject skillUIManager;
 
     [Header("GameOver UI")]
-    //public GameObject gameOverCanvas;
+    public GameObject gameOverCanvas;
 
     private Dictionary<GameState, GameObject[]> stateToUI;
     private GameState currentState = GameState.Main;
@@ -30,9 +29,13 @@ public class UIManager : Singleton<UIManager>
         stateToUI = new Dictionary<GameState, GameObject[]>
         {
             { GameState.Main, new[] { titleCanvas } },
-            { GameState.Playing, new[] { playerStatCanvas, playerHpBarCanvas, skillUIManager } },
-            //{ GameState.GameOver, new[] { gameOverCanvas } }
+            { GameState.Playing, new[] { playerUI, skillUIManager } },
+            { GameState.GameOver, new[] { gameOverCanvas } }
         };
+    }
+    private void Start()
+    {
+        UpdateUI(GameState.Main);
     }
 
     public void UpdateUI(GameState newState)
@@ -41,9 +44,9 @@ public class UIManager : Singleton<UIManager>
 
         // 전체 UI 비활성화
         titleCanvas.SetActive(false);
-        playerStatCanvas.SetActive(false);
-        playerHpBarCanvas.SetActive(false);
+        playerUI.SetActive(false);
         skillUIManager.SetActive(false);
+        gameOverCanvas.SetActive(false);
 
         // 현재 상태 UI만 활성화
         if (stateToUI.TryGetValue(newState, out var uiList))
@@ -52,7 +55,7 @@ public class UIManager : Singleton<UIManager>
                 ui.SetActive(true);
         }
     }
-public GameState GetCurrentState()
+    public GameState GetCurrentState()
     {
         return currentState;
     }

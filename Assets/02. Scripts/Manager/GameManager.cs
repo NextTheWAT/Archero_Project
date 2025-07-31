@@ -56,6 +56,9 @@ public class GameManager : Singleton<GameManager>
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
 
         UIManager.Instance.UpdateUI(currentState);
+
+        // 카메라 X 고정값 갱신 요청
+        CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
     }
     private void ApplyStage(StageType stage)
     {
@@ -89,8 +92,10 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
 
+
         Debug.Log($"[GameManager] 현재 스테이지: {stage}");
     }
+
     private void OnMainStage()
     {
         Debug.Log("[GameManager] 메인 스테이지 활성화");

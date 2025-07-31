@@ -15,6 +15,7 @@ public class SkillUIManager : Singleton<SkillUIManager>
 
     private void Awake()
     {
+        base.Awake();
         if (animationHandler == null)
             animationHandler = skillPanel.GetComponent<UIAnimationHandler>();
     }
