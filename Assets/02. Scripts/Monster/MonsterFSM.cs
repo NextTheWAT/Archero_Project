@@ -132,7 +132,16 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateAttack()
     {
-        Debug.Log("공격");
+        if (player == null) return;
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0f;
+
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+
+            Debug.Log("공격중");
+        }
     }
     void UpdateHit()
     {
