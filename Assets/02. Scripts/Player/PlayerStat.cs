@@ -61,8 +61,8 @@ public class PlayerStat : MonoBehaviour
         if (animator != null)
             animator.SetTrigger("Die");
 
-        // 필요시 UIManager 등에서 게임오버 처리 호출
-        // UIManager.Instance.ShowGameOver();
+        // GameOver UI 표시
+        UIManager.Instance.UpdateUI(UIManager.GameState.GameOver);
     }
 
     // 디버그: currentHp에서 999만큼 데미지를 주는 메서드
