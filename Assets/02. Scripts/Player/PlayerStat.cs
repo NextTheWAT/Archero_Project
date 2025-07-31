@@ -10,6 +10,8 @@ public class PlayerStat : MonoBehaviour
     public int currentHp = 100;
     public int projectileCount = 1;
 
+    public float attackRange = 20f; //플레이어 사거리 기본20
+
     private bool isDead = false;
 
     private void Start()
