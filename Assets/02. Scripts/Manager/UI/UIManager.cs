@@ -18,7 +18,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject skillUIManager;
 
     [Header("GameOver UI")]
-    //public GameObject gameOverCanvas;
+    public GameObject gameOverCanvas;
 
     private Dictionary<GameState, GameObject[]> stateToUI;
     private GameState currentState = GameState.Main;
@@ -30,7 +30,7 @@ public class UIManager : Singleton<UIManager>
         {
             { GameState.Main, new[] { titleCanvas } },
             { GameState.Playing, new[] { playerUI, skillUIManager } },
-            //{ GameState.GameOver, new[] { gameOverCanvas } }
+            { GameState.GameOver, new[] { gameOverCanvas } }
         };
     }
     private void Start()
@@ -46,6 +46,7 @@ public class UIManager : Singleton<UIManager>
         titleCanvas.SetActive(false);
         playerUI.SetActive(false);
         skillUIManager.SetActive(false);
+        gameOverCanvas.SetActive(false);
 
         // 현재 상태 UI만 활성화
         if (stateToUI.TryGetValue(newState, out var uiList))
@@ -54,7 +55,7 @@ public class UIManager : Singleton<UIManager>
                 ui.SetActive(true);
         }
     }
-public GameState GetCurrentState()
+    public GameState GetCurrentState()
     {
         return currentState;
     }
