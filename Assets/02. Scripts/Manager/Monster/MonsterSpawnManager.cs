@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterSpawnManager : MonoBehaviour
@@ -12,19 +12,23 @@ public class MonsterSpawnManager : MonoBehaviour
     [Header("소환할 몬스터 수")]
     public int numberOfMonsters = 5;
 
-    [Header("시작 시 자동 소환 여부")]
-    public bool spawnOnStart = true;
+    // 소환된 몬스터 추적 리스트
+    private List<GameObject> spawnedMonsters = new List<GameObject>();
 
-    private void Start()
+    private void OnEnable()
     {
-        if (spawnOnStart)
-        {
-            SpawnMonsters();
-        }
+        SpawnMonsters();
+    }
+
+    private void OnDisable()
+    {
+        ClearMonsters();
     }
 
     public void SpawnMonsters()
     {
+        ClearMonsters(); // 기존 몬스터 제거 후 새로 소환
+
         if (spawnPoints.Length == 0 || monsterPrefab == null)
         {
             Debug.LogWarning("스폰 위치 또는 프리팹이 설정되지 않았습니다!");
@@ -33,14 +37,24 @@ public class MonsterSpawnManager : MonoBehaviour
 
         for (int i = 0; i < numberOfMonsters; i++)
         {
-            //int index = Random.Range(0, spawnPoints.Length);
-            //Transform spawnPoint = spawnPoints[index];
-            Transform spawnPoint = spawnPoints[i];
+            int index = Random.Range(0, spawnPoints.Length); // 랜덤 스폰
+            Transform spawnPoint = spawnPoints[index];
 
-            Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject monster = Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
+            spawnedMonsters.Add(monster);
         }
     }
-    
+
+    private void ClearMonsters()
+    {
+        foreach (GameObject monster in spawnedMonsters)
+        {
+            if (monster != null)
+                Destroy(monster);
+        }
+        spawnedMonsters.Clear();
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
