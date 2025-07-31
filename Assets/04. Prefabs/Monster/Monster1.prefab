@@ -1459,7 +1459,7 @@ GameObject:
   - component: {fileID: 4196612484930320797}
   m_Layer: 0
   m_Name: Monster1
-  m_TagString: Monster
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

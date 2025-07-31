@@ -38,7 +38,7 @@ public class MonsterProjectile : MonoBehaviour
             Debug.Log("플레이어에게 데미지");
             Destroy(gameObject); //투사체 파괴
         }
-        else if (other.CompareTag("Monster")) //몬스터 피격 처리
+        else if (other.CompareTag("Enemy")) //몬스터 피격 처리
         {
             MonsterFSM monster = other.GetComponent<MonsterFSM>();
             if (monster != null)
