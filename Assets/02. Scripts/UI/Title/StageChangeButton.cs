@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using static UIManager;
 
 public class StageChangeButton : MonoBehaviour
 {
