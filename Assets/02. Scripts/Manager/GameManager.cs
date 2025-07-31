@@ -1,5 +1,7 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using static UIManager;
 
 public enum StageType
 {
@@ -14,6 +16,7 @@ public enum StageType
 public class GameManager : Singleton<GameManager>
 {
     public StageType CurrentStage { get; private set; } = StageType.MainStage;
+    public GameState currentState = GameState.Main;
 
     [Header("스테이지 오브젝트")]
     public GameObject mainStage;
@@ -34,6 +37,28 @@ public class GameManager : Singleton<GameManager>
 
         CurrentStage = newStage;
         ApplyStage(newStage);
+
+        // 스테이지에 따라 상태 전환
+        switch (newStage)
+        {
+            case StageType.MainStage:
+                currentState = GameState.Main;
+                break;
+            case StageType.Stage1:
+            case StageType.Stage2:
+            case StageType.Stage3:
+            case StageType.Stage4:
+            case StageType.Boss:
+                currentState = GameState.Playing;
+                break;
+        }
+        // 위치 이동 추가
+        PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
+
+        UIManager.Instance.UpdateUI(currentState);
+
+        // 카메라 X 고정값 갱신 요청
+        CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
     }
     private void ApplyStage(StageType stage)
     {
@@ -67,34 +92,42 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
 
+
         Debug.Log($"[GameManager] 현재 스테이지: {stage}");
     }
+
     private void OnMainStage()
     {
+        Debug.Log("[GameManager] 메인 스테이지 활성화");
         mainStage.SetActive(true);
     }
     private void OnStage1Start()
     {
+        Debug.Log("[GameManager] 스테이지 1 활성화");
         stage1.SetActive(true);
     }
 
     private void OnStage2Start()
     {
+        Debug.Log("[GameManager] 스테이지 2 활성화");
         stage2.SetActive(true);
     }
 
     private void OnStage3Start()
     {
+        Debug.Log("[GameManager] 스테이지 3 활성화");
         stage3.SetActive(true);
     }
 
     private void OnStage4Start()
     {
+        Debug.Log("[GameManager] 스테이지 4 활성화");
         stage4.SetActive(true);
     }
 
     private void OnBossStageStart()
     {
+        Debug.Log("[GameManager] 보스 스테이지 활성화");
         bossStage.SetActive(true);
     }
 }
