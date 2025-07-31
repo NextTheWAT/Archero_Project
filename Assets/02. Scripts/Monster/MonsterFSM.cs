@@ -149,7 +149,8 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateDie()
     {
-        Debug.Log("사망");
+        Debug.Log("몬스터 사망");
+        Destroy(gameObject, 5f); //5초 뒤 제거
     }
     private IEnumerator AttackRoutine()
     {
@@ -187,6 +188,22 @@ public class MonsterFSM : MonoBehaviour
             {
                 projectile.SetTarget(player);
             }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (currentState == MonsterState.Die) return; //이미 죽었으면 무시
+        stats.currentHp -= damage; 
+
+        if (stats.currentHp <= 0)
+        {
+            stats.currentHp = 0;
+            ChangeState(MonsterState.Die);
+        }
+        else
+        {
+            ChangeState(MonsterState.Hit);
         }
     }
 }
