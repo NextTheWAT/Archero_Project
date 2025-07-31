@@ -59,6 +59,8 @@ public class PlayerShooting : MonoBehaviour
             }
 
             fireTimer = 0f;
+
+            SoundManager.Instance.PlayerShooting_SFX();
         }
     }
 }

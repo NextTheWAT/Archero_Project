@@ -22,8 +22,11 @@ public class SoundManager : Singleton<SoundManager>
     [Header("UISelected_AudioSource")]
     [SerializeField] private AudioSource UISelecetedSFX;
 
+    [Header("Player")]
     [Header("Player_Step")]
     [SerializeField] private AudioSource Player_Step;
+    [Header("Player_Attack")]
+    [SerializeField] private AudioSource Player_Shoot;
 
     public SoundSource soundSourcePrefab;
 
@@ -99,8 +102,13 @@ public class SoundManager : Singleton<SoundManager>
         BackGroundBGM.volume = musicVolume;
     }
 
-    public void PlayerStep()
+    public void PlayerStep_SFX()
     {
         Player_Step.Play();
+    }
+
+    public void PlayerShooting_SFX()
+    {
+        Player_Shoot.Play();
     }
 }
