@@ -6,6 +6,9 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField][Range(0f, 1f)] private float soundEffectVolume = 1f;
     [SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance = 0.1f;
     [SerializeField][Range(0f, 1f)] private float musicVolume = 1f;
+    [SerializeField][Range(0f, 1f)] private float SFX_Volum = 1f;
+
+
 
     [Header("BGM Clips")]
     [SerializeField] private AudioClip mainbackGroundMusic;
@@ -15,22 +18,22 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private AudioClip stage4Music;
     [SerializeField] private AudioClip bossMusic;
 
+    [Header("BackGround_AudioSource")]
+    [SerializeField] private AudioSource BackGroundBGM;
+
+    [Header("UISelected_AudioSource")]
+    [SerializeField] private AudioSource UISelecetedSFX;
+
     public SoundSource soundSourcePrefab;
 
-    private AudioSource musicAudioSource;
     private StageType lastStage;
-
-    private void Awake()
-    {
-        musicAudioSource = GetComponent<AudioSource>();
-        musicAudioSource.volume = musicVolume;
-        musicAudioSource.loop = true;
-    }
 
     private void Start()
     {
         lastStage = GameManager.Instance.CurrentStage;
         PlayStageBGM(lastStage);
+        BackGroundBGM_Set();
+        UI_SFX_Set();
     }
 
     private void Update()
@@ -47,11 +50,11 @@ public class SoundManager : Singleton<SoundManager>
     private void PlayStageBGM(StageType stage)
     {
         AudioClip clip = GetClipForStage(stage);
-        if (clip != null && musicAudioSource.clip != clip)
+        if (clip != null && BackGroundBGM.clip != clip)
         {
-            musicAudioSource.Stop();
-            musicAudioSource.clip = clip;
-            musicAudioSource.Play();
+            BackGroundBGM.Stop();
+            BackGroundBGM.clip = clip;
+            BackGroundBGM.Play();
         }
     }
 
@@ -76,5 +79,22 @@ public class SoundManager : Singleton<SoundManager>
         SoundSource obj = Instantiate(Instance.soundSourcePrefab);
         SoundSource soundSource = obj.GetComponent<SoundSource>();
         soundSource.Play(clip, Instance.soundEffectVolume, Instance.soundEffectPitchVariance);
+    }
+
+    public void PlayerUISFX()
+    {
+        UISelecetedSFX.Play();
+    }
+
+    private void UI_SFX_Set()
+    {
+        UISelecetedSFX.volume = SFX_Volum;
+        UISelecetedSFX.playOnAwake = false;
+    }
+
+    private void BackGroundBGM_Set()
+    {
+        BackGroundBGM.loop = true;
+        BackGroundBGM.volume = musicVolume;
     }
 }
