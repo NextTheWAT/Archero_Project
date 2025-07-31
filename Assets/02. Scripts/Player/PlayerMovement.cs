@@ -57,4 +57,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    private void StepSound()
+    {
+        SoundManager.Instance.PlayerStep();
+    }
+
 }
