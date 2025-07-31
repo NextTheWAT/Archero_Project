@@ -19,6 +19,10 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+        // 플레이어가 죽었으면 아무것도 하지 않음
+        if (playerStat != null && playerStat.IsDead)
+            return;
+
         fireTimer += Time.deltaTime;
 
         // 가장 가까운 적 찾기
