@@ -52,7 +52,7 @@ public class PlayerStat : MonoBehaviour
 
         Debug.Log("플레이어 사망!");
 
-        // 예시: 이동/입력/애니메이션 비활성화
+        // 이동/입력/애니메이션 비활성화
         var movement = GetComponent<PlayerMovement>();
         if (movement != null)
             movement.enabled = false;
@@ -73,4 +73,23 @@ public class PlayerStat : MonoBehaviour
     }
 
     public bool IsDead => isDead;
+
+    //플레이어 상태 초기화 메서드
+    public void ResetStat()
+    {
+        isDead = false;
+        currentHp = maxHp;
+
+        // 이동/입력/애니메이션 활성화
+        var movement = GetComponent<PlayerMovement>();
+        if (movement != null)
+            movement.enabled = true;
+
+        var animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.Rebind(); // 애니메이터 상태 초기화
+            animator.Update(0f);
+        }
+    }
 }
