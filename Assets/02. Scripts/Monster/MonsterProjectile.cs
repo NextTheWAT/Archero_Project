@@ -12,16 +12,16 @@ public class MonsterProjectile : MonoBehaviour
 
     public void SetTarget(Transform targetTransform)
     {
-        //방향 미리 계산하고 저장
         direction = (targetTransform.position - transform.position).normalized;
         direction.y = 0;
 
-        if(direction != Vector3.zero) //투사체 회전 설정
+        if (direction != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(direction);
+            // 기본 LookRotation에 Y축으로 180도 추가
+            transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180f, 0);
         }
 
-        Destroy(gameObject, lifeTime); //일정 시간 지나면 투사체 자동 파괴
+        Destroy(gameObject, lifeTime);
     }
 
     private void Update()
