@@ -22,5 +22,6 @@ public class StageChangeButton : MonoBehaviour
         }
 
         GameManager.Instance.SetStage(targetStage);
+        SoundManager.Instance.PlayerUISFX();
     }
 }
