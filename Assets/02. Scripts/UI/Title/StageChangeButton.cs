@@ -11,6 +11,16 @@ public class StageChangeButton : MonoBehaviour
     public void StageChangeButtonPunc()
     {
         Debug.Log(targetStage + "화면으로 이동!");
+
+        // 플레이어 상태 초기화
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            PlayerStat stat = playerObj.GetComponent<PlayerStat>();
+            if (stat != null)
+                stat.ResetStat();
+        }
+
         GameManager.Instance.SetStage(targetStage);
     }
 }
