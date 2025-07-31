@@ -148,6 +148,11 @@ public class BossController : MonoBehaviour
             if (distanceToPlayer <= followDistance)
             {
                 LookAtTargetAndUpdateState();
+                // followDistance에만 있으면 공격 애니메이션 -> Move 애니메이션으로 전환  => 공격 범위에서 벗어나면 움직이기만. 
+                //if (isAttacking)
+                //{
+                //    ChangeState(ActionState.Move);
+                //}
             }
             else
             {
@@ -223,14 +228,21 @@ public class BossController : MonoBehaviour
             // 공격하고 있는데 플레이어가 공격 범위에서 멀어지면
             if (distanceToPlayer > attackRange) // 플레이어와의 거리가 공격 범위보다 크다는 건 공격범위에서 멀어졌다는 것. 
             {
-                // 만약 애니메이션이 끝날 때까지 기다려. 
+                // 애니메이션이 끝날 때까지 기다려. 
                 if (!isAttacking) // 애니메이션에 isAttacking이 시작될때 true, 끝날 때 false로 두기 
                 {
                     // Idle상태로 전환 
                     ChangeState(ActionState.Idle);
-                    animator.SetInteger("State", (int)ActionState.Idle);
+                    animator.SetInteger("State", (int)ActionState.Idle);// -> 이후 Move상태로 전환됨. 
                 }
 
+                // 따라갈 수 있는 거리 안에 있으면 
+                if(distanceToPlayer <= followDistance)
+                {
+                    // Idle상태로 전환
+                    ChangeState(ActionState.Idle);
+                    animator.SetInteger("State", (int)ActionState.Idle);// -> 이후 Move상태로 전환됨. 
+                }
             }
         }
     }
