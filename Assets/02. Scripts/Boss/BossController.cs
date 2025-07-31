@@ -8,7 +8,8 @@ public enum ActionState
     Idle = 0,
     Move = 1,
     Attack = 2,
-    SpecialAttack = 3
+    SpecialAttack = 3,
+    Die = 4
 }
 
 // 보스 움직임 제어 클래스 
@@ -94,6 +95,7 @@ public class BossController : MonoBehaviour
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
     public float health = 100;
+    public bool isDead;
 
     public float followDistance; // 보스가 플레이어를 따라갈 수 있는 거리 (내가 정하는 값)
     public float attackRange; // 보스가 플레이어를 공격할 수 있는 범위 (개가 정하는 값) 
@@ -130,37 +132,70 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
-        distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
-        directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
+        IsHealthZero();
 
-        // (이동처리, 공격처리)
-        // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
-        if (distanceToPlayer <= followDistance)
+        if (!isDead)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-            if (currentState != ActionState.Attack)
-            {
-                // Move 상태로 전환 
-                ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
-                animator.SetInteger("State", (int)ActionState.Move);
+            // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
+            distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
+            directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
 
-                // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
-                if(distanceToPlayer <= attackRange)
-                {
-                    // 공격모드로 전환 
-                    ChangeState(ActionState.Attack);
-                }
+            // (이동처리, 공격처리)
+            // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
+            if (distanceToPlayer <= followDistance)
+            {
+                LookAtTargetAndUpdateState();
+            }
+            else
+            {
+                SetIdleState();
+            }
+
+            // (공격처리)
+            HandleAttack();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        switch (currentState)
+        {
+            case ActionState.Move:
+                rigid.velocity = directionToTarget * moveSpeed;
+                // 애니메이션 적용 
+                break;
+        }
+    }
+
+    private void LookAtTargetAndUpdateState()
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
+        // Change
+        if (currentState != ActionState.Attack)
+        {
+            // Move 상태로 전환 
+            ChangeState(ActionState.Move); // FixedUpdate에서 이동시키기 
+            animator.SetInteger("State", (int)ActionState.Move);
+
+            // 플레이어를 따라가다가 플레이어가 공격범위 내로 들어오면 
+            if (distanceToPlayer <= attackRange)
+            {
+                // 공격모드로 전환 
+                ChangeState(ActionState.Attack);
             }
         }
-        else
-        {
-            ChangeState(ActionState.Idle);
-            animator.SetInteger("State", (int)ActionState.Idle);
-        }
+    }
 
-        // (공격처리)
+    private void SetIdleState()
+    {
+        ChangeState(ActionState.Idle);
+        animator.SetInteger("State", (int)ActionState.Idle);
+    }
+
+    private void HandleAttack()
+    {
         if (currentState == ActionState.Attack)
         {
             if (health > 50)
@@ -192,15 +227,24 @@ public class BossController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void IsHealthZero()
     {
-        switch (currentState)
+        if(health <= 0.0f)
         {
-            case ActionState.Move:
-                rigid.velocity = directionToTarget * moveSpeed;
-                // 애니메이션 적용 
-                break;
+            // 죽음 애니메이션
+            animator.SetInteger("State", (int)ActionState.Die);
+            // 움직일 수 없게 하기 
+            isDead = true;
+            // n초 후에 보스 게임오브젝트 삭제 
+            StartCoroutine(HandleDeath());
+            StopCoroutine(HandleDeath());
         }
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Destroy(this.gameObject);
     }
 
     private void ChangeState(ActionState state)
