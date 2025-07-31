@@ -147,7 +147,7 @@ public class MonsterFSM : MonoBehaviour
         isAttacking = true;
 
         ChangeState(MonsterState.Attack);
-        FireProjectile();
+        //FireProjectile();
         yield return new WaitForSeconds(stats.attackDelay); // 공격 애니메이션 길이만큼 유지
         
         ChangeState(MonsterState.Idle);
