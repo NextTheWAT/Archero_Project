@@ -150,7 +150,11 @@ public class MonsterFSM : MonoBehaviour
     void UpdateDie()
     {
         Debug.Log("몬스터 사망");
-        Destroy(gameObject, 5f); //5초 뒤 제거
+
+        // 태그 제거
+        gameObject.tag = "Untagged";
+
+        Destroy(gameObject, 3f);
     }
     private IEnumerator AttackRoutine()
     {
