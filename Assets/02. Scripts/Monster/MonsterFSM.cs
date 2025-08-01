@@ -240,12 +240,16 @@ public class MonsterFSM : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            // 총알이 부딪힌 지점 = 충돌 지점
-            Vector3 hitPosition = other.ClosestPoint(transform.position);
+            // 피격 위치 = 총알의 현재 위치
+            Vector3 hitPosition = other.transform.position;
 
-            // 파티클 생성
-            particleControl.SpawnHitParticle(hitPosition);
+            // 회전 = 총알 방향 + X축으로 180도 회전
+            Quaternion hitRotation = Quaternion.LookRotation(other.transform.forward) * Quaternion.Euler(180f, 0f, 0f);
+
+            particleControl.SpawnHitParticle(hitPosition, hitRotation);
         }
     }
+
+
 
 }
