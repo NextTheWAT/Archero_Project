@@ -1965,6 +1965,7 @@ GameObject:
   - component: {fileID: 2178335740364829692}
   - component: {fileID: 3188420868053620298}
   - component: {fileID: 6550249941869898953}
+  - component: {fileID: -1882244768545091557}
   m_Layer: 0
   m_Name: Archer_Monster
   m_TagString: Enemy
@@ -2128,6 +2129,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitParticlePrefab: {fileID: 5296357359800489506, guid: e9d86fee1f58f3f45837ddce8bee126e, type: 3}
+--- !u!114 &-1882244768545091557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110564911655084288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4db4541da720d14eae37f23582843db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5149394608828482642
 GameObject:
   m_ObjectHideFlags: 0
