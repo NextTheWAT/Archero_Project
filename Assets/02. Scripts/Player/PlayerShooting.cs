@@ -84,7 +84,6 @@ public class PlayerShooting : MonoBehaviour
             Shoot(nearestEnemy);
 
             fireTimer = 0f;
-            SoundManager.Instance.PlayerShooting_SFX();
         }
     }
 
@@ -107,7 +106,6 @@ public class PlayerShooting : MonoBehaviour
         {
             Shoot(nearestEnemy);
             fireTimer = 0f;
-            SoundManager.Instance.PlayerShooting_SFX();
         }
 
         isFirstShotAfterStop = false;

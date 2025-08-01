@@ -59,6 +59,8 @@ public class BossController : MonoBehaviour
 
     public bool isHit;
 
+    public Renderer[] renderers; // 여러 렌더러 지원
+
     private void Awake()
     {
         // 플레이어 오브젝트 찾기 (태그로)
@@ -89,6 +91,11 @@ public class BossController : MonoBehaviour
         currentHp = maxHp; // 현재 체력 초기화
     }
 
+    private void Start()
+    {
+        // 자식까지 포함한 모든 Renderer(메시/스키닝) 가져오기
+        renderers = GetComponentsInChildren<Renderer>();
+    }
 
     private void Update()
     {
@@ -171,20 +178,54 @@ public class BossController : MonoBehaviour
     private void HandleHit()
     {
         // 피격 애니메이션 실행 
-        animator.SetInteger("State", (int)ActionState.Hit);
+        //animator.SetInteger("State", (int)ActionState.Hit);
+
         // 보스 잠깐 멈추고 (1초간)
-        StartCoroutine(HitCoroutine());
+        //StartCoroutine(HitCoroutine());
         //StopCoroutine(HitCoroutine());
+        SoundManager.Instance.Boss_SFX(1);
+        StartCoroutine(FlashRed()); // 추가
     }
 
-    private IEnumerator HitCoroutine()
+    //private IEnumerator HitCoroutine()
+    //{
+    //    rigid.velocity = Vector3.zero;
+
+    //    yield return new WaitForSeconds(0.5f);
+
+    //    isHit = false; // isHit = false로 해서 다시 맞을 수 있게 하기 
+    //    ChangeState(ActionState.Idle); // 보스 상태를 Idle로 바꿔서 Move로 이어질 수 있게 하기 
+    //}
+
+    private IEnumerator FlashRed()
     {
-        rigid.velocity = Vector3.zero;
+        if (renderers == null || renderers.Length == 0)
+            yield break;
+
+        // 원래 색상 저장
+        Color[] originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                originalColors[i] = renderers[i].material.color;
+        }
+
+        // 붉은색으로 변경
+        foreach (var r in renderers)
+        {
+            if (r.material.HasProperty("_Color"))
+                r.material.color = Color.red;
+        }
 
         yield return new WaitForSeconds(0.5f);
+        isHit = false;
 
-        isHit = false; // isHit = false로 해서 다시 맞을 수 있게 하기 
-        ChangeState(ActionState.Idle); // 보스 상태를 Idle로 바꿔서 Move로 이어질 수 있게 하기 
+        // 원래 색상 복구
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                renderers[i].material.color = originalColors[i];
+        }
     }
 
     private void HandleAttack()
@@ -222,7 +263,7 @@ public class BossController : MonoBehaviour
                 }
 
                 // 따라갈 수 있는 거리 안에 있으면 
-                if(distanceToPlayer <= followDistance)
+                if (distanceToPlayer <= followDistance)
                 {
                     // Idle상태로 전환
                     ChangeState(ActionState.Idle);
@@ -234,7 +275,7 @@ public class BossController : MonoBehaviour
 
     private void IsHealthZero()
     {
-        if(currentHp <= 0.0f)
+        if (currentHp <= 0.0f)
         {
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
@@ -287,7 +328,7 @@ public class BossController : MonoBehaviour
     {
         //followDistance 거리 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position,followDistance);
+        Gizmos.DrawWireSphere(transform.position, followDistance);
 
         //attackRange 거리
         Gizmos.color = Color.red;

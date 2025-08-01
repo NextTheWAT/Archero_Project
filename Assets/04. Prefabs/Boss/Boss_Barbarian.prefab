@@ -1155,6 +1155,7 @@ MonoBehaviour:
   cubeCount: 4
   isSpinning: 0
   isHit: 0
+  renderers: []
 --- !u!114 &5055620041861277359
 MonoBehaviour:
   m_ObjectHideFlags: 0
