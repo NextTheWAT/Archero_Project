@@ -1135,6 +1135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  playerStat: {fileID: 0}
   moveSpeed: 3
   currentHp: 0
   maxHp: 100
@@ -1155,6 +1156,7 @@ MonoBehaviour:
   cubeCount: 4
   isSpinning: 0
   isHit: 0
+  renderers: []
 --- !u!114 &5055620041861277359
 MonoBehaviour:
   m_ObjectHideFlags: 0
