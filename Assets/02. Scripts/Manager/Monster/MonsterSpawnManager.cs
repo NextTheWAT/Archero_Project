@@ -1,23 +1,25 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
+using static MonsterFSM;
 
 public class MonsterSpawnManager : MonoBehaviour
 {
-    [Header("½ºÆù À§Ä¡µé (ºó ¿ÀºêÁ§Æ®µé)")]
+    [Header("ìŠ¤í° ìœ„ì¹˜ë“¤ (ë¹ˆ ì˜¤ë¸Œì íŠ¸ë“¤)")]
     public Transform[] spawnPoints;
 
-    [Header("¸ó½ºÅÍ ÇÁ¸®ÆÕµé")]
+    [Header("ëª¬ìŠ¤í„° í”„ë¦¬íŒ¹ë“¤")]
     public GameObject[] monsterPrefabs;
 
-    [Header("¼ÒÈ¯ÇÒ ¸ó½ºÅÍ ¼ö")]
+    [Header("ì†Œí™˜í•  ëª¬ìŠ¤í„° ìˆ˜")]
     public int numberOfMonsters = 5;
 
-    // ¼ÒÈ¯µÈ ¸ó½ºÅÍ ÃßÀû ¸®½ºÆ®
+    // ì†Œí™˜ëœ ëª¬ìŠ¤í„° ì¶”ì  ë¦¬ìŠ¤íŠ¸
     private List<GameObject> spawnedMonsters = new List<GameObject>();
 
     private void OnEnable()
     {
         SpawnMonsters();
+        SkillUIManager.Instance.ShowSkillUI();
     }
 
     private void OnDisable()
@@ -25,13 +27,14 @@ public class MonsterSpawnManager : MonoBehaviour
         ClearMonsters();
     }
 
+
     public void SpawnMonsters()
     {
-        ClearMonsters(); // ±âÁ¸ ¸ó½ºÅÍ Á¦°Å ÈÄ »õ·Î ¼ÒÈ¯
+        ClearMonsters(); // ê¸°ì¡´ ëª¬ìŠ¤í„° ì œê±° í›„ ìƒˆë¡œ ì†Œí™˜
 
         if (spawnPoints.Length == 0 || monsterPrefabs == null || monsterPrefabs.Length == 0)
         {
-            Debug.LogWarning("½ºÆù À§Ä¡ ¶Ç´Â ¸ó½ºÅÍ ÇÁ¸®ÆÕ ¹è¿­ÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogWarning("ìŠ¤í° ìœ„ì¹˜ ë˜ëŠ” ëª¬ìŠ¤í„° í”„ë¦¬íŒ¹ ë°°ì—´ì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
 
