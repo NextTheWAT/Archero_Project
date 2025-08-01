@@ -10,6 +10,7 @@ public class PlayerSpawnManager : Singleton<PlayerSpawnManager>
     public Transform stage4SpawnPoint;
     public Transform bossSpawnPoint;
     public Transform tutorialSpawnPoint;
+    public Transform EndSpawnPoint;
 
     private GameObject player;
 
@@ -50,6 +51,9 @@ public class PlayerSpawnManager : Singleton<PlayerSpawnManager>
                 break;
             case StageType.Tutorial:
                 targetSpawn = tutorialSpawnPoint;
+                break;
+            case StageType.End:
+                targetSpawn = EndSpawnPoint;
                 break;
         }
 

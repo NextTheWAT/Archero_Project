@@ -11,7 +11,8 @@ public enum StageType
     Stage3,
     Stage4,
     Boss,
-    Tutorial
+    Tutorial,
+    End
 }
 
 public class GameManager : Singleton<GameManager>
@@ -123,6 +124,9 @@ public class GameManager : Singleton<GameManager>
             case StageType.Tutorial:
                 OnTutorialStageStart();
                 break;
+            case StageType.End:
+                OnEndStage();
+                break;
         }
 
 
@@ -183,5 +187,9 @@ public class GameManager : Singleton<GameManager>
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
         UIManager.Instance.UpdateUI(currentState);
         CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
+    }
+    private void OnEndStage()
+    {
+        Debug.Log("¿£µù");
     }
 }
