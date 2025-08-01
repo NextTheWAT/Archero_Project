@@ -6916,7 +6916,6 @@ GameObject:
   - component: {fileID: 2623253701478295245}
   - component: {fileID: 3505472278919249988}
   - component: {fileID: 2004715767253598759}
-  - component: {fileID: 3948695940615506578}
   m_Layer: 0
   m_Name: Title_Button_Canvas
   m_TagString: Untagged
@@ -7020,19 +7019,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetStage: 0
---- !u!114 &3948695940615506578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995759933389010037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1dc1f7eee5795c44b7dd8fd9bb74021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameState: 0
 --- !u!1 &2002650689747391741
 GameObject:
   m_ObjectHideFlags: 0
@@ -8844,6 +8830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05f9cbc4bcf4574785bd0578f66f4b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialClear: 0
   stage1Clear: 0
   stage2Clear: 0
   stage3Clear: 0
@@ -26917,9 +26904,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3948695940615506578}
-        m_TargetAssemblyTypeName: StateChangeButton, Assembly-CSharp
-        m_MethodName: StateChangeButtonPunc
+      - m_Target: {fileID: 2004715767253598759}
+        m_TargetAssemblyTypeName: StageChangeButton, Assembly-CSharp
+        m_MethodName: GoToMainStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

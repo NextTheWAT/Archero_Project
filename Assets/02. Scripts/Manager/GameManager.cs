@@ -39,6 +39,9 @@ public class GameManager : Singleton<GameManager>
 
         switch (CurrentStage)
         {
+            case StageType.Tutorial:
+                StageManager.Instance.tutorialClear = true;
+                break;
             case StageType.Stage1:
                 StageManager.Instance.stage1Clear = true;
                 break;

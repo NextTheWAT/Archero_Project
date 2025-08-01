@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -6,33 +6,33 @@ using static UIManager;
 
 public class StageChangeButton : MonoBehaviour
 {
-    [SerializeField] private StageType targetStage; // ÀÌ Æ®¸®°Å°¡ ÀÌµ¿ÇÒ ½ºÅ×ÀÌÁö ¼³Á¤
+    [SerializeField] private StageType targetStage; // ì´ íŠ¸ë¦¬ê±°ê°€ ì´ë™í•  ìŠ¤í…Œì´ì§€ ì„¤ì •
 
     public void StageChangeButtonPunc()
     {
-        Debug.Log(targetStage + " È­¸éÀ¸·Î ÀÌµ¿ ½Ãµµ!");
+        Debug.Log(targetStage + " í™”ë©´ìœ¼ë¡œ ì´ë™ ì‹œë„!");
 
-        // ¸ÕÀú targetStage°¡ Å¬¸®¾îµÆ´ÂÁö È®ÀÎ
+        // ë¨¼ì € targetStageê°€ í´ë¦¬ì–´ëëŠ”ì§€ í™•ì¸
         if (IsStageCleared(targetStage))
         {
-            Debug.Log($"{targetStage}´Â ÀÌ¹Ì Å¬¸®¾îµÊ. ¹ÌÅ¬¸®¾î ½ºÅ×ÀÌÁö·Î ´ëÃ¼ÇÔ.");
+            Debug.Log($"{targetStage}ëŠ” ì´ë¯¸ í´ë¦¬ì–´ë¨. ë¯¸í´ë¦¬ì–´ ìŠ¤í…Œì´ì§€ë¡œ ëŒ€ì²´í•¨.");
 
-            // Stage1 ~ Boss±îÁö ¼øÈ¸ÇÏ¸é¼­ ¾ÆÁ÷ Å¬¸®¾îµÇÁö ¾ÊÀº ½ºÅ×ÀÌÁö Ã£±â
+            // Stage1 ~ Bossê¹Œì§€ ìˆœíšŒí•˜ë©´ì„œ ì•„ì§ í´ë¦¬ì–´ë˜ì§€ ì•Šì€ ìŠ¤í…Œì´ì§€ ì°¾ê¸°
             foreach (StageType stage in System.Enum.GetValues(typeof(StageType)))
             {
                 if (stage == StageType.MainStage)
-                    continue; // Á¦¿Ü
+                    continue; // ì œì™¸
 
                 if (!IsStageCleared(stage))
                 {
                     targetStage = stage;
-                    Debug.Log($"ÀÌµ¿ÇÒ ¹ÌÅ¬¸®¾î ½ºÅ×ÀÌÁö ¹ß°ß ¡æ {targetStage}");
+                    Debug.Log($"ì´ë™í•  ë¯¸í´ë¦¬ì–´ ìŠ¤í…Œì´ì§€ ë°œê²¬ â†’ {targetStage}");
                     break;
                 }
             }
         }
 
-        // ÇÃ·¹ÀÌ¾î »óÅÂ ÃÊ±âÈ­
+        // í”Œë ˆì´ì–´ ìƒíƒœ ì´ˆê¸°í™”
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -44,17 +44,35 @@ public class StageChangeButton : MonoBehaviour
         GameManager.Instance.SetStage(targetStage);
         SoundManager.Instance.UI_Select_SFX(0);
     }
+    public void GoToMainStage()
+    {
+        Debug.Log("ë©”ì¸ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™!");
+
+        // í”Œë ˆì´ì–´ ìƒíƒœ ì´ˆê¸°í™”
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            PlayerStat stat = playerObj.GetComponent<PlayerStat>();
+            if (stat != null)
+                stat.ResetStat();
+        }
+
+        // ë©”ì¸ ìŠ¤í…Œì´ì§€ë¡œ ì´ë™
+        GameManager.Instance.SetStage(StageType.MainStage);
+        SoundManager.Instance.UI_Select_SFX(0);
+    }
 
     private bool IsStageCleared(StageType stage)
     {
         return stage switch
         {
+            StageType.Tutorial => StageManager.Instance.tutorialClear,
             StageType.Stage1 => StageManager.Instance.stage1Clear,
             StageType.Stage2 => StageManager.Instance.stage2Clear,
             StageType.Stage3 => StageManager.Instance.stage3Clear,
             StageType.Stage4 => StageManager.Instance.stage4Clear,
             StageType.Boss => StageManager.Instance.bossStageClear,
-            _ => true // MainStage, Tutorial µîÀº Å¬¸®¾î °³³ä ¾øÀ½
+            _ => true // MainStage, Tutorial ë“±ì€ í´ë¦¬ì–´ ê°œë… ì—†ìŒ
         };
     }
 }
