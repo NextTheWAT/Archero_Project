@@ -191,5 +191,6 @@ public class GameManager : Singleton<GameManager>
     private void OnEndStage()
     {
         Debug.Log("¿£µù");
+        SoundManager.Instance.StopStageBGM();
     }
 }

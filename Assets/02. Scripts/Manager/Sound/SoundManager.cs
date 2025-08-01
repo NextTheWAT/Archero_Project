@@ -75,6 +75,12 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
+    public void StopStageBGM()
+    {
+        BackGroundBGM.Stop();
+    }
+
+
     private AudioClip GetClipForStage(StageType stage)
     {
         switch (stage)
