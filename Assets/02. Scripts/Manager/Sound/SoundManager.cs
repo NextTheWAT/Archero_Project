@@ -8,9 +8,6 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField][Range(0f, 1f)] private float musicVolume = 1f;
     [SerializeField][Range(0f, 1f)] private float SFX_Volum = 1f;
 
-
-
-
     [Header("BGM Clips")]
     [SerializeField] private AudioClip mainbackGroundMusic;
     [SerializeField] private AudioClip stage1Music;
@@ -27,10 +24,11 @@ public class SoundManager : Singleton<SoundManager>
 
 
     [Header("Player")]
-    [Header("Player_Step")]
     [SerializeField] private AudioSource Player_Step;
-    [Header("Player_Attack")]
     [SerializeField] private AudioSource Player_Shoot;
+    [SerializeField] private AudioSource Player_Hit;
+
+    [Space(20f)]
 
 
     public SoundSource soundSourcePrefab;
@@ -41,12 +39,12 @@ public class SoundManager : Singleton<SoundManager>
     {
         lastStage = GameManager.Instance.CurrentStage;
         PlayStageBGM(lastStage);
-        BackGroundBGM_Set();
-        UI_SFX_Set();
     }
 
     private void Update()
     {
+        BackGroundBGM_Set();
+        SFX_Set();
         //자동 스테이지 감지 -> 음악변경
         StageType current = GameManager.Instance.CurrentStage;
         if (current != lastStage)
@@ -94,19 +92,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         UISelecetedSFX.Play();
     }
-
-    private void UI_SFX_Set()
-    {
-        UISelecetedSFX.volume = SFX_Volum;
-        UISelecetedSFX.playOnAwake = false;
-    }
-
-    private void BackGroundBGM_Set()
-    {
-        BackGroundBGM.loop = true;
-        BackGroundBGM.volume = musicVolume;
-    }
-
     public void PlayerStep_SFX()
     {
         Player_Step.Play();
@@ -116,4 +101,25 @@ public class SoundManager : Singleton<SoundManager>
     {
         Player_Shoot.Play();
     }
+
+    public void Player_TakeDamage()
+    {
+        Player_Hit.Play();
+    }
+
+    private void SFX_Set()
+    {
+        UISelecetedSFX.volume = SFX_Volum;
+        Player_Shoot.volume = SFX_Volum;
+        Player_Step.volume = SFX_Volum;
+        Player_Hit.volume = SFX_Volum;
+    }
+
+    private void BackGroundBGM_Set()
+    {
+        BackGroundBGM.loop = true;
+        BackGroundBGM.volume = musicVolume;
+    }
+
+    
 }
