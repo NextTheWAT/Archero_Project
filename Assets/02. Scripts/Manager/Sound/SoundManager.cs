@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : Singleton<SoundManager>
@@ -19,14 +20,18 @@ public class SoundManager : Singleton<SoundManager>
     [Header("BackGround_AudioSource")]
     [SerializeField] private AudioSource BackGroundBGM;
 
-    [Header("UISelected_AudioSource")]
-    [SerializeField] private AudioSource UISelecetedSFX;
+    [Header("UI_AudioSource\n0 : 버튼 선택 사운드 | 1 : 레벨업 사운드 | 2 : 게임 결과")]
+    [SerializeField] private List<AudioSource> UISelecetedSFX;
 
+    [Header("Player_AudioSource\n0 : 스텝 | 1 : 슛 | 2 : 히트")]
+    [SerializeField] private List<AudioSource> Player_Sfx; // 0 : 스텝 1 : 슛 2 : 히트
 
-    [Header("Player")]
-    [SerializeField] private AudioSource Player_Step;
-    [SerializeField] private AudioSource Player_Shoot;
-    [SerializeField] private AudioSource Player_Hit;
+    [Header("Moster_AudioSource\n0 : 공격 | 1 : 히트 | 2 : 다이")]
+    [SerializeField] private List<AudioSource> Monster_Sfx; 
+
+    [Header("Boss_AudioSource0 : 공격 | 1 : 히트 | 2 : 다이")]
+    [SerializeField] private List<AudioSource> Boss_Sfx;
+
 
     [Space(20f)]
 
@@ -44,7 +49,7 @@ public class SoundManager : Singleton<SoundManager>
     private void Update()
     {
         BackGroundBGM_Set();
-        SFX_Set();
+        SFX_Set(SFX_Volum);
         //자동 스테이지 감지 -> 음악변경
         StageType current = GameManager.Instance.CurrentStage;
         if (current != lastStage)
@@ -88,31 +93,39 @@ public class SoundManager : Singleton<SoundManager>
         soundSource.Play(clip, Instance.soundEffectVolume, Instance.soundEffectPitchVariance);
     }
 
-    public void PlayerUISFX()
+    public void UI_Select_SFX()
     {
-        UISelecetedSFX.Play();
+        UISelecetedSFX[0].Play();
     }
     public void PlayerStep_SFX()
     {
-        Player_Step.Play();
+        Player_Sfx[0].Play();
     }
 
     public void PlayerShooting_SFX()
     {
-        Player_Shoot.Play();
+        Player_Sfx[1].Play();
     }
 
     public void Player_TakeDamage()
     {
-        Player_Hit.Play();
+        Player_Sfx[2].Play();
     }
 
-    private void SFX_Set()
+    private void SFX_Set(float volume)
     {
-        UISelecetedSFX.volume = SFX_Volum;
-        Player_Shoot.volume = SFX_Volum;
-        Player_Step.volume = SFX_Volum;
-        Player_Hit.volume = SFX_Volum;
+        void SetVolumForList(List<AudioSource> sfxList)
+        {
+            foreach (AudioSource sfx in sfxList)
+            {
+                sfx.volume = volume;
+            }
+        }
+
+        SetVolumForList(UISelecetedSFX);
+        SetVolumForList(Player_Sfx);
+        SetVolumForList(Monster_Sfx);
+        SetVolumForList(Boss_Sfx);
     }
 
     private void BackGroundBGM_Set()
