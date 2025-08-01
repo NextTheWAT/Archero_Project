@@ -117,6 +117,8 @@ public class PlayerShooting : MonoBehaviour
     {
         if (targetEnemy == null) return;
 
+        SoundManager.Instance.Player_SFX(1);
+
         Vector3 dirToEnemy = (targetEnemy.transform.position - transform.position).normalized;
         dirToEnemy.y = 0f;
 
