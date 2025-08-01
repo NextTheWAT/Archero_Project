@@ -183,7 +183,7 @@ public class BossController : MonoBehaviour
         // 보스 잠깐 멈추고 (1초간)
         //StartCoroutine(HitCoroutine());
         //StopCoroutine(HitCoroutine());
-
+        SoundManager.Instance.Boss_SFX(1);
         StartCoroutine(FlashRed()); // 추가
     }
 
@@ -218,6 +218,7 @@ public class BossController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+        isHit = false;
 
         // 원래 색상 복구
         for (int i = 0; i < renderers.Length; i++)
@@ -262,7 +263,7 @@ public class BossController : MonoBehaviour
                 }
 
                 // 따라갈 수 있는 거리 안에 있으면 
-                if(distanceToPlayer <= followDistance)
+                if (distanceToPlayer <= followDistance)
                 {
                     // Idle상태로 전환
                     ChangeState(ActionState.Idle);
@@ -274,7 +275,7 @@ public class BossController : MonoBehaviour
 
     private void IsHealthZero()
     {
-        if(currentHp <= 0.0f)
+        if (currentHp <= 0.0f)
         {
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
@@ -327,7 +328,7 @@ public class BossController : MonoBehaviour
     {
         //followDistance 거리 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position,followDistance);
+        Gizmos.DrawWireSphere(transform.position, followDistance);
 
         //attackRange 거리
         Gizmos.color = Color.red;
