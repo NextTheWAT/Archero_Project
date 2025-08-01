@@ -9807,7 +9807,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8605730103091523563}
         m_TargetAssemblyTypeName: StageChangeButton, Assembly-CSharp
-        m_MethodName: StageChangeButtonPunc
+        m_MethodName: GoToMainStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
