@@ -115,25 +115,41 @@ public class PlayerShooting : MonoBehaviour
 
     private void Shoot(GameObject targetEnemy)
     {
-        if (targetEnemy == null) return;
+        if (playerStat == null) return;
 
         SoundManager.Instance.Player_SFX(1);
 
-        Vector3 dirToEnemy = (targetEnemy.transform.position - transform.position).normalized;
-        dirToEnemy.y = 0f;
+        int count = Mathf.Max(1, playerStat.projectileCount);
 
-        Quaternion bulletRot = Quaternion.LookRotation(dirToEnemy, Vector3.up);
+        // 적을 향한 방향의 y값을 0으로 만들어 수평 방향만 사용
+        Vector3 toEnemy = (targetEnemy.transform.position - (firePoint != null ? firePoint.position : transform.position));
+        toEnemy.y = 0f;
+        Vector3 forward = toEnemy.normalized;
+        Quaternion bulletRot = Quaternion.LookRotation(forward, Vector3.up);
 
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            firePoint != null ? firePoint.position : transform.position,
-            bulletRot
-        );
+        // firePoint의 오른쪽 방향 벡터 (수평면에서만)
+        Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
+        float spacing = 0.5f; // 화살 간 간격(필요시 조정)
 
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-        if (bulletScript != null && playerStat != null)
+        float startOffset = -(count - 1) * spacing * 0.5f;
+
+        for (int i = 0; i < count; i++)
         {
-            bulletScript.damage = playerStat.attackPower;
+            // 가로로만 오프셋, 진행 방향은 모두 동일(수평)
+            Vector3 offset = right * (startOffset + i * spacing);
+            Vector3 spawnPos = (firePoint != null ? firePoint.position : transform.position) + offset;
+
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                spawnPos,
+                bulletRot
+            );
+
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            if (bulletScript != null)
+            {
+                bulletScript.damage = playerStat.attackPower;
+            }
         }
     }
 }
