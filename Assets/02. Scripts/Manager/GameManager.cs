@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
         SetStage(CurrentStage); // 시작 스테이지 설정
     }
 
-    public void SetStage(StageType newStage)
+    public void SetStage(StageType newStage, bool markClear = true)
     {
         if (newStage == CurrentStage) return;
 
@@ -173,5 +173,15 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("[GameManager] 보스 스테이지 활성화");
         bossStage.SetActive(true);
+    }
+
+    public void ForceGoToMainStage()
+    {
+        CurrentStage = StageType.MainStage; // 클리어 처리 전에 강제로 바꿔버림
+        ApplyStage(StageType.MainStage);
+        currentState = GameState.Main;
+        PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
+        UIManager.Instance.UpdateUI(currentState);
+        CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
     }
 }

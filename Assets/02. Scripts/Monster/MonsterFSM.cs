@@ -75,7 +75,6 @@ public class MonsterFSM : MonoBehaviour
                 break;
         }
     }
-
     private void CheckDistance()
     {
         //플레이어가 없으면 행동 안함

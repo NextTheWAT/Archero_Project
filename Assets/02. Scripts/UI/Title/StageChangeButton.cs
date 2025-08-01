@@ -48,7 +48,6 @@ public class StageChangeButton : MonoBehaviour
     {
         Debug.Log("메인 스테이지로 이동!");
 
-        // 플레이어 상태 초기화
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -57,10 +56,12 @@ public class StageChangeButton : MonoBehaviour
                 stat.ResetStat();
         }
 
-        // 메인 스테이지로 이동
-        GameManager.Instance.SetStage(StageType.MainStage);
+        // SetStage 내부에서 클리어 처리 안 되도록 직접 조정
+        GameManager.Instance.ForceGoToMainStage();
         SoundManager.Instance.UI_Select_SFX(0);
     }
+
+
 
     private bool IsStageCleared(StageType stage)
     {
