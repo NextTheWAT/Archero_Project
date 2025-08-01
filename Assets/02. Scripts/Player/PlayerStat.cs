@@ -14,9 +14,13 @@ public class PlayerStat : MonoBehaviour
     public float attackRange = 20f; //플레이어 사거리 기본20
 
     private bool isDead = false;
+    private Renderer[] renderers; // 여러 렌더러 지원
 
     private void Start()
     {
+        // 자식까지 포함한 모든 Renderer(메시/스키닝) 가져오기
+        renderers = GetComponentsInChildren<Renderer>();
+
         if (SkillUIManager.Instance != null)
         {
             //SkillUIManager.Instance.ShowSkillUI();
@@ -42,9 +46,41 @@ public class PlayerStat : MonoBehaviour
         if (currentHp < 0) currentHp = 0;
         Debug.Log($"피해를 입음! 현재 체력: {currentHp}");
 
+        StartCoroutine(FlashRed()); // 추가
+
         if (currentHp <= 0)
         {
             Die();
+        }
+    }
+
+    private System.Collections.IEnumerator FlashRed()
+    {
+        if (renderers == null || renderers.Length == 0)
+            yield break;
+
+        // 원래 색상 저장
+        Color[] originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                originalColors[i] = renderers[i].material.color;
+        }
+
+        // 붉은색으로 변경
+        foreach (var r in renderers)
+        {
+            if (r.material.HasProperty("_Color"))
+                r.material.color = Color.red;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        // 원래 색상 복구
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                renderers[i].material.color = originalColors[i];
         }
     }
 
@@ -68,13 +104,17 @@ public class PlayerStat : MonoBehaviour
         UIManager.Instance.UpdateUI(UIManager.GameState.GameOver);
     }
 
-    // 디버그: currentHp에서 999만큼 데미지를 주는 메서드
+    
     public void DebugDamage999()
     {
         Damage(999);
         Debug.Log("디버그: currentHp에 999 데미지 적용");
     }
-
+    public void DebugDamage1()
+    {
+        Damage(1);
+        Debug.Log("디버그: currentHp에 1 데미지 적용");
+    }
     public bool IsDead => isDead;
 
     //플레이어 상태 초기화 메서드
