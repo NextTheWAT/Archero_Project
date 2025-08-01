@@ -63,6 +63,8 @@ public class BossController : MonoBehaviour
 
     private Color[] originalColors; // 원래 색상 저장
 
+    public bool hasPlayedDeathSound;
+
     private void Awake()
     {
         // 플레이어 오브젝트 찾기 (태그로)
@@ -120,7 +122,6 @@ public class BossController : MonoBehaviour
             // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
             if (isHit)
             {
-                Debug.Log("Update : HandleHit실행전");
                 HandleHit();
             }
             else if (distanceToPlayer <= followDistance) // 따라가는게 우선순위 
@@ -278,12 +279,12 @@ public class BossController : MonoBehaviour
     {
         if (currentHp <= 0.0f)
         {
-            SoundManager.Instance.Boss_SFX(2);
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
             // 움직일 수 없게 하기 
             ChangeState(ActionState.Die);
             isDead = true;
+            // 죽는 소리 재생 하고 3초후에 오브젝트 삭제. 
             // n초 후에 보스 게임오브젝트 삭제 
             StartCoroutine(HandleDeath());
             StopCoroutine(HandleDeath());
@@ -292,7 +293,10 @@ public class BossController : MonoBehaviour
 
     private IEnumerator HandleDeath()
     {
-        yield return new WaitForSeconds(5.0f);
+        if(!hasPlayedDeathSound)
+            SoundManager.Instance.Boss_SFX(2);
+        hasPlayedDeathSound = true;
+        yield return new WaitForSeconds(3.0f);
         Destroy(this.gameObject);
     }
 
