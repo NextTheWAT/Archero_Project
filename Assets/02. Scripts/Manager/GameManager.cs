@@ -37,6 +37,25 @@ public class GameManager : Singleton<GameManager>
     {
         if (newStage == CurrentStage) return;
 
+        switch (CurrentStage)
+        {
+            case StageType.Stage1:
+                StageManager.Instance.stage1Clear = true;
+                break;
+            case StageType.Stage2:
+                StageManager.Instance.stage2Clear = true;
+                break;
+            case StageType.Stage3:
+                StageManager.Instance.stage3Clear = true;
+                break;
+            case StageType.Stage4:
+                StageManager.Instance.stage4Clear = true;
+                break;
+            case StageType.Boss:
+                StageManager.Instance.bossStageClear = true;
+                break;
+        }
+
         CurrentStage = newStage;
         ApplyStage(newStage);
 
@@ -63,6 +82,9 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.UpdateUI(currentState);
         // 카메라 X 고정값 갱신 요청
         CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
+
+        //스테이지 클리어 오브젝트 체크 후 활성화
+        StageManager.Instance.ActivateClearedStages();
     }
     private void ApplyStage(StageType stage)
     {
