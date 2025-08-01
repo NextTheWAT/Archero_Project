@@ -26,8 +26,15 @@ public class Axe : MonoBehaviour
 
     private void Start()
     {
-        playerManager = PlayerManager.Instance;
-        playerStat = playerManager.playerStat;
+        //playerManager = PlayerManager.Instance;
+        //playerStat = playerManager.playerStat;
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            //player = playerObj.transform;
+            playerStat = playerObj.GetComponent<PlayerStat>();
+        }
 
         bossManager = BossManager.Instance;
 
