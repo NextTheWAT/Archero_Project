@@ -394,7 +394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 2196004506624635508, guid: 6c1cc14037474a94cbd10dac41ea850b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -765,3 +765,4 @@ MonoBehaviour:
   isAttacking: 0
   cubePrefab: {fileID: 704879395946168992, guid: 6e7fc3ea0fea4774e81587ebc7db4e25, type: 3}
   cubeCount: 0
+  isSpinning: 0
