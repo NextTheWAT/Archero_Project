@@ -19,13 +19,14 @@ public enum ActionState
 public class BossController : MonoBehaviour
 {
     // 플레이어 정보 
-    public Transform player; // 플레이어 위치 
+    public GameObject player; // 플레이어 위치 
+    public PlayerStat playerStat; // 플레이어 능력치 (공격력, 체력 등)
 
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
 
     public float currentHp; // 현재 체력 (내가 정하는 값)
-    public float maxHp = 100; // 최대 체력 (내가 정하는 값)
+    public float maxHp = 300; // 최대 체력 (내가 정하는 값)
 
     public bool isDead;
 
@@ -60,18 +61,34 @@ public class BossController : MonoBehaviour
 
     private void Awake()
     {
-        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
+        // 플레이어 오브젝트 찾기 (태그로)
         if (player == null)
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Player");
             if (obj != null)
-                player = obj.GetComponent<Transform>();
+            {
+                player = obj;
+
+                // PlayerStat 컴포넌트 가져오기
+                playerStat = player.GetComponent<PlayerStat>();
+                if (playerStat == null)
+                {
+                    Debug.LogError("PlayerStat 컴포넌트를 찾을 수 없습니다!");
+                }
+            }
+            else
+            {
+                Debug.LogError("태그가 'Player'인 오브젝트를 찾을 수 없습니다!");
+            }
         }
+
+        // 나머지 컴포넌트 초기화
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
         currentHp = maxHp; // 현재 체력 초기화
     }
+
 
     private void Update()
     {
@@ -80,8 +97,8 @@ public class BossController : MonoBehaviour
         if (!isDead)
         {
             // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
-            distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
-            directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
+            distanceToPlayer = Vector3.Distance(transform.position, player.transform.position); // 보스와 플레이어 사이 거리
+            directionToTarget = (player.transform.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
 
             // (이동처리, 공격처리)
             // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
@@ -157,7 +174,7 @@ public class BossController : MonoBehaviour
         animator.SetInteger("State", (int)ActionState.Hit);
         // 보스 잠깐 멈추고 (1초간)
         StartCoroutine(HitCoroutine());
-        StopCoroutine(HitCoroutine());
+        //StopCoroutine(HitCoroutine());
     }
 
     private IEnumerator HitCoroutine()
@@ -244,11 +261,6 @@ public class BossController : MonoBehaviour
         this.currentState = state;
     }
 
-    private void CreateCube()
-    {
-        GameObject cubeObj = Instantiate(cubePrefab, transform);
-    }
-
     private void StartDamage()
     {
         isNormalAttack = false;
@@ -261,6 +273,14 @@ public class BossController : MonoBehaviour
         isNormalAttack = true;
         isSpecialAttack = true;
         isAttacking = false;
+    }
+    public void TakeDamage()
+    {
+        if (playerStat != null)
+        {
+            playerStat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStat>();
+            currentHp -= playerStat.attackPower;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -284,7 +304,9 @@ public class BossController : MonoBehaviour
 
         if (other.CompareTag("Bullet"))
         {
-            Debug.Log("불렛에 맞음");
+            Debug.Log("불렛에 맞음 데미지!" + playerStat.attackPower);
+
+            TakeDamage();
             ChangeState(ActionState.Hit);
             isHit = true;
         }

@@ -1715,7 +1715,7 @@ GameObject:
   - component: {fileID: 6694276763515195817}
   - component: {fileID: 2884472989154065237}
   m_Layer: 0
-  m_Name: UI_SFX
+  m_Name: UI_Button_Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1734,7 +1734,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1074249868005594562}
+  m_Father: {fileID: 6881125413151244481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &2884472989154065237
 AudioSource:
@@ -3848,6 +3848,38 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4192601462603858775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6881125413151244481}
+  m_Layer: 0
+  m_Name: UI_SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6881125413151244481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4192601462603858775}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6694276763515195817}
+  m_Father: {fileID: 1074249868005594562}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4346070674646731889
 GameObject:
   m_ObjectHideFlags: 0
@@ -4100,7 +4132,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4575932266720091595}
-  - {fileID: 6694276763515195817}
+  - {fileID: 6881125413151244481}
   m_Father: {fileID: 7941681927031131957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3211699007095068167
@@ -4127,6 +4159,17 @@ MonoBehaviour:
   bossMusic: {fileID: 0}
   BackGroundBGM: {fileID: 0}
   UISelecetedSFX: {fileID: 0}
+  GameResult: {fileID: 0}
+  LevelUp: {fileID: 0}
+  Player_Step: {fileID: 0}
+  Player_Shoot: {fileID: 0}
+  Player_Hit: {fileID: 0}
+  Monster_Attack: {fileID: 0}
+  Monster_Hit: {fileID: 0}
+  Monster_Die: {fileID: 0}
+  Boss_Attack: {fileID: 0}
+  Boss_Hit: {fileID: 0}
+  Boss_Die: {fileID: 0}
   soundSourcePrefab: {fileID: -6185500422785631534, guid: 3da274bdbe428a84189102591e9e3b9e, type: 3}
 --- !u!82 &4739682347417052100
 AudioSource:
