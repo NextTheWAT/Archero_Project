@@ -1021,7 +1021,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2395483, y: 0.96, z: 0.2618009}
+  m_Size: {x: 1.2395483, y: 0.96, z: 0.9}
   m_Center: {x: 0.00000019000959, y: 0.83, z: -0.0000012986986}
 --- !u!114 &1158960748850420651
 MonoBehaviour:
@@ -1156,6 +1156,7 @@ MonoBehaviour:
   isSpinning: 0
   isHit: 0
   renderers: []
+  hasPlayedDeathSound: 0
 --- !u!114 &5055620041861277359
 MonoBehaviour:
   m_ObjectHideFlags: 0
