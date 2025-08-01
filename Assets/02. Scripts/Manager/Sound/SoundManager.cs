@@ -36,10 +36,14 @@ public class SoundManager : Singleton<SoundManager>
 
     [Space(20f)]
 
-
     public SoundSource soundSourcePrefab;
 
     private StageType lastStage;
+
+    private void Awake()
+    {
+        SFX_Set(SFX_Volum);
+    }
 
     private void Start()
     {
