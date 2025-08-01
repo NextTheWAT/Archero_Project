@@ -26,13 +26,17 @@ public class Bullet : MonoBehaviour
             MonsterStat stat = other.GetComponent<MonsterStat>();
             if (stat != null)
             {
-                stat.currentHp -= damage;
-                if (stat.currentHp <= 0)
-                {
-                    stat.currentHp = 0;
-                    // 필요시 몬스터 사망 처리 추가
-                    // Destroy(other.gameObject); // 예시
-                }
+                stat.TakeDamage(damage); // 몬스터에게 데미지 주기
+            }
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Boss"))
+        {
+            // BossStat 컴포넌트 찾기
+            BossController bossStat = other.GetComponent<BossController>();
+            if (bossStat != null)
+            {
+                bossStat.health -= damage;
             }
             Destroy(gameObject);
         }
