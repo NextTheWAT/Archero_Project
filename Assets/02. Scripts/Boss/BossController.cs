@@ -50,6 +50,8 @@ public class BossController : MonoBehaviour
     public GameObject cubePrefab; // 인스펙터에서 가져오기 
     public int cubeCount;
 
+    public bool isSpinning;
+
     private void Awake()
     {
         // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
@@ -82,7 +84,7 @@ public class BossController : MonoBehaviour
             }
             else if (distanceToPlayer <= rangedAttackRange)
             {
-                
+                //SetSpinState();
             }
             else
             {
@@ -129,6 +131,12 @@ public class BossController : MonoBehaviour
     {
         ChangeState(ActionState.Idle);
         animator.SetInteger("State", (int)ActionState.Idle);
+    }
+
+    private void SetSpinState()
+    {
+        ChangeState(ActionState.Spinning);
+        animator.SetInteger("State", (int)ActionState.Spinning);
     }
 
     private void HandleAttack()
@@ -207,12 +215,16 @@ public class BossController : MonoBehaviour
 
     private void StartSpinning()
     {
-
+        isSpinning = true;
+        for(int i = 0; i < cubeCount; i++)
+        {
+            GameObject cubObj = Instantiate(cubePrefab, transform);
+        }
     }
 
     private void EndSpinning()
     {
-
+        isSpinning = false;
     }
 
     private void StartDamage()
