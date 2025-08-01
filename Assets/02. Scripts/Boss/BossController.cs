@@ -277,6 +277,7 @@ public class BossController : MonoBehaviour
     {
         if (currentHp <= 0.0f)
         {
+            SoundManager.Instance.Boss_SFX(2);
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
             // 움직일 수 없게 하기 
@@ -347,6 +348,7 @@ public class BossController : MonoBehaviour
         {
             Debug.Log("불렛에 맞음 데미지!" + playerStat.attackPower);
 
+            SoundManager.Instance.Boss_SFX(0);
             TakeDamage();
             ChangeState(ActionState.Hit);
             isHit = true;
