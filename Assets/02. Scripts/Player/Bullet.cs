@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
             BossController bossStat = other.GetComponent<BossController>();
             if (bossStat != null)
             {
-                bossStat.health -= damage;
+                bossStat.currentHp -= damage;
             }
             Destroy(gameObject);
         }

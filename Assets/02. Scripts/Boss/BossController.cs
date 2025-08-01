@@ -23,7 +23,10 @@ public class BossController : MonoBehaviour
 
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
-    public float health = 100;
+
+    public float currentHp; // 현재 체력 (내가 정하는 값)
+    public float maxHp = 100; // 최대 체력 (내가 정하는 값)
+
     public bool isDead;
 
     public float followDistance; // 보스가 플레이어를 따라갈 수 있는 거리 (내가 정하는 값)
@@ -67,6 +70,7 @@ public class BossController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
+        currentHp = maxHp; // 현재 체력 초기화
     }
 
     private void Update()
@@ -170,7 +174,7 @@ public class BossController : MonoBehaviour
     {
         if (currentState == ActionState.Attack)
         {
-            if (health > 50)
+            if (currentHp > 50)
             {
                 if (!isNormalAttack)
                 {
@@ -213,7 +217,7 @@ public class BossController : MonoBehaviour
 
     private void IsHealthZero()
     {
-        if(health <= 0.0f)
+        if(currentHp <= 0.0f)
         {
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
