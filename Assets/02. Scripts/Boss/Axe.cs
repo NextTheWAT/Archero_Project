@@ -8,6 +8,7 @@ public class Axe : MonoBehaviour
     // 도끼 능력치
     public int attackPower;
     public int specialAttackPower;
+    
 
     public PlayerManager playerManager;
     public PlayerStat playerStat;
