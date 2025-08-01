@@ -19,8 +19,6 @@ public class BossManager : MonoBehaviour
 
     public BossController bossMovementController;
 
-    public PlayerManager playerManager;
-
     private void Awake()
     {
 
@@ -48,7 +46,6 @@ public class BossManager : MonoBehaviour
     private void Start()
     {
         // 보스가 플레이어를 알 수 있게 설정 
-        playerManager = PlayerManager.Instance;
         bossMovementController = bossObj.GetComponent<BossController>();
         //bossMovementController.player = playerManager.player.transform;
         bossMovementController.player =  GameObject.FindWithTag("Player").transform;
