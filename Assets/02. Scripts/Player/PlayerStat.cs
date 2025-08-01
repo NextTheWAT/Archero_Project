@@ -55,7 +55,7 @@ public class PlayerStat : MonoBehaviour
         }
     }
 
-    
+  
     public void Heal(float amount)
     {
         currentHp += Mathf.RoundToInt(amount);
