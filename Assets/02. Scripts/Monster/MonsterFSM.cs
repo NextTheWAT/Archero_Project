@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.XR;
@@ -27,6 +28,7 @@ public class MonsterFSM : MonoBehaviour
     public Transform firePoint; //투사체 나갈 위치
 
     public bool isAnimDamage = false;
+    public bool isDie = false;
 
     private MonsterParticleControl particleControl;
 
@@ -73,7 +75,6 @@ public class MonsterFSM : MonoBehaviour
                 break;
         }
     }
-
     private void CheckDistance()
     {
         //플레이어가 없으면 행동 안함
@@ -160,13 +161,17 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateDie()
     {
-        Debug.Log("몬스터 사망");
-        SoundManager.Instance.Monster_SFX(2); // 몬스터 사망 사운드 재생
+        if (!isDie)
+        {
+            isDie = true;
+            Debug.Log("몬스터 사망");
+            SoundManager.Instance.Monster_SFX(2); // 몬스터 사망 사운드 재생
 
-        // 태그 제거
-        gameObject.tag = "Untagged";
+            // 태그 제거
+            gameObject.tag = "Untagged";
 
-        Destroy(gameObject, 3f);
+            Destroy(gameObject, 3f);
+        }
     }
     private IEnumerator AttackRoutine()
     {

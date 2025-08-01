@@ -11,7 +11,8 @@ public enum StageType
     Stage3,
     Stage4,
     Boss,
-    Tutorial
+    Tutorial,
+    End
 }
 
 public class GameManager : Singleton<GameManager>
@@ -33,9 +34,31 @@ public class GameManager : Singleton<GameManager>
         SetStage(CurrentStage); // 시작 스테이지 설정
     }
 
-    public void SetStage(StageType newStage)
+    public void SetStage(StageType newStage, bool markClear = true)
     {
         if (newStage == CurrentStage) return;
+
+        switch (CurrentStage)
+        {
+            case StageType.Tutorial:
+                StageManager.Instance.tutorialClear = true;
+                break;
+            case StageType.Stage1:
+                StageManager.Instance.stage1Clear = true;
+                break;
+            case StageType.Stage2:
+                StageManager.Instance.stage2Clear = true;
+                break;
+            case StageType.Stage3:
+                StageManager.Instance.stage3Clear = true;
+                break;
+            case StageType.Stage4:
+                StageManager.Instance.stage4Clear = true;
+                break;
+            case StageType.Boss:
+                StageManager.Instance.bossStageClear = true;
+                break;
+        }
 
         CurrentStage = newStage;
         ApplyStage(newStage);
@@ -51,11 +74,11 @@ public class GameManager : Singleton<GameManager>
             case StageType.Stage3:
             case StageType.Stage4:
             case StageType.Boss:
-            case StageType.Tutorial:
                 currentState = GameState.Playing;
                 break;
-                //currentState = GameState.Tutorial;
-                //break;
+            case StageType.Tutorial:
+                currentState = GameState.Tutorial;
+                break;
         }
         // 위치 이동 추가
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
@@ -63,6 +86,9 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.UpdateUI(currentState);
         // 카메라 X 고정값 갱신 요청
         CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
+
+        //스테이지 클리어 오브젝트 체크 후 활성화
+        StageManager.Instance.ActivateClearedStages();
     }
     private void ApplyStage(StageType stage)
     {
@@ -97,6 +123,9 @@ public class GameManager : Singleton<GameManager>
                 break;
             case StageType.Tutorial:
                 OnTutorialStageStart();
+                break;
+            case StageType.End:
+                OnEndStage();
                 break;
         }
 
@@ -148,5 +177,19 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("[GameManager] 보스 스테이지 활성화");
         bossStage.SetActive(true);
+    }
+
+    public void ForceGoToMainStage()
+    {
+        CurrentStage = StageType.MainStage; // 클리어 처리 전에 강제로 바꿔버림
+        ApplyStage(StageType.MainStage);
+        currentState = GameState.Main;
+        PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);
+        UIManager.Instance.UpdateUI(currentState);
+        CameraManager.Instance?.ResetFixedX(CameraManager.Instance.playerTransform.position.x);
+    }
+    private void OnEndStage()
+    {
+        Debug.Log("엔딩");
     }
 }

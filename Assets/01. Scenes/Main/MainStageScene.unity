@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &711714734 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000015652998303841, guid: fd733b3ff3e29da4b92cdbb5c7459200, type: 3}
+  m_PrefabInstance: {fileID: 4180933178976971243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4180933178976971243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,6 +413,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5221379175419448671, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 711714734}
     - target: {fileID: 5611105988608868146, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -509,6 +518,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 6570960281700791822, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 1702125932734118785, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
