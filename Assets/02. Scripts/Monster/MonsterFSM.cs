@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.XR;
@@ -27,6 +28,9 @@ public class MonsterFSM : MonoBehaviour
     public Transform firePoint; //투사체 나갈 위치
 
     public bool isAnimDamage = false;
+    public bool isDie = false;
+
+    private MonsterParticleControl particleControl;
 
     private void Start()
     {
@@ -41,6 +45,7 @@ public class MonsterFSM : MonoBehaviour
         {
             player = playerObj.transform;
         }
+        particleControl = GetComponent<MonsterParticleControl>();
     }
 
     private void Update() //현재 상태에 따라 맞는 함수 실행
@@ -70,7 +75,6 @@ public class MonsterFSM : MonoBehaviour
                 break;
         }
     }
-
     private void CheckDistance()
     {
         //플레이어가 없으면 행동 안함
@@ -139,6 +143,7 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateAttack()
     {
+        SoundManager.Instance.Monster_SFX(0); // 몬스터 공격 사운드 재생
         if (player == null) return;
         {
             Vector3 direction = (player.position - transform.position).normalized;
@@ -156,12 +161,17 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateDie()
     {
-        Debug.Log("몬스터 사망");
+        if (!isDie)
+        {
+            isDie = true;
+            Debug.Log("몬스터 사망");
+            SoundManager.Instance.Monster_SFX(2); // 몬스터 사망 사운드 재생
 
-        // 태그 제거
-        gameObject.tag = "Untagged";
+            // 태그 제거
+            gameObject.tag = "Untagged";
 
-        Destroy(gameObject, 3f);
+            Destroy(gameObject, 3f);
+        }
     }
     private IEnumerator AttackRoutine()
     {
@@ -190,6 +200,7 @@ public class MonsterFSM : MonoBehaviour
 
     void FireProjectile()
     {
+        SoundManager.Instance.Player_SFX(1); // 공격 사운드 재생
         if (projectilePrefab != null && firePoint != null && player != null)
         {
             GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
@@ -202,10 +213,16 @@ public class MonsterFSM : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        // 파티클 컨트롤 가져오기
+        particleControl = GetComponent<MonsterParticleControl>();
+    }
+
     public void TakeDamage(float damage)
     {
         if (currentState == MonsterState.Die) return; //이미 죽었으면 무시
-        stats.currentHp -= damage; 
+        stats.currentHp -= damage;
 
         if (stats.currentHp <= 0)
         {
@@ -226,4 +243,21 @@ public class MonsterFSM : MonoBehaviour
     {
         isAnimDamage = true;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            // 피격 위치 = 총알의 현재 위치
+            Vector3 hitPosition = other.transform.position;
+
+            // 회전 = 총알 방향 + X축으로 180도 회전
+            Quaternion hitRotation = Quaternion.LookRotation(other.transform.forward) * Quaternion.Euler(180f, 0f, 0f);
+
+            particleControl.SpawnHitParticle(hitPosition, hitRotation);
+        }
+    }
+
+
+
 }
