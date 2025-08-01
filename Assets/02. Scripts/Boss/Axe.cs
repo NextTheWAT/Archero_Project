@@ -13,8 +13,6 @@ public class Axe : MonoBehaviour
 
     public Animator animator;
 
-    public BossManager bossManager;
-
     public BossController bossController;
 
     private bool isDamagedDelay = false; // 플레이어가 데미지를 입었는지 여부
@@ -31,11 +29,8 @@ public class Axe : MonoBehaviour
             playerStat = playerObj.GetComponent<PlayerStat>();
         }
 
-        bossManager = BossManager.Instance;
-
-        animator = bossManager.bossObj.GetComponent<Animator>();
-
-        bossController = bossManager.bossMovementController;
+        animator = GetComponentInParent<Animator>();
+        bossController = GetComponentInParent<BossController>();
     }
 
     public void Attack()

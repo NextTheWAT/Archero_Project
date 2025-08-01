@@ -1039,7 +1039,6 @@ MonoBehaviour:
   specialAttackPower: 15
   playerStat: {fileID: 0}
   animator: {fileID: 0}
-  bossManager: {fileID: 0}
   bossController: {fileID: 0}
   isSpecialDamage: 0
   isNormalDamage: 0
@@ -1138,7 +1137,7 @@ MonoBehaviour:
   playerStat: {fileID: 0}
   moveSpeed: 3
   currentHp: 0
-  maxHp: 100
+  maxHp: 300
   isDead: 0
   followDistance: 20
   attackRange: 3

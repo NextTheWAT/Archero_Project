@@ -14,12 +14,19 @@ public class PlayerStat : MonoBehaviour
     public float attackRange = 20f; //플레이어 사거리 기본20
 
     private bool isDead = false;
-    private Renderer[] renderers; // 여러 렌더러 지원
+    private Renderer[] renderers;
+    private Color[] originalColors; // 원래 색상 저장
 
     private void Start()
     {
-        // 자식까지 포함한 모든 Renderer(메시/스키닝) 가져오기
         renderers = GetComponentsInChildren<Renderer>();
+        // 원래 색상 저장
+        originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                originalColors[i] = renderers[i].material.color;
+        }
 
         if (SkillUIManager.Instance != null)
         {
@@ -43,11 +50,11 @@ public class PlayerStat : MonoBehaviour
         if (isDead) return;
 
         currentHp -= Mathf.RoundToInt(amount);
-        SoundManager.Instance.Player_TakeDamage();
+        SoundManager.Instance.Player_SFX(2);
         if (currentHp < 0) currentHp = 0;
         Debug.Log($"피해를 입음! 현재 체력: {currentHp}");
 
-        StartCoroutine(FlashRed()); // 추가
+        StartCoroutine(FlashRed());
 
         if (currentHp <= 0)
         {
@@ -59,14 +66,6 @@ public class PlayerStat : MonoBehaviour
     {
         if (renderers == null || renderers.Length == 0)
             yield break;
-
-        // 원래 색상 저장
-        Color[] originalColors = new Color[renderers.Length];
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (renderers[i].material.HasProperty("_Color"))
-                originalColors[i] = renderers[i].material.color;
-        }
 
         // 붉은색으로 변경
         foreach (var r in renderers)
@@ -134,6 +133,16 @@ public class PlayerStat : MonoBehaviour
         {
             animator.Rebind(); // 애니메이터 상태 초기화
             animator.Update(0f);
+        }
+
+        // 머티리얼 색상 원래대로 복구
+        if (renderers != null && originalColors != null)
+        {
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i].material.HasProperty("_Color"))
+                    renderers[i].material.color = originalColors[i];
+            }
         }
     }
 

@@ -26,7 +26,7 @@ public class BossController : MonoBehaviour
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
 
     public float currentHp; // 현재 체력 (내가 정하는 값)
-    public float maxHp = 100; // 최대 체력 (내가 정하는 값)
+    public float maxHp = 300; // 최대 체력 (내가 정하는 값)
 
     public bool isDead;
 
@@ -63,15 +63,28 @@ public class BossController : MonoBehaviour
 
     private void Awake()
     {
-        // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
+        // 플레이어 오브젝트 찾기 (태그로)
         if (player == null)
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Player");
             if (obj != null)
-                player = obj.GetComponent<GameObject>();
-        }
-        playerStat = player.GetComponent<PlayerStat>();
+            {
+                player = obj;
 
+                // PlayerStat 컴포넌트 가져오기
+                playerStat = player.GetComponent<PlayerStat>();
+                if (playerStat == null)
+                {
+                    Debug.LogError("PlayerStat 컴포넌트를 찾을 수 없습니다!");
+                }
+            }
+            else
+            {
+                Debug.LogError("태그가 'Player'인 오브젝트를 찾을 수 없습니다!");
+            }
+        }
+
+        // 나머지 컴포넌트 초기화
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
@@ -288,11 +301,6 @@ public class BossController : MonoBehaviour
         this.currentState = state;
     }
 
-    private void CreateCube()
-    {
-        GameObject cubeObj = Instantiate(cubePrefab, transform);
-    }
-
     private void StartDamage()
     {
         isNormalAttack = false;
@@ -306,9 +314,13 @@ public class BossController : MonoBehaviour
         isSpecialAttack = true;
         isAttacking = false;
     }
-    public void TakeDamage(float damege)
+    public void TakeDamage()
     {
-        currentHp -= damege; // 현재 체력에서 데미지 감소
+        if (playerStat != null)
+        {
+            playerStat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStat>();
+            currentHp -= playerStat.attackPower;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -334,7 +346,7 @@ public class BossController : MonoBehaviour
         {
             Debug.Log("불렛에 맞음 데미지!" + playerStat.attackPower);
 
-            TakeDamage(playerStat.attackPower);
+            TakeDamage();
             ChangeState(ActionState.Hit);
             isHit = true;
         }
