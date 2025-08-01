@@ -50,7 +50,7 @@ public class PlayerStat : MonoBehaviour
         if (isDead) return;
 
         currentHp -= Mathf.RoundToInt(amount);
-        SoundManager.Instance.Player_TakeDamage();
+        SoundManager.Instance.Player_SFX(2);
         if (currentHp < 0) currentHp = 0;
         Debug.Log($"피해를 입음! 현재 체력: {currentHp}");
 

@@ -1,3 +1,4 @@
+using OpenCover.Framework.Model;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,16 +21,16 @@ public class SoundManager : Singleton<SoundManager>
     [Header("BackGround_AudioSource")]
     [SerializeField] private AudioSource BackGroundBGM;
 
-    [Header("UI_AudioSource\n0 : 버튼 선택 사운드 | 1 : 레벨업 사운드 | 2 : 게임 결과")]
+    [Header("UI_AudioSource\n0 : 버튼 선택 사운드 / 1 : 레벨업 사운드 / 2 : 승리 / 3 : 패배")]
     [SerializeField] private List<AudioSource> UISelecetedSFX;
 
-    [Header("Player_AudioSource\n0 : 스텝 | 1 : 슛 | 2 : 히트")]
+    [Header("Player_AudioSource\n0 : 스텝 / 1 : 슛 / 2 : 히트")]
     [SerializeField] private List<AudioSource> Player_Sfx; // 0 : 스텝 1 : 슛 2 : 히트
 
-    [Header("Moster_AudioSource\n0 : 공격 | 1 : 히트 | 2 : 다이")]
+    [Header("Moster_AudioSource\n0 : 공격 / 1 : 히트 / 2 : 다이")]
     [SerializeField] private List<AudioSource> Monster_Sfx; 
 
-    [Header("Boss_AudioSource0 : 공격 | 1 : 히트 | 2 : 다이")]
+    [Header("Boss_AudioSource0 : 공격 / 1 : 히트 / 2 : 다이")]
     [SerializeField] private List<AudioSource> Boss_Sfx;
 
 
@@ -93,25 +94,49 @@ public class SoundManager : Singleton<SoundManager>
         soundSource.Play(clip, Instance.soundEffectVolume, Instance.soundEffectPitchVariance);
     }
 
-    public void UI_Select_SFX()
+
+    /// <summary>
+    /// 0 : 버튼 선택 사운드 / 1 : 레벨업 사운드 / 2 : 승리 / 3 : 패배  
+    /// </summary>
+    /// <param name="num"></param>
+    public void UI_Select_SFX(int num)
     {
-        UISelecetedSFX[0].Play();
-    }
-    public void PlayerStep_SFX()
-    {
-        Player_Sfx[0].Play();
+        UISelecetedSFX[num].Play();
+
+        // if 
     }
 
-    public void PlayerShooting_SFX()
+    /// <summary>
+    /// 0 번 StepSound / 1 번 Shooting / 2 번 Hit
+    /// </summary>
+    /// <param name="num"></param>
+    public void Player_SFX(int num)
     {
-        Player_Sfx[1].Play();
+        Player_Sfx[num].Play();
     }
 
-    public void Player_TakeDamage()
+    /// <summary>
+    /// 0 : AttackSound / 1 : HitSound / 2 : DieSound
+    /// </summary>
+    /// <param name="num"></param>
+    public void Monster_SFX(int num)
     {
-        Player_Sfx[2].Play();
+        Monster_Sfx[num].Play();
     }
 
+    /// <summary>
+    /// 0 : AttackSound / 1 : HitSound / 2 : DieSound
+    /// </summary>
+    /// <param name="num"></param>
+    public void Boss_SFX(int num)
+    {
+        Boss_Sfx[num].Play();
+    }
+
+    /// <summary>
+    /// Volume에 volume값 넣어주시면 됩니다.
+    /// </summary>
+    /// <param name="volume"></param>
     private void SFX_Set(float volume)
     {
         void SetVolumForList(List<AudioSource> sfxList)
@@ -119,6 +144,7 @@ public class SoundManager : Singleton<SoundManager>
             foreach (AudioSource sfx in sfxList)
             {
                 sfx.volume = volume;
+                sfx.playOnAwake = false;
             }
         }
 

@@ -6,6 +6,6 @@ public class PlayerSound : MonoBehaviour
 {
     private void StepSound()
     {
-        SoundManager.Instance.PlayerStep_SFX();
+        SoundManager.Instance.Player_SFX(0);
     }
 }
