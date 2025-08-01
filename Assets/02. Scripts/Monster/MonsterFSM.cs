@@ -23,16 +23,21 @@ public class MonsterFSM : MonoBehaviour
 
     private MonsterStat stats; //MonsterStat.cs 불러옴
 
+    public GameObject projectilePrefab; //투사체 프리팹
+    public Transform firePoint; //투사체 나갈 위치
+
+    public bool isAnimDamage = false;
+
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         stats = GetComponent<MonsterStat>();
         ChangeState(MonsterState.Idle); //처음 상태는 Idle
 
         //Player 태그 오브젝트 찾아서 위치(transform) 저장
         GameObject playerObj = GameObject.FindWithTag("Player");
-        if(playerObj != null)
+        if (playerObj != null)
         {
             player = playerObj.transform;
         }
@@ -129,7 +134,16 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateAttack()
     {
-        Debug.Log("공격");
+        if (player == null) return;
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0f;
+
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+
+            Debug.Log("공격중");
+        }
     }
     void UpdateHit()
     {
@@ -137,13 +151,19 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateDie()
     {
-        Debug.Log("사망");
+        Debug.Log("몬스터 사망");
+
+        // 태그 제거
+        gameObject.tag = "Untagged";
+
+        Destroy(gameObject, 3f);
     }
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
 
         ChangeState(MonsterState.Attack);
+        //FireProjectile();
         yield return new WaitForSeconds(stats.attackDelay); // 공격 애니메이션 길이만큼 유지
         
         ChangeState(MonsterState.Idle);
@@ -151,14 +171,54 @@ public class MonsterFSM : MonoBehaviour
 
         isAttacking = false;
     }
+
     private void OnDrawGizmosSelected()
     {
-        // 추적 범위: 노란색
+        if (stats == null) return;
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
 
-        // 공격 범위: 빨간색
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, stats.detectionRange);
+        Gizmos.DrawWireSphere(transform.position, stats.attackRange);
+    }
+
+    void FireProjectile()
+    {
+        if (projectilePrefab != null && firePoint != null && player != null)
+        {
+            GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+            MonsterProjectile projectile = proj.GetComponent<MonsterProjectile>();
+            if (projectile != null)
+            {
+                projectile.SetTarget(player);
+            }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (currentState == MonsterState.Die) return; //이미 죽었으면 무시
+        stats.currentHp -= damage; 
+
+        if (stats.currentHp <= 0)
+        {
+            stats.currentHp = 0;
+            ChangeState(MonsterState.Die);
+        }
+        else
+        {
+            ChangeState(MonsterState.Hit);
+        }
+    }
+
+        public void AnimDamageStart()
+    {
+        isAnimDamage = false;
+    }
+    public void AnimDamageEnd()
+    {
+        isAnimDamage = true;
     }
 }
