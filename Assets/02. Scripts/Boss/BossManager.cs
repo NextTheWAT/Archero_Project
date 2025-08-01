@@ -42,12 +42,11 @@ public class BossManager : MonoBehaviour
         // 크기
         bossObj.transform.localScale = new Vector3(2, 2, 2);
     }
-
     private void Start()
     {
         // 보스가 플레이어를 알 수 있게 설정 
         bossMovementController = bossObj.GetComponent<BossController>();
         //bossMovementController.player = playerManager.player.transform;
-        bossMovementController.player =  GameObject.FindWithTag("Player").transform;
+        bossMovementController.player = GameObject.FindWithTag("Player");
     }
 }
