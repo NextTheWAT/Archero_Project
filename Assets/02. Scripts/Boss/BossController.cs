@@ -11,7 +11,8 @@ public enum ActionState
     Attack = 2, // MeleeAttack
     SpecialAttack = 3,
     Die = 4,
-    Spinning = 5 // RangedAttack
+    Spinning = 5, // RangedAttack
+    Hit = 6
 }
 
 // 보스 움직임 제어 클래스 
@@ -22,7 +23,10 @@ public class BossController : MonoBehaviour
 
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
-    public float health = 100;
+
+    public float currentHp; // 현재 체력 (내가 정하는 값)
+    public float maxHp = 100; // 최대 체력 (내가 정하는 값)
+
     public bool isDead;
 
     public float followDistance; // 보스가 플레이어를 따라갈 수 있는 거리 (내가 정하는 값)
@@ -52,6 +56,8 @@ public class BossController : MonoBehaviour
 
     public bool isSpinning;
 
+    public bool isHit;
+
     private void Awake()
     {
         // 자동으로 태그가 "Player"인 오브젝트의 PlayerStat 컴포넌트 찾기
@@ -64,6 +70,7 @@ public class BossController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
+        currentHp = maxHp; // 현재 체력 초기화
     }
 
     private void Update()
@@ -78,7 +85,12 @@ public class BossController : MonoBehaviour
 
             // (이동처리, 공격처리)
             // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
-            if (distanceToPlayer <= followDistance) // 따라가는게 우선순위 
+            if (isHit)
+            {
+                Debug.Log("Update : HandleHit실행전");
+                HandleHit();
+            }
+            else if (distanceToPlayer <= followDistance) // 따라가는게 우선순위 
             {
                 LookAtTargetAndUpdateState();
             }
@@ -139,11 +151,30 @@ public class BossController : MonoBehaviour
         animator.SetInteger("State", (int)ActionState.Spinning);
     }
 
+    private void HandleHit()
+    {
+        // 피격 애니메이션 실행 
+        animator.SetInteger("State", (int)ActionState.Hit);
+        // 보스 잠깐 멈추고 (1초간)
+        StartCoroutine(HitCoroutine());
+        StopCoroutine(HitCoroutine());
+    }
+
+    private IEnumerator HitCoroutine()
+    {
+        rigid.velocity = Vector3.zero;
+
+        yield return new WaitForSeconds(0.5f);
+
+        isHit = false; // isHit = false로 해서 다시 맞을 수 있게 하기 
+        ChangeState(ActionState.Idle); // 보스 상태를 Idle로 바꿔서 Move로 이어질 수 있게 하기 
+    }
+
     private void HandleAttack()
     {
         if (currentState == ActionState.Attack)
         {
-            if (health > 50)
+            if (currentHp > 50)
             {
                 if (!isNormalAttack)
                 {
@@ -186,7 +217,7 @@ public class BossController : MonoBehaviour
 
     private void IsHealthZero()
     {
-        if(health <= 0.0f)
+        if(currentHp <= 0.0f)
         {
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
@@ -213,18 +244,9 @@ public class BossController : MonoBehaviour
         this.currentState = state;
     }
 
-    private void StartSpinning()
+    private void CreateCube()
     {
-        isSpinning = true;
-        for(int i = 0; i < cubeCount; i++)
-        {
-            GameObject cubObj = Instantiate(cubePrefab, transform);
-        }
-    }
-
-    private void EndSpinning()
-    {
-        isSpinning = false;
+        GameObject cubeObj = Instantiate(cubePrefab, transform);
     }
 
     private void StartDamage()
@@ -256,4 +278,15 @@ public class BossController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, rangedAttackRange);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isHit) return;
+
+        if (other.CompareTag("Bullet"))
+        {
+            Debug.Log("불렛에 맞음");
+            ChangeState(ActionState.Hit);
+            isHit = true;
+        }
+    }
 }
