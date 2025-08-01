@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
@@ -9,6 +10,8 @@ public class PlayerStat : MonoBehaviour
     public int maxHp = 100;
     public int currentHp = 100;
     public int projectileCount = 1;
+
+    public float attackRange = 20f; //플레이어 사거리 기본20
 
     private bool isDead = false;
 
@@ -91,5 +94,12 @@ public class PlayerStat : MonoBehaviour
             animator.Rebind(); // 애니메이터 상태 초기화
             animator.Update(0f);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        //플레이어의 공격 범위를 시각적으로 표시
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

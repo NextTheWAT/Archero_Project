@@ -27,7 +27,17 @@ public class PlayerShooting : MonoBehaviour
 
         // 가장 가까운 적 찾기
         GameObject nearestEnemy = EnemyUtil.FindNearestEnemy(transform.position);
-        bool canSee = nearestEnemy != null;
+        bool canSee = false;
+        float distanceToEnemy = 0f;
+
+        if (nearestEnemy != null)
+        {
+            distanceToEnemy = Vector3.Distance(transform.position, nearestEnemy.transform.position);
+            // 사거리 이내에 적이 있으면 canSee = true
+            if (playerStat != null && distanceToEnemy <= playerStat.attackRange)
+                canSee = true;
+        }
+
         animator.SetBool("canSeeEnemy", canSee);
 
         bool isMoving = animator.GetBool("isMoving");
