@@ -28,6 +28,7 @@ public class MonsterFSM : MonoBehaviour
 
     public bool isAnimDamage = false;
 
+    private MonsterParticleControl particleControl;
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
@@ -202,10 +203,25 @@ public class MonsterFSM : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        // 파티클 컨트롤 가져오기
+        particleControl = GetComponent<MonsterParticleControl>();
+    }
+
     public void TakeDamage(float damage)
     {
         if (currentState == MonsterState.Die) return; //이미 죽었으면 무시
-        stats.currentHp -= damage; 
+        stats.currentHp -= damage;
+
+        //파티클 생성 위치 찾기
+        Transform spawnPoint = transform.Find("ParticleSpawnPoint");
+
+        //파티클 생성
+        if (particleControl != null && spawnPoint != null)
+        {
+            particleControl.SpawnHitParticle(spawnPoint.position);
+        }
 
         if (stats.currentHp <= 0)
         {
