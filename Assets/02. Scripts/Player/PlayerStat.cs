@@ -1,5 +1,6 @@
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerStat : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class PlayerStat : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator FlashRed()
+    private IEnumerator FlashRed()
     {
         if (renderers == null || renderers.Length == 0)
             yield break;
