@@ -30,15 +30,15 @@ public class Bullet : MonoBehaviour
             }
             Destroy(gameObject);
         }
-        else if (other.CompareTag("Boss"))
-        {
-            // BossStat 컴포넌트 찾기
-            BossController bossStat = other.GetComponent<BossController>();
-            if (bossStat != null)
-            {
-                bossStat.currentHp -= damage;
-            }
-            Destroy(gameObject);
-        }
+        //else if (other.CompareTag("Boss"))
+        //{
+        //    // BossStat 컴포넌트 찾기
+        //    BossController bossStat = other.GetComponent<BossController>();
+        //    if (bossStat != null)
+        //    {
+        //        bossStat.currentHp -= damage;
+        //    }
+        //    Destroy(gameObject);
+        //}
     }
 }

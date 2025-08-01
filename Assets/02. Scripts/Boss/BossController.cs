@@ -19,7 +19,8 @@ public enum ActionState
 public class BossController : MonoBehaviour
 {
     // 플레이어 정보 
-    public Transform player; // 플레이어 위치 
+    public GameObject player; // 플레이어 위치 
+    public PlayerStat playerStat; // 플레이어 능력치 (공격력, 체력 등)
 
     // 보스 정보 
     public float moveSpeed; // 보스 이동속도 (내가 정하는 값)
@@ -65,8 +66,10 @@ public class BossController : MonoBehaviour
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Player");
             if (obj != null)
-                player = obj.GetComponent<Transform>();
+                player = obj.GetComponent<GameObject>();
         }
+        playerStat = player.GetComponent<PlayerStat>();
+
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         axe = GetComponentInChildren<Axe>();
@@ -80,8 +83,8 @@ public class BossController : MonoBehaviour
         if (!isDead)
         {
             // 보스가 플레이어 좌표를 계속 체크하면서 플레이어와의 거리, 플레이어를 바라보는 방향을 구한다. 
-            distanceToPlayer = Vector3.Distance(transform.position, player.position); // 보스와 플레이어 사이 거리
-            directionToTarget = (player.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
+            distanceToPlayer = Vector3.Distance(transform.position, player.transform.position); // 보스와 플레이어 사이 거리
+            directionToTarget = (player.transform.position - transform.position).normalized; // 보스가 플레이어를 바라보는 방향
 
             // (이동처리, 공격처리)
             // 플레이어가 보스가 따라갈 수 있는 거리(followDistance)로 들어오면 
@@ -262,6 +265,10 @@ public class BossController : MonoBehaviour
         isSpecialAttack = true;
         isAttacking = false;
     }
+    public void TakeDamage(float damege)
+    {
+        currentHp -= damege; // 현재 체력에서 데미지 감소
+    }
 
     private void OnDrawGizmosSelected()
     {
@@ -284,7 +291,9 @@ public class BossController : MonoBehaviour
 
         if (other.CompareTag("Bullet"))
         {
-            Debug.Log("불렛에 맞음");
+            Debug.Log("불렛에 맞음 데미지!" + playerStat.attackPower);
+
+            TakeDamage(playerStat.attackPower);
             ChangeState(ActionState.Hit);
             isHit = true;
         }
