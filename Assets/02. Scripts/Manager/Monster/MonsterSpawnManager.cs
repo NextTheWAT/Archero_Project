@@ -37,10 +37,10 @@ public class MonsterSpawnManager : MonoBehaviour
 
         for (int i = 0; i < numberOfMonsters; i++)
         {
-            int spawnIndex = Random.Range(0, spawnPoints.Length);
+            //int spawnIndex = Random.Range(0, spawnPoints.Length);
             int prefabIndex = Random.Range(0, monsterPrefabs.Length);
 
-            Transform spawnPoint = spawnPoints[spawnIndex];
+            Transform spawnPoint = spawnPoints[i]; // spawnIndex
             GameObject prefabToSpawn = monsterPrefabs[prefabIndex];
 
             GameObject monster = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
