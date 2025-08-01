@@ -1849,6 +1849,7 @@ MonoBehaviour:
   cubePrefab: {fileID: 0}
   cubeCount: 0
   isSpinning: 0
+  isHit: 0
 --- !u!64 &644085431
 MeshCollider:
   m_ObjectHideFlags: 0
