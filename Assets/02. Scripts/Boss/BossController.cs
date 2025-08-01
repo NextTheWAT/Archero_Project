@@ -61,6 +61,8 @@ public class BossController : MonoBehaviour
 
     public Renderer[] renderers; // 여러 렌더러 지원
 
+    private Color[] originalColors; // 원래 색상 저장
+
     private void Awake()
     {
         // 플레이어 오브젝트 찾기 (태그로)
@@ -95,6 +97,13 @@ public class BossController : MonoBehaviour
     {
         // 자식까지 포함한 모든 Renderer(메시/스키닝) 가져오기
         renderers = GetComponentsInChildren<Renderer>();
+        // 원래 색상 저장
+        originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            if (renderers[i].material.HasProperty("_Color"))
+                originalColors[i] = renderers[i].material.color;
+        }
     }
 
     private void Update()
@@ -202,14 +211,6 @@ public class BossController : MonoBehaviour
         if (renderers == null || renderers.Length == 0)
             yield break;
 
-        // 원래 색상 저장
-        Color[] originalColors = new Color[renderers.Length];
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (renderers[i].material.HasProperty("_Color"))
-                originalColors[i] = renderers[i].material.color;
-        }
-
         // 붉은색으로 변경
         foreach (var r in renderers)
         {
@@ -277,6 +278,7 @@ public class BossController : MonoBehaviour
     {
         if (currentHp <= 0.0f)
         {
+            SoundManager.Instance.Boss_SFX(2);
             // 죽음 애니메이션
             animator.SetInteger("State", (int)ActionState.Die);
             // 움직일 수 없게 하기 
@@ -347,6 +349,7 @@ public class BossController : MonoBehaviour
         {
             Debug.Log("불렛에 맞음 데미지!" + playerStat.attackPower);
 
+            SoundManager.Instance.Boss_SFX(0);
             TakeDamage();
             ChangeState(ActionState.Hit);
             isHit = true;
