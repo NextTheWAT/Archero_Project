@@ -51,11 +51,11 @@ public class GameManager : Singleton<GameManager>
             case StageType.Stage3:
             case StageType.Stage4:
             case StageType.Boss:
-            case StageType.Tutorial:
                 currentState = GameState.Playing;
                 break;
-                //currentState = GameState.Tutorial;
-                //break;
+            case StageType.Tutorial:
+                currentState = GameState.Tutorial;
+                break;
         }
         // 위치 이동 추가
         PlayerSpawnManager.Instance.MovePlayerToStage(CurrentStage);

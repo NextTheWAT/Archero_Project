@@ -60,7 +60,7 @@ public class CameraManager : Singleton<CameraManager>
                 titleCameraPosition.position,
                 Time.deltaTime * followSpeed);
         }
-        else if (currentState == UIManager.GameState.Playing)
+        else if (currentState == UIManager.GameState.Playing || currentState == UIManager.GameState.Tutorial)
         {
             Vector3 targetPos = new Vector3(
                 fixedX,
