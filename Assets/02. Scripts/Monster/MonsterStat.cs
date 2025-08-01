@@ -17,4 +17,12 @@ public class MonsterStat : MonoBehaviour
     {
         currentHp = maxHp;
     }
+    public void TakeDamage(float damage)
+    {
+        currentHp -= damage;
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+        }
+    }
 }
