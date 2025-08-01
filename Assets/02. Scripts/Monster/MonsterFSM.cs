@@ -28,6 +28,8 @@ public class MonsterFSM : MonoBehaviour
 
     public bool isAnimDamage = false;
 
+    private MonsterParticleControl particleControl;
+
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
@@ -41,6 +43,7 @@ public class MonsterFSM : MonoBehaviour
         {
             player = playerObj.transform;
         }
+        particleControl = GetComponent<MonsterParticleControl>();
     }
 
     private void Update() //현재 상태에 따라 맞는 함수 실행
@@ -202,10 +205,16 @@ public class MonsterFSM : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        // 파티클 컨트롤 가져오기
+        particleControl = GetComponent<MonsterParticleControl>();
+    }
+
     public void TakeDamage(float damage)
     {
         if (currentState == MonsterState.Die) return; //이미 죽었으면 무시
-        stats.currentHp -= damage; 
+        stats.currentHp -= damage;
 
         if (stats.currentHp <= 0)
         {
@@ -226,4 +235,21 @@ public class MonsterFSM : MonoBehaviour
     {
         isAnimDamage = true;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            // 피격 위치 = 총알의 현재 위치
+            Vector3 hitPosition = other.transform.position;
+
+            // 회전 = 총알 방향 + X축으로 180도 회전
+            Quaternion hitRotation = Quaternion.LookRotation(other.transform.forward) * Quaternion.Euler(180f, 0f, 0f);
+
+            particleControl.SpawnHitParticle(hitPosition, hitRotation);
+        }
+    }
+
+
+
 }
