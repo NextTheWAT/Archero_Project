@@ -1197,6 +1197,8 @@ GameObject:
   - component: {fileID: 5041361012939536330}
   - component: {fileID: 5360352110221950987}
   - component: {fileID: 2226076522833293162}
+  - component: {fileID: 8833412690169004508}
+  - component: {fileID: -3653006994894042346}
   m_Layer: 0
   m_Name: Melee_Monster
   m_TagString: Enemy
@@ -1316,7 +1318,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4628529659802528017}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1333,7 +1335,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &2226076522833293162
 MonoBehaviour:
@@ -1349,6 +1351,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 4488950641576555914}
   monsterStat: {fileID: 1394469937496133687}
+--- !u!114 &8833412690169004508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628529659802528017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb34df842c4f9c439bd520d417ce959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticlePrefab: {fileID: 5296357359800489506, guid: e9d86fee1f58f3f45837ddce8bee126e, type: 3}
+--- !u!114 &-3653006994894042346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628529659802528017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4db4541da720d14eae37f23582843db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4774820983642049429
 GameObject:
   m_ObjectHideFlags: 0

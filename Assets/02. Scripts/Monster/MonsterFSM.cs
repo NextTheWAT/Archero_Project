@@ -142,6 +142,7 @@ public class MonsterFSM : MonoBehaviour
     }
     void UpdateAttack()
     {
+        SoundManager.Instance.Monster_SFX(0); // 몬스터 공격 사운드 재생
         if (player == null) return;
         {
             Vector3 direction = (player.position - transform.position).normalized;
@@ -160,6 +161,7 @@ public class MonsterFSM : MonoBehaviour
     void UpdateDie()
     {
         Debug.Log("몬스터 사망");
+        SoundManager.Instance.Monster_SFX(2); // 몬스터 사망 사운드 재생
 
         // 태그 제거
         gameObject.tag = "Untagged";
@@ -193,6 +195,7 @@ public class MonsterFSM : MonoBehaviour
 
     void FireProjectile()
     {
+        SoundManager.Instance.Player_SFX(1); // 공격 사운드 재생
         if (projectilePrefab != null && firePoint != null && player != null)
         {
             GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
