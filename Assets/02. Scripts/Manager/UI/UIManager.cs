@@ -33,7 +33,7 @@ public class UIManager : Singleton<UIManager>
         stateToUI = new Dictionary<GameState, GameObject[]>
         {
             { GameState.Main, new[] { titleCanvas } },
-            { GameState.Playing, new[] { playerUI, skillUIManager, tutorialCanvas } },
+            { GameState.Playing, new[] { playerUI, skillUIManager } },
             { GameState.GameOver, new[] { gameOverCanvas } },
             { GameState.Tutorial, new[] { tutorialCanvas } }
         };

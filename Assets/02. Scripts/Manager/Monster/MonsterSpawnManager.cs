@@ -6,8 +6,8 @@ public class MonsterSpawnManager : MonoBehaviour
     [Header("스폰 위치들 (빈 오브젝트들)")]
     public Transform[] spawnPoints;
 
-    [Header("몬스터 프리팹")]
-    public GameObject monsterPrefab;
+    [Header("몬스터 프리팹들")]
+    public GameObject[] monsterPrefabs;
 
     [Header("소환할 몬스터 수")]
     public int numberOfMonsters = 5;
@@ -29,18 +29,21 @@ public class MonsterSpawnManager : MonoBehaviour
     {
         ClearMonsters(); // 기존 몬스터 제거 후 새로 소환
 
-        if (spawnPoints.Length == 0 || monsterPrefab == null)
+        if (spawnPoints.Length == 0 || monsterPrefabs == null || monsterPrefabs.Length == 0)
         {
-            Debug.LogWarning("스폰 위치 또는 프리팹이 설정되지 않았습니다!");
+            Debug.LogWarning("스폰 위치 또는 몬스터 프리팹 배열이 설정되지 않았습니다!");
             return;
         }
 
         for (int i = 0; i < numberOfMonsters; i++)
         {
-            int index = Random.Range(0, spawnPoints.Length); // 랜덤 스폰
-            Transform spawnPoint = spawnPoints[index];
+            int spawnIndex = Random.Range(0, spawnPoints.Length);
+            int prefabIndex = Random.Range(0, monsterPrefabs.Length);
 
-            GameObject monster = Instantiate(monsterPrefab, spawnPoint.position, Quaternion.identity);
+            Transform spawnPoint = spawnPoints[spawnIndex];
+            GameObject prefabToSpawn = monsterPrefabs[prefabIndex];
+
+            GameObject monster = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
             spawnedMonsters.Add(monster);
         }
     }
