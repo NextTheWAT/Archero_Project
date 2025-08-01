@@ -217,7 +217,7 @@ public class BossController : MonoBehaviour
                 r.material.color = Color.red;
         }
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         // 원래 색상 복구
         for (int i = 0; i < renderers.Length; i++)
