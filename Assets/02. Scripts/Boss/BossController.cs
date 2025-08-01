@@ -231,7 +231,7 @@ public class BossController : MonoBehaviour
     {
         if (currentState == ActionState.Attack)
         {
-            if (currentHp > 50)
+            if (currentHp > maxHp / 2)
             {
                 if (!isNormalAttack)
                 {
