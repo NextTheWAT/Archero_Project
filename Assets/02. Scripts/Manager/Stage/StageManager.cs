@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
 {
+    public bool tutorialClear = false;
     public bool stage1Clear = false;
     public bool stage2Clear = false;
     public bool stage3Clear = false;
