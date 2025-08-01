@@ -26,10 +26,12 @@ public class MonsterFSM : MonoBehaviour
     public GameObject projectilePrefab; //투사체 프리팹
     public Transform firePoint; //투사체 나갈 위치
 
+    public bool isAnimDamage = false;
+
     private void Start()
     {
         //자식 오브젝트 중에 Animator 컴포넌트를 찾아서 anim에 저장
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         stats = GetComponent<MonsterStat>();
         ChangeState(MonsterState.Idle); //처음 상태는 Idle
 
@@ -209,5 +211,14 @@ public class MonsterFSM : MonoBehaviour
         {
             ChangeState(MonsterState.Hit);
         }
+    }
+
+        public void AnimDamageStart()
+    {
+        isAnimDamage = false;
+    }
+    public void AnimDamageEnd()
+    {
+        isAnimDamage = true;
     }
 }
