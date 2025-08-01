@@ -76,6 +76,11 @@ public class MonsterFSM : MonoBehaviour
         //플레이어가 없으면 행동 안함
         if (player == null || currentState == MonsterState.Hit || currentState == MonsterState.Die)
             return;
+        if(stats.currentHp <= 0)
+        {
+            ChangeState(MonsterState.Die);
+            return;
+        }
 
         //플레이어와 거리 측정
         float distance = Vector3.Distance(transform.position, player.position);

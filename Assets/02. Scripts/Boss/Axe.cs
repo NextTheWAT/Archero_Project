@@ -9,8 +9,6 @@ public class Axe : MonoBehaviour
     public int attackPower;
     public int specialAttackPower;
     
-
-    public PlayerManager playerManager;
     public PlayerStat playerStat;
 
     public Animator animator;
@@ -26,9 +24,6 @@ public class Axe : MonoBehaviour
 
     private void Start()
     {
-        //playerManager = PlayerManager.Instance;
-        //playerStat = playerManager.playerStat;
-
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
         {

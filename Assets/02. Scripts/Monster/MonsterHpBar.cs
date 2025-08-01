@@ -4,14 +4,8 @@ using static MonsterFSM;
 
 public class MonsterHpBar : MonoBehaviour
 {
-    [SerializeField] private Slider hpSlider;
+    [SerializeField] Slider hpSlider;
     [SerializeField] MonsterStat monsterStat;
-
-    private void Awake()
-    {
-        if (monsterStat == null)
-            monsterStat = GetComponent<MonsterStat>();
-    }
 
     private void Start()
     {

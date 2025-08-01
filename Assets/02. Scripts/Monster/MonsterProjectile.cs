@@ -36,16 +36,21 @@ public class MonsterProjectile : MonoBehaviour
         if (other.CompareTag("Player")) //충돌 대상이 Player
         {
             Debug.Log("플레이어에게 데미지");
-            Destroy(gameObject); //투사체 파괴
-        }
-        else if (other.CompareTag("Enemy")) //몬스터 피격 처리
-        {
-            MonsterFSM monster = other.GetComponent<MonsterFSM>();
-            if (monster != null)
+            PlayerStat playerStat = other.GetComponent<PlayerStat>();
+            if (playerStat != null)
             {
-                monster.TakeDamage(damage); //데미지 주기
+                playerStat.Damage(damage); //플레이어에게 데미지 주기
             }
             Destroy(gameObject); //투사체 파괴
         }
+        //else if (other.CompareTag("Enemy")) //몬스터 피격 처리
+        //{
+        //    MonsterFSM monster = other.GetComponent<MonsterFSM>();
+        //    if (monster != null)
+        //    {
+        //        monster.TakeDamage(damage); //데미지 주기
+        //    }
+        //    Destroy(gameObject); //투사체 파괴
+        //}
     }
 }
