@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7185237935729480561, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
+      propertyPath: firstShotDelay
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7649345101658516718, guid: c650afcc6d23f884485010b3484e60c4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
