@@ -40,11 +40,8 @@ public class BossController : MonoBehaviour
 
     public Rigidbody rigid;
 
-    //public float normalAttackDelayTime; // 일반 공격 딜레이 시간 (내가 정하는 값)
     public bool isNormalAttack; // 일반 공격인지? 
-    //public float specialAttackDelayTime; // 특수 공격 딜레이 시간 (내가 정하는 값)
     public bool isSpecialAttack; // 특수 공격인지? 
-    //public float time;
 
     public Animator animator;
 
@@ -219,7 +216,7 @@ public class BossController : MonoBehaviour
                 r.material.color = Color.red;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         isHit = false;
 
         // 원래 색상 복구
