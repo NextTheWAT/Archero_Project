@@ -1,6 +1,7 @@
 using OpenCover.Framework.Model;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -9,6 +10,10 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance = 0.1f;
     [SerializeField][Range(0f, 1f)] private float musicVolume = 1f;
     [SerializeField][Range(0f, 1f)] private float SFX_Volum = 1f;
+
+    [Header("Slider")]
+    [SerializeField] private Slider BGM_Slider;
+    [SerializeField] private Slider SFX_Slider;
 
     [Header("BGM Clips")]
     [SerializeField] private AudioClip mainbackGroundMusic;
@@ -47,14 +52,14 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Start()
     {
+        BGM_Slider.onValueChanged.AddListener(BackGroundBGM_Set);
+        SFX_Slider.onValueChanged.AddListener(SFX_Set);
         lastStage = GameManager.Instance.CurrentStage;
         PlayStageBGM(lastStage);
     }
 
     private void Update()
     {
-        BackGroundBGM_Set();
-        SFX_Set(SFX_Volum);
         //자동 스테이지 감지 -> 음악변경
         StageType current = GameManager.Instance.CurrentStage;
         if (current != lastStage)
@@ -147,7 +152,7 @@ public class SoundManager : Singleton<SoundManager>
     /// Volume에 volume값 넣어주시면 됩니다.
     /// </summary>
     /// <param name="volume"></param>
-    private void SFX_Set(float volume)
+    public void SFX_Set(float volume)
     {
         void SetVolumForList(List<AudioSource> sfxList)
         {
@@ -164,10 +169,10 @@ public class SoundManager : Singleton<SoundManager>
         SetVolumForList(Boss_Sfx);
     }
 
-    private void BackGroundBGM_Set()
+    private void BackGroundBGM_Set(float volume)
     {
         BackGroundBGM.loop = true;
-        BackGroundBGM.volume = musicVolume;
+        BackGroundBGM.volume = volume;
     }
 
     

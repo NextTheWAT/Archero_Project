@@ -24,9 +24,13 @@ public class UIManager : Singleton<UIManager>
     [Header("Tutorial UI")]
     public GameObject tutorialCanvas;
 
+    [Header("Sound UI")]
+    public GameObject SoundUI;
+
     private Dictionary<GameState, GameObject[]> stateToUI;
     private GameState currentState = GameState.Main;
 
+    private bool isOnSetting = false;
 
     private void Awake()
     {
@@ -41,6 +45,15 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         UpdateUI(GameState.Main);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isOnSetting = !isOnSetting;
+            SoundUI.SetActive(isOnSetting);
+        }
     }
 
     public void UpdateUI(GameState newState)
