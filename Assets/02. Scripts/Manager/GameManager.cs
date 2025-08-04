@@ -29,9 +29,13 @@ public class GameManager : Singleton<GameManager>
     public GameObject stage4;
     public GameObject bossStage;
 
+    [Header("플레이어 오브젝트")]
+    public GameObject player;
+
     private void Start()
     {
         SetStage(CurrentStage); // 시작 스테이지 설정
+        player.SetActive(false);
     }
 
     public void SetStage(StageType newStage, bool markClear = true)
@@ -136,6 +140,7 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("[GameManager] 튜토리얼 스테이지 활성화");
         tutorialStage.SetActive(true); // 미리 할당해놓은 튜토리얼용 오브젝트
+        player.SetActive(true);
 
         // 먼저 GameObject를 활성화해야 함
         if (!SkillTutorialUIManager.Instance.gameObject.activeSelf)
@@ -148,35 +153,46 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("[GameManager] 메인 스테이지 활성화");
         mainStage.SetActive(true);
+
+        // 플레이어 비활성화
+        if (player != null)
+        {
+            player.SetActive(false);
+        }
     }
     private void OnStage1Start()
     {
         Debug.Log("[GameManager] 스테이지 1 활성화");
         stage1.SetActive(true);
+        player.SetActive(true);
     }
 
     private void OnStage2Start()
     {
         Debug.Log("[GameManager] 스테이지 2 활성화");
         stage2.SetActive(true);
+        player.SetActive(true);
     }
 
     private void OnStage3Start()
     {
         Debug.Log("[GameManager] 스테이지 3 활성화");
         stage3.SetActive(true);
+        player.SetActive(true);
     }
 
     private void OnStage4Start()
     {
         Debug.Log("[GameManager] 스테이지 4 활성화");
         stage4.SetActive(true);
+        player.SetActive(true);
     }
 
     private void OnBossStageStart()
     {
         Debug.Log("[GameManager] 보스 스테이지 활성화");
         bossStage.SetActive(true);
+        player.SetActive(true);
     }
 
     public void ForceGoToMainStage()
