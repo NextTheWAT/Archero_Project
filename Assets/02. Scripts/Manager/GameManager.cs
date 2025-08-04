@@ -32,6 +32,8 @@ public class GameManager : Singleton<GameManager>
     [Header("플레이어 오브젝트")]
     public GameObject player;
 
+    public bool isCleared;
+
     private void Start()
     {
         SetStage(CurrentStage); // 시작 스테이지 설정

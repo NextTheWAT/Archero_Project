@@ -6,7 +6,7 @@ public class StageChangeTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && GameManager.Instance.isCleared == true)
         {
             GameManager.Instance.SetStage(targetStage);
             Debug.Log($"스테이지 변경: {targetStage}");

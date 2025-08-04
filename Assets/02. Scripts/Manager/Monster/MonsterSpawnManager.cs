@@ -15,6 +15,7 @@ public class MonsterSpawnManager : MonoBehaviour
 
     // 소환된 몬스터 추적 리스트
     private List<GameObject> spawnedMonsters = new List<GameObject>();
+    
 
     private void OnEnable()
     {
@@ -24,6 +25,13 @@ public class MonsterSpawnManager : MonoBehaviour
     private void OnDisable()
     {
         ClearMonsters();
+    }
+
+    private void Update()
+    {
+        isClear();
+
+        Debug.Log(GameManager.Instance.isCleared);
     }
 
 
@@ -74,5 +82,17 @@ public class MonsterSpawnManager : MonoBehaviour
                 Gizmos.DrawSphere(point.position, 0.3f);
             }
         }
+    }
+
+    private bool isClear()
+    {
+        foreach (GameObject monster in spawnedMonsters)
+        {
+            if (monster != null)
+            {
+                return GameManager.Instance.isCleared = false;
+            }
+        }
+        return GameManager.Instance.isCleared = true;
     }
 }
