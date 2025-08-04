@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Enemy
   - Bullet
+  - Boss
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - DeadMonster
   - Water
   - UI
   - 
