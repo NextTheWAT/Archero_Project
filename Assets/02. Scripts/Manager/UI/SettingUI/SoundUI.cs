@@ -8,13 +8,27 @@ public class SoundUI : MonoBehaviour
 
     private bool isOnSetting = false;
 
+    private void Start()
+    {
+        Sound_UI.SetActive(isOnSetting);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isOnSetting = !isOnSetting;
-            Sound_UI.SetActive(isOnSetting);
+            OpenSoundButton();
         }
 
+    }
+
+    public void OpenSoundButton()
+    {
+        isOnSetting = !isOnSetting;
+        Sound_UI.SetActive(isOnSetting);
+    }
+    public void CloseSoundUI()
+    {
+        isOnSetting = false;
+        Sound_UI.SetActive(isOnSetting);
     }
 }
