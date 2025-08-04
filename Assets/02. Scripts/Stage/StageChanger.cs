@@ -10,6 +10,7 @@ public class StageChangeTrigger : MonoBehaviour
         {
             GameManager.Instance.SetStage(targetStage);
             Debug.Log($"스테이지 변경: {targetStage}");
+            SkillUIManager.Instance.ShowSkillUI();
         }
     }
 

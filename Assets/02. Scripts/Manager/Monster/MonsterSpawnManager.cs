@@ -19,7 +19,6 @@ public class MonsterSpawnManager : MonoBehaviour
     private void OnEnable()
     {
         SpawnMonsters();
-        SkillUIManager.Instance.ShowSkillUI();
     }
 
     private void OnDisable()
