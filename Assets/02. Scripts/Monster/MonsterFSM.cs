@@ -165,10 +165,13 @@ public class MonsterFSM : MonoBehaviour
         {
             isDie = true;
             Debug.Log("몬스터 사망");
-            SoundManager.Instance.Monster_SFX(2); // 몬스터 사망 사운드 재생
+            SoundManager.Instance.Monster_SFX(2);
 
-            // 태그 제거
+            // 태그 해제
             gameObject.tag = "Untagged";
+
+            // 레이어를 DeadMonster로 변경
+            gameObject.layer = LayerMask.NameToLayer("DeadMonster");
 
             Destroy(gameObject, 3f);
         }
