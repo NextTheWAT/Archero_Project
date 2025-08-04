@@ -6,12 +6,20 @@ public class StageChangeTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // 플레이어만 통과할 수 있도록
+        if (other.CompareTag("Player"))
         {
             GameManager.Instance.SetStage(targetStage);
             Debug.Log($"스테이지 변경: {targetStage}");
+
+            if (GameManager.Instance.CurrentStage != StageType.Tutorial &&
+                GameManager.Instance.CurrentStage != StageType.MainStage &&
+                GameManager.Instance.CurrentStage != StageType.End)
+            {
+                SkillUIManager.Instance.ShowSkillUI();
+            }
         }
     }
+
 
 
 }
