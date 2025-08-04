@@ -10713,7 +10713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Stage : '
+  m_text: Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10841,9 +10841,8 @@ MonoBehaviour:
   - {fileID: 14785324253225503}
   - {fileID: 8022678276647616717}
   - {fileID: 4542735920700108804}
-  monsterPrefab: {fileID: 8409576921232915066, guid: 2d0b3e7afffdc5442a8d072961e7c58e, type: 3}
+  monsterPrefabs: []
   numberOfMonsters: 5
-  spawnOnStart: 1
 --- !u!1 &9107015623734732278
 GameObject:
   m_ObjectHideFlags: 0
