@@ -20,7 +20,7 @@ public class StageChangeButton : MonoBehaviour
             // Stage1 ~ Boss까지 순회하면서 아직 클리어되지 않은 스테이지 찾기
             foreach (StageType stage in System.Enum.GetValues(typeof(StageType)))
             {
-                if (stage == StageType.MainStage)
+                if (stage == StageType.MainStage || stage == StageType.Tutorial || stage == StageType.End)
                     continue; // 제외
 
                 if (!IsStageCleared(stage))

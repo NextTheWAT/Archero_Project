@@ -64,27 +64,7 @@ public class BossController : MonoBehaviour
 
     private void Awake()
     {
-        // 플레이어 오브젝트 찾기 (태그로)
-        if (player == null)
-        {
-            GameObject obj = GameObject.FindGameObjectWithTag("Player");
-            if (obj != null)
-            {
-                player = obj;
-
-                // PlayerStat 컴포넌트 가져오기
-                playerStat = player.GetComponent<PlayerStat>();
-                if (playerStat == null)
-                {
-                    Debug.LogError("PlayerStat 컴포넌트를 찾을 수 없습니다!");
-                }
-            }
-            else
-            {
-                Debug.LogError("태그가 'Player'인 오브젝트를 찾을 수 없습니다!");
-            }
-        }
-
+        PlayerFind(); // 플레이어 찾기
         // 나머지 컴포넌트 초기화
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -103,6 +83,12 @@ public class BossController : MonoBehaviour
             if (renderers[i].material.HasProperty("_Color"))
                 originalColors[i] = renderers[i].material.color;
         }
+    }
+
+    private void OnEnable()
+    {
+        //보스 활성화 될때 플레이어 다시 찾기
+        PlayerFind();
     }
 
     private void Update()
@@ -139,6 +125,29 @@ public class BossController : MonoBehaviour
         }
     }
 
+    private void PlayerFind()
+    {
+        // 플레이어 오브젝트 찾기 (태그로)
+        if (player == null)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+            {
+                player = obj;
+
+                // PlayerStat 컴포넌트 가져오기
+                playerStat = player.GetComponent<PlayerStat>();
+                if (playerStat == null)
+                {
+                    Debug.LogError("PlayerStat 컴포넌트를 찾을 수 없습니다!");
+                }
+            }
+            else
+            {
+                Debug.LogError("태그가 'Player'인 오브젝트를 찾을 수 없습니다!");
+            }
+        }
+    }
     private void FixedUpdate()
     {
         switch (currentState)
