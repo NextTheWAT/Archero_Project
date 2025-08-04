@@ -285,8 +285,12 @@ public class BossController : MonoBehaviour
     {
         if (currentHp <= 0.0f)
         {
-            // 죽음 애니메이션
-            animator.SetInteger("State", (int)ActionState.Die);
+            // 죽음 애니메이션 중복 실행 방지 
+            if (!isDead)
+            {
+                Debug.Log("죽음 애니메이션 실행");
+                animator.SetInteger("State", (int)ActionState.Die);
+            }
             // 움직일 수 없게 하기 
             ChangeState(ActionState.Die);
             isDead = true;
