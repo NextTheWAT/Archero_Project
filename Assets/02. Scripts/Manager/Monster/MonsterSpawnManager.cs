@@ -29,7 +29,7 @@ public class MonsterSpawnManager : MonoBehaviour
 
     public void SpawnMonsters()
     {
-        ClearMonsters(); // 기존 몬스터 제거 후 새로 소환
+        ClearMonsters(); // 기존 몬스터 제거
 
         if (spawnPoints.Length == 0 || monsterPrefabs == null || monsterPrefabs.Length == 0)
         {
@@ -37,18 +37,21 @@ public class MonsterSpawnManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < numberOfMonsters; i++)
+        for (int i = 0; i < spawnPoints.Length; i++)
         {
-            int spawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform spawnPoint = spawnPoints[i];
             int prefabIndex = Random.Range(0, monsterPrefabs.Length);
-
-            Transform spawnPoint = spawnPoints[spawnIndex];
             GameObject prefabToSpawn = monsterPrefabs[prefabIndex];
 
-            GameObject monster = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
-            spawnedMonsters.Add(monster);
+            if (spawnPoint != null && prefabToSpawn != null)
+            {
+                GameObject monster = Instantiate(prefabToSpawn, spawnPoint.position, Quaternion.identity);
+                spawnedMonsters.Add(monster);
+            }
         }
     }
+
+
 
     private void ClearMonsters()
     {
