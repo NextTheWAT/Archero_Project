@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf26002b7ad5e644bb89a8726ef1523a, type: 3}
   m_Name: SkillData 4
   m_EditorClassIdentifier: 
-  skillName: ProjectileUP!
-  skillInfo: ProjectileUP!
+  skillName: "\uD22C\uC0AC\uCCB4 \uC218  UP!"
+  skillInfo: "\uD22C\uC0AC\uCCB4 \uAC2F\uC218 \uCD94\uAC00!"
   icon: {fileID: 21300000, guid: eacb52c5959be1743915f76407e7f74d, type: 3}
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
   type: 4
