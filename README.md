@@ -82,7 +82,7 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, Ge
 
 
 ## 🖼️ 게임 화면
-아래는 실제 게임 플레이 화면입니다.
+아래는 실제 게임 플레이 화면입니다.  
 ![Animation](https://github.com/user-attachments/assets/51afc725-65f0-4318-b454-c70592ed5fd6)  
 
 
