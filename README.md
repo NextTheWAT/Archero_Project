@@ -4,7 +4,7 @@
 **『현대세계 최후의 궁수』**는 모바일 게임 궁수의 전설을 모티브로 한 2.5D 원거리 액션 게임입니다.
 플레이어는 다른 세계에서 깨어난 궁수가 되어, 현대 도시 속에서 사라진 동료를 찾아 다양한 스테이지를 돌파해 나가야 합니다.
 
-Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, 상태 전환 시스템 등 다양한 기술을 활용하여 몰입감 있는 전투 흐름과 탄탄한 구조를 구현하였습니다.
+Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, Generic Singleton 상태 전환 시스템 등 다양한 기술을 활용하여 몰입감 있는 전투 흐름과 탄탄한 구조를 구현하였습니다.
 
 - 장르: 2.5D 원거리 액션 게임
 
@@ -51,6 +51,7 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, �
 - 🛠 TextMeshPro, DoTween (UI 시스템 구성 및 애니메이션)
 - 📦 ScriptableObject (스킬 및 데이터 관리)
 - 🎛 FSM (상태 전이 기반 보스 AI 및 몬스터 행동)
+- 🧠 Generic Singleton (매니저 관리)
 
 
 ## ✨ 주요 구현 기능
@@ -77,7 +78,7 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, �
 - 효과음, 배경음, 보스 등장음 등 상황별 사운드 매니저로 제어
 
 📦 최적화
-- 싱글톤, 오브젝트 풀링, 몬스터 중복 스폰 방지 처리
+- 제너릭 싱글톤, 오브젝트 풀링, 몬스터 중복 스폰 방지 처리
 
 
 ## 🖼️ 게임 화면
