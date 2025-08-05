@@ -169,21 +169,17 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, Ge
 
 ## 🧠트러블 슈팅  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/17b04b47-8dc7-480d-b94b-88c59138566d" />  
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/84938ea9-d81c-47b7-ba77-d041f6209d8d" />  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/277a4200-ccb8-48d7-9ba7-1b0a67680dc0" />  
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/15fc5eec-df98-4703-9b26-8564c9368e53" />  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/a4771188-b104-483a-bd57-83c554eb289a" />  
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/e5a0f1a3-8f2c-487e-bc7e-7cd990c56d21" />  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/7a4a8b00-2a73-4d19-95a8-602075b48809" />  
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/e4ad1a78-2004-4ef4-afad-db4d390c5813" />  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/47f09d60-488b-4348-a7bd-3b2fca64f44b" />  
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/ae0b236e-d576-40a1-8d42-e250e92a4e58" />  
 
-<img width="1000" height="400" alt="image" src="https://github.com/user-attachments/assets/abf37b3b-351c-41b0-a610-3aa1ca3bc959" />  
-
-
-
-
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/da8ed9a0-babe-4522-9df5-1ddb8882586e" />  
 
 
 
