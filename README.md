@@ -160,19 +160,25 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, �
 └── └── EnemyUtil.cs  
   
 ## 👤 개발자
-팀장 : 이재은 - 스킬 및 업그레이드 시스템, 전체 UI 구성, 프로젝트 전반 총괄 
-팀원 : 김용민 - 랜덤 방 생성 시스템, 사운드 시스템 개발 
-팀원 : 정세윤 - 보스 AI 및 전투 패턴 구현, 보스전 연출 
-팀원 : 김유경 - 일반 적 AI 및 공격 패턴 설계
-팀원 : 김노아 - 플레이어 이동 및 공격 구현, QA 및 테스팅 담당
+팀장 : 이재은 - 스킬 및 업그레이드 시스템, 전체 UI 구성, 프로젝트 전반 총괄   
+팀원 : 김용민 - 랜덤 방 생성 시스템, 사운드 시스템 개발   
+팀원 : 정세윤 - 보스 AI 및 전투 패턴 구현, 보스전 연출   
+팀원 : 김유경 - 일반 적 AI 및 공격 패턴 설계  
+팀원 : 김노아 - 플레이어 이동 및 공격 구현, QA 및 테스팅 담당  
 
+## 🧠트러블 슈팅  
 
+<img width="1010" height="444" alt="image" src="https://github.com/user-attachments/assets/17b04b47-8dc7-480d-b94b-88c59138566d" />  
 
+<img width="1001" height="435" alt="image" src="https://github.com/user-attachments/assets/277a4200-ccb8-48d7-9ba7-1b0a67680dc0" />  
 
+<img width="1001" height="486" alt="image" src="https://github.com/user-attachments/assets/a4771188-b104-483a-bd57-83c554eb289a" />  
 
+<img width="986" height="500" alt="image" src="https://github.com/user-attachments/assets/7a4a8b00-2a73-4d19-95a8-602075b48809" />  
 
+<img width="1060" height="506" alt="image" src="https://github.com/user-attachments/assets/47f09d60-488b-4348-a7bd-3b2fca64f44b" />  
 
-
+<img width="1017" height="482" alt="image" src="https://github.com/user-attachments/assets/abf37b3b-351c-41b0-a610-3aa1ca3bc959" />  
 
 
 
