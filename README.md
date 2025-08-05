@@ -174,7 +174,7 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, Ge
 
 <img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/15fc5eec-df98-4703-9b26-8564c9368e53" />  
 
-<img width="1100" height="630" alt="image" src="https://https://github.com/user-attachments/assets/771f5ad2-d3e1-4dd6-9046-525109e519e2" />
+<img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/fb1f3016-0b49-4880-9b62-3526e269d3c3" />
 
 <img width="1100" height="630" alt="image" src="https://github.com/user-attachments/assets/3513dd9e-93a3-4798-b85a-38b510857155" />  
 
