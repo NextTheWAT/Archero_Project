@@ -157,8 +157,19 @@ Unity 엔진 기반으로 개발되었으며, FSM, ScriptableObject, DoTween, �
 │       ├── StageChangeButton.cs    
 │       └── StateChangeButton.cs    
 ├── 📂Utils/                      # 유틸리티 스크립트  
-│   └── EnemyUtil.cs  
+└── └── EnemyUtil.cs  
   
+## 👤 개발자
+팀장 : 이재은 - 스킬 및 업그레이드 시스템, 전체 UI 구성, 프로젝트 전반 총괄 
+팀원 : 김용민 - 랜덤 방 생성 시스템, 사운드 시스템 개발 
+팀원 : 정세윤 - 보스 AI 및 전투 패턴 구현, 보스전 연출 
+팀원 : 김유경 - 일반 적 AI 및 공격 패턴 설계
+팀원 : 김노아 - 플레이어 이동 및 공격 구현, QA 및 테스팅 담당
+
+
+
+
+
 
 
 
